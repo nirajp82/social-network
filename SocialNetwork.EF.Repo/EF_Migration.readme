@@ -1,0 +1,4 @@
+﻿1: install "Microsoft.EntityFrameworkCore.Design" Package in Startup Project, in this case "SocialNetwork.API"
+2: install "Microsoft.EntityFrameworkCore.Tools" package to Repository Project. in this case "SocialNetwork.EF.Repo"
+3: Run command "Add-Migration InitialMigration" from Package manager console to create migration.
+4: To Apply Created Migration run command from PMC "Update-Database"

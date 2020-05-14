@@ -1,0 +1,73 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.DataModel", "SocialNetwork.DataModel\SocialNetwork.DataModel.csproj", "{0010512B-6743-4254-8088-EA06C89D7B24}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "SocialNetwork.ReactClient", "SocialNetwork.ReactClient\", "{AF4AFC35-1D5A-4D9C-A0C2-7F16DC6A61B9}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_51421"
+		Debug.AspNetCompiler.PhysicalPath = "SocialNetwork.ReactClient\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51421\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_51421"
+		Release.AspNetCompiler.PhysicalPath = "SocialNetwork.ReactClient\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_51421\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "51421"
+		SlnRelativePath = "SocialNetwork.ReactClient\"
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.API", "SocialNetwork.API\SocialNetwork.API.csproj", "{2FD0791F-CB5E-4B3F-A704-203DB9C205E7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.APIEntity", "SocialNetwork.APIEntity\SocialNetwork.APIEntity.csproj", "{20F0D73E-8A02-4637-8A40-2BE368593B85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Nucleus", "SocialNetwork.Nucleus\SocialNetwork.Nucleus.csproj", "{91CA004A-6895-459D-AF14-52BE1F9CB105}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.EF.Repo", "SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj", "{E89947FE-AA33-4546-B77E-D46E70B3CFC4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0010512B-6743-4254-8088-EA06C89D7B24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0010512B-6743-4254-8088-EA06C89D7B24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0010512B-6743-4254-8088-EA06C89D7B24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0010512B-6743-4254-8088-EA06C89D7B24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF4AFC35-1D5A-4D9C-A0C2-7F16DC6A61B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4AFC35-1D5A-4D9C-A0C2-7F16DC6A61B9}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4AFC35-1D5A-4D9C-A0C2-7F16DC6A61B9}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{2FD0791F-CB5E-4B3F-A704-203DB9C205E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD0791F-CB5E-4B3F-A704-203DB9C205E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD0791F-CB5E-4B3F-A704-203DB9C205E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD0791F-CB5E-4B3F-A704-203DB9C205E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F0D73E-8A02-4637-8A40-2BE368593B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F0D73E-8A02-4637-8A40-2BE368593B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F0D73E-8A02-4637-8A40-2BE368593B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F0D73E-8A02-4637-8A40-2BE368593B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91CA004A-6895-459D-AF14-52BE1F9CB105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91CA004A-6895-459D-AF14-52BE1F9CB105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91CA004A-6895-459D-AF14-52BE1F9CB105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91CA004A-6895-459D-AF14-52BE1F9CB105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E89947FE-AA33-4546-B77E-D46E70B3CFC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E89947FE-AA33-4546-B77E-D46E70B3CFC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E89947FE-AA33-4546-B77E-D46E70B3CFC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E89947FE-AA33-4546-B77E-D46E70B3CFC4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83BAC5D7-D1DD-4B4E-B6A4-4893FE359A2A}
+	EndGlobalSection
+EndGlobal
