@@ -22,7 +22,7 @@ namespace SocialNetwork.API
                 {
                     Title = "SocialNetwork API",
                     Version = "Version 1",
-                    Description = "A simple social network API developed using .net core and entity framework",
+                    Description = "A simple social network API",
                     Contact = new OpenApiContact
                     {
                         Name = "NPatel",
