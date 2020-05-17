@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import { Header, Icon, List } from 'semantic-ui-react';
+import Axios from 'axios';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [values, setValues] = useState([]);
+
+    const fetchValues = async () => {
+        const response: any = await Axios.get("http://localhost/socialnetwork/api/Values", { withCredentials: true });
+        setValues(response.data);
+    };
+
+    useEffect(() => {
+        fetchValues();
+    }, []);
+
+    return (
+        <React.Fragment>
+            <Header as="h2">
+                <Icon name="users" />
+                <Header.Content>Social Networking - Sample API Call</Header.Content>
+            </Header>
+            <List>
+                {
+                    values.map((item: any) => {
+                        return (
+                            <List.Item key={item.id}>
+                                {item.name}
+                            </List.Item>
+                        );
+                    })
+                }
+            </List>
+        </React.Fragment>
+    );
 }
 
 export default App;

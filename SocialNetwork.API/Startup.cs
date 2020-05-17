@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,6 +10,8 @@ namespace SocialNetwork.API
 {
     public class Startup
     {
+        private const string _CORS_POLICY_NAME = "SocialNetworkCorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -21,6 +24,20 @@ namespace SocialNetwork.API
         {
             services.ConfigureAppServices(Configuration);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_CORS_POLICY_NAME, corsOptions =>
+                {
+                    corsOptions
+                        .WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
+
+            services.AddAuthentication(IISDefaults.AuthenticationScheme);
+
             services.AddControllers(options => options.Filters.Add(typeof(ValidateModelStateFilter)))
                 .AddNewtonsoftJson(options =>
                 {
@@ -32,6 +49,8 @@ namespace SocialNetwork.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(_CORS_POLICY_NAME);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
