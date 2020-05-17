@@ -8,5 +8,7 @@ namespace SocialNetwork.EF.Repo
     public interface IActivityRepository
     {
         Task<IEnumerable<Activity>> FindAllAsync();
+
+        Task<Activity> FindFirstAsync(Guid activityId);
     }
 }

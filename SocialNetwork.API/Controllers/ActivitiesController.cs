@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using SocialNetwork.APIEntity;
 using SocialNetwork.Nucleus.Engine.Activities;
+using System;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace SocialNetwork.API.Controllers
 
         #region Action Methods
         /// <summary>
-        /// Fetch list of all Values
+        /// Fetch list of all activities
         /// </summary>
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ActivityEntity>), StatusCodes.Status200OK)]
@@ -44,6 +45,21 @@ namespace SocialNetwork.API.Controllers
                 return Ok(result);
             else
                 return NoContent();
+        }
+
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ActivityEntity), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            ActivityEntity entity = await _mediator.Send(new Details.Query { Id = id });
+            if (entity != null)
+                return Ok(entity);
+            else
+                return NotFound();
         }
         #endregion
     }

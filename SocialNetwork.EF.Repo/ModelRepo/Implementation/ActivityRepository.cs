@@ -23,6 +23,11 @@ namespace SocialNetwork.EF.Repo
             IQueryable<Activity> result = base.FindAll();
             return await result.ToListAsync();
         }
+
+        public async Task<Activity> FindFirstAsync(Guid activityId)
+        {
+            return await base.FindFirstAsync(e => e.Id == activityId);
+        }
         #endregion
     }
 }
