@@ -40,9 +40,9 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
         {
-            var Values = await _valueEngine.FindAllAsync();
-            if (Values?.Any() == true)
-                return Ok(Values);
+            var values = await _valueEngine.FindAllAsync();
+            if (values?.Any() == true)
+                return Ok(values);
             else
                 return NoContent();
         }

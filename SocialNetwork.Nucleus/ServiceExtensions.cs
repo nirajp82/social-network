@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
 using System;
+using MediatR;
+using SocialNetwork.Nucleus.Engine.Activities;
 
 namespace SocialNetwork.Nucleus
 {
@@ -15,6 +17,7 @@ namespace SocialNetwork.Nucleus
             services.AddScoped<IValueEngine, ValueEngine>();
             services.AddSingleton<IMapperHelper, MapperHelper>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(typeof(List).Assembly);
         }
     }
 }

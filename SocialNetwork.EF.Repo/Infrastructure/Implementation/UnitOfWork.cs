@@ -5,12 +5,24 @@ namespace SocialNetwork.EF.Repo
     internal class UnitOfWork : IUnitOfWork
     {
         #region Private Members
+        private IActivityRepository _activityRepository { get; set; }
         private IValueRepository _valueRepository { get; set; }
         private ApplicationContext _context { get; }
         #endregion
 
 
         #region Public Members
+        public IActivityRepository ActivityRepository
+        {
+            get
+            {
+                if (_activityRepository == null)
+                    _activityRepository = new ActivityRepository(_context);
+
+                return _activityRepository;
+            }
+        }
+
         public IValueRepository ValueRepository
         {
             get

@@ -12,6 +12,9 @@ namespace SocialNetwork.Nucleus.Helper
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
             Map<Value, ValueEntity>();
             Map<ValueEntity, Value>();
+
+            Map<Activity, ActivityEntity>();
+            Map<ActivityEntity, Activity>();
         }
         #endregion
 

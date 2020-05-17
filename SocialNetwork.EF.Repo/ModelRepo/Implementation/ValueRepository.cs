@@ -20,7 +20,7 @@ namespace SocialNetwork.EF.Repo
         #region Public Method
         public async Task<IEnumerable<Value>> FindAllAsync()
         {
-            IQueryable<Value> result = base.FindAll(null);
+            IQueryable<Value> result = base.FindAll();
             return await result.ToListAsync();
         }
 
