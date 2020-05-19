@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
@@ -7,6 +8,6 @@ namespace SocialNetwork.EF.Repo
         IActivityRepository ActivityRepository { get; }
         IValueRepository ValueRepository { get; }
 
-        Task<int> SaveAsync();
+        Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

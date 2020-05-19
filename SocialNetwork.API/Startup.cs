@@ -38,7 +38,11 @@ namespace SocialNetwork.API
 
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
-            services.AddControllers(options => options.Filters.Add(typeof(ValidateModelStateFilter)))
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add(typeof(ValidateModelStateFilter));
+                    options.Filters.Add(typeof(TaskCanceledExceptionFilter));
+                })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

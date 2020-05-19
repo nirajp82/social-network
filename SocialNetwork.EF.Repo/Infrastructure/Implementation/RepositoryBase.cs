@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
@@ -44,9 +45,10 @@ namespace SocialNetwork.EF.Repo
                 _context.Set<T>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Expression<Func<T, bool>> expression)
+        public async Task DeleteAsync(Expression<Func<T, bool>> expression, 
+            CancellationToken cancellationToken = default)
         {
-            IEnumerable<T> list = await Find(expression).ToListAsync();
+            IEnumerable<T> list = await Find(expression).ToListAsync(cancellationToken);
             if (list?.Any() == true)
             {
                 foreach (var item in list)
@@ -91,19 +93,23 @@ namespace SocialNetwork.EF.Repo
             return queryable;
         }
 
-        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> expression, IEnumerable<string> includes = null)
+        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> expression, 
+            IEnumerable<string> includes = null,
+            CancellationToken cancellationToken = default)
         {
-            return await Find(expression, includes).FirstOrDefaultAsync();
+            return await Find(expression, includes).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression)
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression, 
+            CancellationToken cancellationToken = default)
         {
-            return await Find(expression, null).AnyAsync();
+            return await Find(expression, null).AnyAsync(cancellationToken);
         }
 
-        public async Task<long> CountAsync(Expression<Func<T, bool>> expression)
+        public async Task<long> CountAsync(Expression<Func<T, bool>> expression,
+            CancellationToken cancellationToken = default)
         {
-            return await Find(expression, null).LongCountAsync();
+            return await Find(expression, null).LongCountAsync(cancellationToken);
         }
         #endregion
     }

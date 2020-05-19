@@ -37,7 +37,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<IEnumerable<ActivityEntity>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _unitOfWork.ActivityRepository.FindAllAsync();
+                var result = await _unitOfWork.ActivityRepository.FindAllAsync(cancellationToken);
                 return _mapperHelper.MapList<Activity, ActivityEntity>(result);
             }
             #endregion

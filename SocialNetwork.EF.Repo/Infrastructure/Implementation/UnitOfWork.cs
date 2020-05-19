@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
@@ -45,9 +46,9 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Methods        
-        public async Task<int> SaveAsync()
+        public async Task<int> SaveAsync(CancellationToken cancellationToken)
         {
-            return await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync(cancellationToken);
         }
         #endregion
     }

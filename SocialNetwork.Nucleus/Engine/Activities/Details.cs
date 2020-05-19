@@ -38,7 +38,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<ActivityEntity> Handle(Query request, CancellationToken cancellationToken)
             {
-                Activity result = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id);
+                Activity result = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
                 return _mapperHelper.Map<Activity, ActivityEntity>(result);
             }
             #endregion

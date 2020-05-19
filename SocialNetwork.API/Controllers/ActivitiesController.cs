@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using SocialNetwork.APIEntity;
 using SocialNetwork.Nucleus.Engine.Activities;
 using System;
+using System.Threading;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -37,10 +38,12 @@ namespace SocialNetwork.API.Controllers
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ActivityEntity>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get()
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new List.Query());
+            var result = await _mediator.Send(new List.Query(), cancellationToken);
             if (result?.Any() == true)
                 return Ok(result);
             else
@@ -53,9 +56,10 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(Guid id)
+        [ValidateActivityExists()]
+        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            ActivityEntity entity = await _mediator.Send(new Details.Query { Id = id });
+            ActivityEntity entity = await _mediator.Send(new Details.Query { Id = id }, cancellationToken);
             if (entity != null)
                 return Ok(entity);
             else
