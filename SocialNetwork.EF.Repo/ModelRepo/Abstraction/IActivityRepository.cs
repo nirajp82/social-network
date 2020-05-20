@@ -8,6 +8,8 @@ namespace SocialNetwork.EF.Repo
 {
     public interface IActivityRepository
     {
+        void Add(Activity entity);
+
         Task<IEnumerable<Activity>> FindAllAsync(CancellationToken cancellationToken);
 
         Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken);

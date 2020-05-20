@@ -9,6 +9,7 @@ using SocialNetwork.APIEntity;
 using SocialNetwork.Nucleus.Engine.Activities;
 using System;
 using System.Threading;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -31,7 +32,7 @@ namespace SocialNetwork.API.Controllers
         #endregion
 
 
-        #region Action Methods
+        #region Get Action Methods
         /// <summary>
         /// Fetch list of all activities
         /// </summary>
@@ -64,6 +65,20 @@ namespace SocialNetwork.API.Controllers
                 return Ok(entity);
             else
                 return NotFound();
+        }
+        #endregion
+
+
+        #region Post Action Methods
+        [HttpPost]
+        [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Post([FromBody] Create.Command activityCommand, CancellationToken cancellationToken)
+        {
+            Guid guid = await _mediator.Send(activityCommand, cancellationToken);
+            return CreatedAtAction(nameof(Get), guid);
         }
         #endregion
     }

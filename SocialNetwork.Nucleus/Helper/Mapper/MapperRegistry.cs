@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using SocialNetwork.APIEntity;
 using SocialNetwork.DataModel;
+using SocialNetwork.Nucleus.Engine.Activities;
 
 namespace SocialNetwork.Nucleus.Helper
 {
@@ -15,6 +16,8 @@ namespace SocialNetwork.Nucleus.Helper
 
             Map<Activity, ActivityEntity>();
             Map<ActivityEntity, Activity>();
+
+            Map<Create.Command, Activity>();
         }
         #endregion
 

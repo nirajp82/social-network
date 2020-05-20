@@ -7,7 +7,6 @@ namespace SocialNetwork.EF.Repo
     {
         IActivityRepository ActivityRepository { get; }
         IValueRepository ValueRepository { get; }
-
         Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

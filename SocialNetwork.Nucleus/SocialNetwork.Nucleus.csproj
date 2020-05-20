@@ -5,6 +5,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Engine\Abstraction\**" />
+    <Compile Remove="Engine\Implementation\**" />
+    <EmbeddedResource Remove="Engine\Abstraction\**" />
+    <EmbeddedResource Remove="Engine\Implementation\**" />
+    <None Remove="Engine\Abstraction\**" />
+    <None Remove="Engine\Implementation\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Engine\Abstraction\IValueEngine.cs" />
+    <Compile Include="Engine\Implementation\ValueEngine.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SocialNetwork.APIEntity\SocialNetwork.APIEntity.csproj" />
     <ProjectReference Include="..\SocialNetwork.DataModel\SocialNetwork.DataModel.csproj" />
     <ProjectReference Include="..\SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj" />
