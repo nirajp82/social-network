@@ -3,29 +3,33 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
 using System;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Nucleus.Engine.Activities
 {
-    public class Create
+    public class Edit
     {
-        public class Command : IRequest<Guid>
+        public class Command : IRequest
         {
+            [JsonIgnore]
+            public Guid Id { get; set; }
+
             public string Title { get; set; }
 
             public string Description { get; set; }
 
             public string Category { get; set; }
 
-            public DateTime Date { get; set; }
+            public DateTime? Date { get; set; }
 
             public string City { get; set; }
 
             public string Venue { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Guid>
+        public class Handler : IRequestHandler<Command>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -43,17 +47,26 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Methods
-            public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
+                //Get existing activity from database
+                Activity dbActivity = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
+
+                //Keep existing value as if user is not passing it from front end
+                request.Category ??= dbActivity.Category;
+                request.City ??= dbActivity.City;
+                request.Date ??= dbActivity.Date;
+                request.Description ??= dbActivity.Description;
+                request.Title ??= dbActivity.Title;
+                request.Venue ??= dbActivity.Venue;
+
                 Activity activity = _mapperHelper.Map<Command, Activity>(request);
-                //Generate new Id for new Entity
-                activity.Id = Guid.NewGuid();
-                _unitOfWork.ActivityRepository.Add(activity);
 
-                int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
-                if (insertCnt > 0)
-                    return activity.Id;
+                _unitOfWork.ActivityRepository.Update(activity);
 
+                int cnt = await _unitOfWork.SaveAsync(cancellationToken);
+                if (cnt > 0)
+                    return Unit.Value;
                 throw new Exception("Problem saving changes to database");
             }
             #endregion

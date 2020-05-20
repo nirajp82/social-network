@@ -39,8 +39,10 @@ namespace SocialNetwork.API
                         if (await _mediator.Send(new Query() { Id = id.Value }))
                         {
                             await next();
+                            return;
                         }
                         context.Result = new NotFoundObjectResult(id.Value);
+                        return;
                     }
                 }
                 _logger.LogError("APIConst.ErrorMessages.InvalidParam");

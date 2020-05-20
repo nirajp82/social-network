@@ -1,6 +1,4 @@
 ﻿using MediatR;
-using SocialNetwork.APIEntity;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
 using System;
@@ -9,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Nucleus.Engine.Activities
 {
-    public class Details
+    public class Delete
     {
-        public class Query : IRequest<ActivityEntity>
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, ActivityEntity>
+        public class Handler : IRequestHandler<Command>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -34,10 +32,14 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Methods
-            public async Task<ActivityEntity> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                Activity result = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
-                return _mapperHelper.Map<Activity, ActivityEntity>(result);
+                await _unitOfWork.ActivityRepository.DeleteAsync(request.Id, cancellationToken);
+                int cnt = await _unitOfWork.SaveAsync(cancellationToken);
+                if (cnt > 0)
+                    return Unit.Value;
+
+                throw new Exception("Problem saving changes to database");
             }
             #endregion
         }

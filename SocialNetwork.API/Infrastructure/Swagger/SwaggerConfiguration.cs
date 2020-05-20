@@ -34,6 +34,7 @@ namespace SocialNetwork.API
                         Url = new Uri("https://opensource.org/licenses/MIT"),
                     }
                 });
+                options.CustomSchemaIds(s => $"{s.FullName}");
             });
         }
 

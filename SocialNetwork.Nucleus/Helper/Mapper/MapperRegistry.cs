@@ -18,6 +18,7 @@ namespace SocialNetwork.Nucleus.Helper
             Map<ActivityEntity, Activity>();
 
             Map<Create.Command, Activity>();
+            Map<Edit.Command, Activity>();
         }
         #endregion
 

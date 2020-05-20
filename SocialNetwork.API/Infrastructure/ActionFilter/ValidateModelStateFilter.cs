@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SocialNetwork.API
 {

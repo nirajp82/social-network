@@ -10,6 +10,10 @@ namespace SocialNetwork.EF.Repo
     {
         void Add(Activity entity);
 
+        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+
+        void Update(Activity entity);
+
         Task<IEnumerable<Activity>> FindAllAsync(CancellationToken cancellationToken);
 
         Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken);

@@ -33,6 +33,11 @@ namespace SocialNetwork.EF.Repo
         {
             return await base.ExistsAsync(e => e.Id == activityId, cancellationToken);
         }
+
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        {
+            await base.DeleteAsync(e => e.Id == id, cancellationToken);
+        }
         #endregion
     }
 }

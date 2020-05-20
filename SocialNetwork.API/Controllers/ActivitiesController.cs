@@ -9,7 +9,6 @@ using SocialNetwork.APIEntity;
 using SocialNetwork.Nucleus.Engine.Activities;
 using System;
 using System.Threading;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -32,7 +31,7 @@ namespace SocialNetwork.API.Controllers
         #endregion
 
 
-        #region Get Action Methods
+        #region Queries Action Methods
         /// <summary>
         /// Fetch list of all activities
         /// </summary>
@@ -69,16 +68,42 @@ namespace SocialNetwork.API.Controllers
         #endregion
 
 
-        #region Post Action Methods
+        #region Command Action Methods
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] Create.Command activityCommand, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] Create.Command request, CancellationToken cancellationToken)
         {
-            Guid guid = await _mediator.Send(activityCommand, cancellationToken);
+            Guid guid = await _mediator.Send(request, cancellationToken);
             return CreatedAtAction(nameof(Get), guid);
+        }
+
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Put(Guid id, [FromBody] Edit.Command request,
+            CancellationToken cancellationToken)
+        {
+            request.Id = id;
+            await _mediator.Send(request, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ValidateActivityExists()]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new Delete.Command { Id = id }, cancellationToken);
+            return NoContent();
         }
         #endregion
     }
