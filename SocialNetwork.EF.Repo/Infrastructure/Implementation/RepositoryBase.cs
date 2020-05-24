@@ -45,10 +45,10 @@ namespace SocialNetwork.EF.Repo
                 _context.Set<T>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Expression<Func<T, bool>> expression,
+        public async Task DeleteAsync(Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            IEnumerable<T> list = await Find(expression).ToListAsync(cancellationToken);
+            IEnumerable<T> list = await Find(predicate).ToListAsync(cancellationToken);
             if (list?.Any() == true)
             {
                 foreach (var item in list)
@@ -62,18 +62,18 @@ namespace SocialNetwork.EF.Repo
             return Find(null, includes);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> expression)
+        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
         {
-            return Find(expression, null);
+            return Find(predicate, null);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> expression, IEnumerable<string> includes, Func<IQueryable<T>,
+        public IQueryable<T> Find(Expression<Func<T, bool>> predicate, IEnumerable<string> includes, Func<IQueryable<T>,
                 IOrderedQueryable<T>> orderBy = null, int? skip = null, int? take = null, bool isNoTracking = true)
         {
             IQueryable<T> queryable = _context.Set<T>();
 
-            if (expression != null)
-                queryable = queryable.Where(expression);
+            if (predicate != null)
+                queryable = queryable.Where(predicate);
 
             if (includes?.Any() == true)
                 queryable = includes.Aggregate(queryable, (current, inc) => current.Include(inc));
@@ -93,23 +93,23 @@ namespace SocialNetwork.EF.Repo
             return queryable;
         }
 
-        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> expression,
+        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate,
             IEnumerable<string> includes = null,
             CancellationToken cancellationToken = default)
         {
-            return await Find(expression, includes).FirstOrDefaultAsync(cancellationToken);
+            return await Find(predicate, includes).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression,
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return await Find(expression, null).AnyAsync(cancellationToken);
+            return await Find(predicate, null).AnyAsync(cancellationToken);
         }
 
-        public async Task<long> CountAsync(Expression<Func<T, bool>> expression,
+        public async Task<long> CountAsync(Expression<Func<T, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            return await Find(expression, null).LongCountAsync(cancellationToken);
+            return await Find(predicate, null).LongCountAsync(cancellationToken);
         }
         #endregion
     }
