@@ -51,10 +51,9 @@ const App = () => {
 
     const editActivityHandler = (activity: IActivity) => {
         setActivities([...activities.filter(a => a.id !== activity.id), activity]);
-
         selectActivity(activity.id);
         //updateEditMode(false);
-        //setSelectedActivity(activity);
+        setSelectedActivity(activity);
     };
 
     const deleteActivityHandler = (id: string) => {
