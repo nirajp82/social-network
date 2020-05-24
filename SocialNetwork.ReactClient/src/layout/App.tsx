@@ -1,20 +1,12 @@
 ﻿import React, { useEffect, useState } from 'react';
-import Axios from 'axios';
 
 import { IActivity } from '../models/IActivity';
+import activityService from '../api/activities';
+
 import NavBar from '../features/nav/NavBar';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import { Container } from 'semantic-ui-react';
 
-
-const fetchActivities = async (): Promise<IActivity[]> => {
-    const response = await Axios.get<IActivity[]>("http://localhost/socialnetwork/api/Activities",
-        {
-            withCredentials: true
-        });
-
-    return response.data;
-};
 
 const App = () => {
     const [activities, setActivities] = useState<IActivity[]>([]);
@@ -41,28 +33,32 @@ const App = () => {
         updateEditMode(true);
     };
 
-    const createActivityHandler = (activity: IActivity) => {
-        activity.id = (activities.length + 1 * -1).toString();
-        setActivities([...activities, activity]);
-        selectActivity(activity.id);
-        //updateEditMode(false);
-        //setSelectedActivity(activity);
+    const fetchActivies = async (): Promise<IActivity[]> => {
+        return await activityService.list();
+    }
+
+    const createActivityHandler = async (activity: IActivity) => {
+        const newId: string = await activityService.create(activity);
+        const newActivity: IActivity = { ...activity, id: newId };
+        setActivities([...activities, newActivity]);
+        selectActivity(newActivity.id);
     };
 
-    const editActivityHandler = (activity: IActivity) => {
+    const editActivityHandler = async (activity: IActivity) => {
+        await activityService.update(activity);
         setActivities([...activities.filter(a => a.id !== activity.id), activity]);
         selectActivity(activity.id);
-        //updateEditMode(false);
         setSelectedActivity(activity);
     };
 
-    const deleteActivityHandler = (id: string) => {
+    const deleteActivityHandler = async (id: string) => {
+        await activityService.delete(id);
         setActivities([...activities.filter(a => a.id !== id)]);
     };
 
     useEffect(() => {
         const fetch = async () => {
-            setActivities(await fetchActivities());
+            setActivities(await fetchActivies());
         }
         fetch();
     }, []);
