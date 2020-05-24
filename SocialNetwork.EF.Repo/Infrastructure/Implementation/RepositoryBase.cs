@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal abstract class RepositoryBase<T> : IRepositoryBase<T> where T : BaseModel
+    internal abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IBaseModel
     {
         #region Member
         protected ApplicationContext _context { get; }
@@ -45,7 +45,7 @@ namespace SocialNetwork.EF.Repo
                 _context.Set<T>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Expression<Func<T, bool>> expression, 
+        public async Task DeleteAsync(Expression<Func<T, bool>> expression,
             CancellationToken cancellationToken = default)
         {
             IEnumerable<T> list = await Find(expression).ToListAsync(cancellationToken);
@@ -93,14 +93,14 @@ namespace SocialNetwork.EF.Repo
             return queryable;
         }
 
-        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> expression, 
+        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> expression,
             IEnumerable<string> includes = null,
             CancellationToken cancellationToken = default)
         {
             return await Find(expression, includes).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression, 
+        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression,
             CancellationToken cancellationToken = default)
         {
             return await Find(expression, null).AnyAsync(cancellationToken);

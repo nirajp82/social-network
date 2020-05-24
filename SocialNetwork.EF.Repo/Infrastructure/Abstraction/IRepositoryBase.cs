@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal interface IRepositoryBase<T> where T : BaseModel
+    internal interface IRepositoryBase<T> where T : IBaseModel
     {
         void Add(T entity);
 

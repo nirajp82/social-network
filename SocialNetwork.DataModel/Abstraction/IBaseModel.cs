@@ -1,6 +1,6 @@
 ﻿namespace SocialNetwork.DataModel
 {
-    public abstract class BaseModel
+    public interface IBaseModel
     {
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.DataModel
 {
-    public class Activity : BaseModel
+    public class Activity : IBaseModel
     {
         public Guid Id { get; set; }
 
