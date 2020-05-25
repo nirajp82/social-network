@@ -8,32 +8,32 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal interface IRepositoryBase<T> where T : IBaseModel
+    internal interface IRepositoryBase<TEntity> where TEntity : IBaseModel
     {
-        void Add(T entity);
+        void Add(TEntity entity);
 
-        void Update(T entity);
+        void Update(TEntity entity);
 
-        void Delete(T entity);
+        void Delete(TEntity entity);
 
-        Task DeleteAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+        Task DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
-        IQueryable<T> FindAll(IEnumerable<string> includes = null);
+        IQueryable<TEntity> GetAll(IEnumerable<string> includes = null);
 
-        IQueryable<T> Find(Expression<Func<T, bool>> predicate);
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
-        IQueryable<T> Find(Expression<Func<T, bool>> predicate, IEnumerable<string> includes,
-            Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, int? skip = null, int? take = null,
+        IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, IEnumerable<string> includes,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, int? skip = null, int? take = null,
             bool isNoTracking = true);
 
-        Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate,
+        Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate,
             IEnumerable<string> includes = null,
             CancellationToken cancellationToken = default);
 
-        Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, 
+        Task<bool> HasAnyAsync(Expression<Func<TEntity, bool>> predicate, 
             CancellationToken cancellationToken = default);
 
-        Task<long> CountAsync(Expression<Func<T, bool>> predicate, 
+        Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate, 
             CancellationToken cancellationToken = default);
     }
 }

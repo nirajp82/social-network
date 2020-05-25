@@ -14,7 +14,7 @@ namespace SocialNetwork.EF.Repo
 
         void Update(Activity entity);
 
-        Task<IEnumerable<Activity>> FindAllAsync(CancellationToken cancellationToken);
+        Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken);
 
         Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken);
 

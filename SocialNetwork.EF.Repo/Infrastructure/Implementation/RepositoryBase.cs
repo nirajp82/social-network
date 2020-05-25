@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class, IBaseModel
+    internal abstract class RepositoryBase<TEntity> : IRepositoryBase<TEntity> where TEntity : class, IBaseModel
     {
         #region Member
         protected ApplicationContext _context { get; }
@@ -25,30 +25,30 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Methods
-        public void Add(T entity)
+        public void Add(TEntity entity)
         {
-            _context.Set<T>().Add(entity);
+            _context.Set<TEntity>().Add(entity);
         }
 
 
-        public void Update(T entity)
+        public void Update(TEntity entity)
         {
-            _context.Set<T>().Attach(entity);
-            _context.Entry<T>(entity).State = EntityState.Modified;
+            _context.Set<TEntity>().Attach(entity);
+            _context.Entry<TEntity>(entity).State = EntityState.Modified;
             //_context.Set<T>().Update(entity);
         }
 
 
-        public void Delete(T entity)
+        public void Delete(TEntity entity)
         {
             if (entity != null)
-                _context.Set<T>().Remove(entity);
+                _context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Expression<Func<T, bool>> predicate,
+        public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
-            IEnumerable<T> list = await Find(predicate).ToListAsync(cancellationToken);
+            IEnumerable<TEntity> list = await Find(predicate).ToListAsync(cancellationToken);
             if (list?.Any() == true)
             {
                 foreach (var item in list)
@@ -57,20 +57,20 @@ namespace SocialNetwork.EF.Repo
         }
 
 
-        public IQueryable<T> FindAll(IEnumerable<string> includes = null)
+        public IQueryable<TEntity> GetAll(IEnumerable<string> includes = null)
         {
             return Find(null, includes);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> predicate)
+        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return Find(predicate, null);
         }
 
-        public IQueryable<T> Find(Expression<Func<T, bool>> predicate, IEnumerable<string> includes, Func<IQueryable<T>,
-                IOrderedQueryable<T>> orderBy = null, int? skip = null, int? take = null, bool isNoTracking = true)
+        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, IEnumerable<string> includes, Func<IQueryable<TEntity>,
+                IOrderedQueryable<TEntity>> orderBy = null, int? skip = null, int? take = null, bool isNoTracking = true)
         {
-            IQueryable<T> queryable = _context.Set<T>();
+            IQueryable<TEntity> queryable = _context.Set<TEntity>();
 
             if (predicate != null)
                 queryable = queryable.Where(predicate);
@@ -93,20 +93,20 @@ namespace SocialNetwork.EF.Repo
             return queryable;
         }
 
-        public async Task<T> FindFirstAsync(Expression<Func<T, bool>> predicate,
+        public async Task<TEntity> FindFirstAsync(Expression<Func<TEntity, bool>> predicate,
             IEnumerable<string> includes = null,
             CancellationToken cancellationToken = default)
         {
             return await Find(predicate, includes).FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate,
+        public async Task<bool> HasAnyAsync(Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
             return await Find(predicate, null).AnyAsync(cancellationToken);
         }
 
-        public async Task<long> CountAsync(Expression<Func<T, bool>> predicate,
+        public async Task<long> CountAsync(Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
             return await Find(predicate, null).LongCountAsync(cancellationToken);

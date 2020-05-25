@@ -6,7 +6,7 @@ const axiosInstance = axios.create({
     timeout: 3000
 });
 
-const sleepTime = 150;
+const sleepTime = 1000;
 
 const processResponse = (dbResponse: AxiosResponse) => {
     return dbResponse.data;

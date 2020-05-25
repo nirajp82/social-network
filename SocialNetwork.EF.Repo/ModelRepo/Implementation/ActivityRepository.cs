@@ -18,9 +18,9 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Method
-        public async Task<IEnumerable<Activity>> FindAllAsync(CancellationToken cancellationToken)
+        public async Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            IQueryable<Activity> result = base.FindAll();
+            IQueryable<Activity> result = base.GetAll();
             return await result.ToListAsync(cancellationToken);
         }
 
@@ -31,7 +31,7 @@ namespace SocialNetwork.EF.Repo
 
         public async Task<bool> ExistsAsync(Guid activityId, CancellationToken cancellationToken)
         {
-            return await base.ExistsAsync(e => e.Id == activityId, cancellationToken);
+            return await base.HasAnyAsync(e => e.Id == activityId, cancellationToken);
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)

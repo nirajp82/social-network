@@ -4,6 +4,7 @@ import { IActivity } from '../../../models/IActivity';
 
 interface IProps {
     selectedActivity: IActivity | null,
+    isSaving: boolean,
 
     setEditMode: (value: boolean) => void,
     createActivityHandler: (activity: IActivity) => void
@@ -11,7 +12,7 @@ interface IProps {
 }
 
 
-const ActivityForm: React.FC<IProps> = ({ setEditMode, selectedActivity, createActivityHandler, editActivityHandler }) => {
+const ActivityForm: React.FC<IProps> = ({ selectedActivity, isSaving, setEditMode, createActivityHandler, editActivityHandler }) => {
     const initializeForms = (): IActivity => {
         let value: IActivity;
         if (selectedActivity) {
@@ -88,7 +89,7 @@ const ActivityForm: React.FC<IProps> = ({ setEditMode, selectedActivity, createA
                     placeholder="Venue"
                     value={activity.venue} />
 
-                <Button floated="right" type="Submit" positive content="Submit" />
+                <Button floated="right" type="Submit" loading={isSaving} positive content="Submit" />
                 <Button onClick={() => setEditMode(false)} floated="right" type="Button" content="Cancel" />
             </Form>
         </Segment>

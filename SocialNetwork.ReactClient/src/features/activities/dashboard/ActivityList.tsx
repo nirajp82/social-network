@@ -1,14 +1,20 @@
-﻿import React from 'react';
+﻿import React, { SyntheticEvent, useState } from 'react';
 import { Item, Segment, Button, Label } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 
 interface IProps {
     activities: IActivity[],
+    isDeleting: boolean,
     selectActivity: (id: string) => void
     deleteActivityHandler: (id: string) => void
 };
 
-const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActivityHandler }) => {
+const ActivityList: React.FC<IProps> = ({ activities, isDeleting, selectActivity, deleteActivityHandler }) => {
+    const [target, setTarget] = useState('');
+    const deleteHander = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
+        setTarget(event.currentTarget.name);
+        deleteActivityHandler(id);
+    };
     return (
         <Segment clearing>
             <Item.Group divided>
@@ -23,13 +29,17 @@ const ActivityList: React.FC<IProps> = ({ activities, selectActivity, deleteActi
                                         <div>{item.description}</div>
                                         <div>{item.city} {item.venue}</div>
                                     </Item.Description>
-                                    <Item.Extra>                                      
+                                    <Item.Extra>
                                         <Button onClick={() => selectActivity(item.id)}
+                                            name={item.id}
                                             content="View"
                                             floated="right"
                                             color="blue" />
 
-                                        <Button onClick={() => deleteActivityHandler(item.id)}
+                                        <Button
+                                            name={item.id}
+                                            onClick={(event) => deleteHander(event, item.id)}
+                                            loading={target === item.id && isDeleting}
                                             content="Delete"
                                             floated="right"
                                             color="red" />

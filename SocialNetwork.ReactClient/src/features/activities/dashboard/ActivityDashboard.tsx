@@ -9,6 +9,8 @@ interface IProps {
     activities: IActivity[],
     selectedActivity: IActivity | null;
     isEditMode: boolean,
+    isSaving: boolean,
+    isDeleting: boolean,
 
     selectActivity: (id: string) => void,
     setEditMode: (value: boolean) => void,
@@ -19,7 +21,7 @@ interface IProps {
 }
 
 const ActivityDashboard: React.FC<IProps> =
-    ({ activities, selectedActivity, isEditMode, selectActivity,
+    ({ activities, selectedActivity, isEditMode, isSaving, isDeleting, selectActivity,
         setEditMode, createActivityHandler, editActivityHandler, deleteActivityHandler }) => {
 
         return (
@@ -28,18 +30,12 @@ const ActivityDashboard: React.FC<IProps> =
                     <ActivityList
                         activities={activities}
                         selectActivity={selectActivity}
-                        deleteActivityHandler={deleteActivityHandler} />
+                        deleteActivityHandler={deleteActivityHandler}
+                        isDeleting={isDeleting}
+                    />
                 </Grid.Column>
 
                 <Grid.Column width={6} >
-                    {isEditMode &&
-                        <ActivityForm
-                            key={selectedActivity ? selectedActivity.id : 0}
-                            setEditMode={setEditMode}
-                            createActivityHandler={createActivityHandler}
-                            editActivityHandler={editActivityHandler}
-                            selectedActivity={selectedActivity} />}
-
                     {selectedActivity && !isEditMode
                         &&
                         <ActivityDetails
@@ -47,6 +43,16 @@ const ActivityDashboard: React.FC<IProps> =
                             selectedActivity={selectedActivity}
                             selectActivity={selectActivity}
                             setEditMode={setEditMode} />}
+
+                    {isEditMode &&
+                        <ActivityForm
+                            key={selectedActivity ? selectedActivity.id : 0}
+                            setEditMode={setEditMode}
+                            createActivityHandler={createActivityHandler}
+                            editActivityHandler={editActivityHandler}
+                            selectedActivity={selectedActivity}
+                            isSaving={isSaving}
+                        />}
                 </Grid.Column>
             </Grid>
         );

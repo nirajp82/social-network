@@ -4,6 +4,7 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,7 +36,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<IEnumerable<ActivityEntity>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _unitOfWork.ActivityRepository.FindAllAsync(cancellationToken);
+                var result = await _unitOfWork.ActivityRepository.GetAllAsync(cancellationToken);
                 return _mapperHelper.MapList<Activity, ActivityEntity>(result);
             }
             #endregion

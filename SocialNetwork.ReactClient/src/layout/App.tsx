@@ -6,12 +6,17 @@ import activityService from '../api/activities';
 import NavBar from '../features/nav/NavBar';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import { Container } from 'semantic-ui-react';
+import ProgressBar from './ProgressBar';
+
 
 
 const App = () => {
     const [activities, setActivities] = useState<IActivity[]>([]);
     const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null);
     const [isEditMode, setEditMode] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSaving, setIsSaving] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const selectActivity = (id: string) => {
         if (id === "") {
@@ -38,31 +43,41 @@ const App = () => {
     }
 
     const createActivityHandler = async (activity: IActivity) => {
+        setIsSaving(true);
         const newId: string = await activityService.create(activity);
         const newActivity: IActivity = { ...activity, id: newId };
         setActivities([...activities, newActivity]);
         selectActivity(newActivity.id);
+        setIsSaving(false);
     };
 
     const editActivityHandler = async (activity: IActivity) => {
+        setIsSaving(true);
         await activityService.update(activity);
         setActivities([...activities.filter(a => a.id !== activity.id), activity]);
         selectActivity(activity.id);
         setSelectedActivity(activity);
+        setIsSaving(false);
     };
 
     const deleteActivityHandler = async (id: string) => {
+        setIsDeleting(true);
         await activityService.delete(id);
         setActivities([...activities.filter(a => a.id !== id)]);
+        setIsDeleting(false);
     };
 
     useEffect(() => {
         const fetch = async () => {
             setActivities(await fetchActivies());
+            setIsLoading(false);
         }
         fetch();
     }, []);
 
+    if (isLoading) {
+        return <ProgressBar message="Loading Activities"></ProgressBar>;
+    }
     return (
         <React.Fragment>
             <NavBar onCreateActivity={onCreateActivity} />
@@ -75,6 +90,8 @@ const App = () => {
                     createActivityHandler={createActivityHandler}
                     editActivityHandler={editActivityHandler}
                     deleteActivityHandler={deleteActivityHandler}
+                    isSaving={isSaving}
+                    isDeleting={isDeleting}
                 />
             </Container>
         </React.Fragment>
