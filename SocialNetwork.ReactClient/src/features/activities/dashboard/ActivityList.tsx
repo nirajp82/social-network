@@ -1,25 +1,26 @@
-﻿import React, { SyntheticEvent, useState } from 'react';
+﻿import React, { SyntheticEvent, useState, useContext } from 'react';
 import { Item, Segment, Button, Label } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
+import { observer } from 'mobx-react-lite';
+import activityStore from '../../../stores/activityStore';
+import activityService from '../../../api/activities';
 
-interface IProps {
-    activities: IActivity[],
-    isDeleting: boolean,
-    selectActivity: (id: string) => void
-    deleteActivityHandler: (id: string) => void
-};
 
-const ActivityList: React.FC<IProps> = ({ activities, isDeleting, selectActivity, deleteActivityHandler }) => {
+const ActivityList: React.FC = () => {
+    const activityStoreObj = useContext(activityStore);
+
     const [target, setTarget] = useState('');
-    const deleteHander = (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
+
+    const deleteHander = async (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
         setTarget(event.currentTarget.name);
-        deleteActivityHandler(id);
+        await activityStoreObj.deleteActivity(id);
     };
+
     return (
         <Segment clearing>
             <Item.Group divided>
                 {
-                    activities.map((item: IActivity) => {
+                    activityStoreObj.activities.map((item: IActivity) => {
                         return (
                             <Item key={item.id} >
                                 <Item.Content>
@@ -30,7 +31,7 @@ const ActivityList: React.FC<IProps> = ({ activities, isDeleting, selectActivity
                                         <div>{item.city} {item.venue}</div>
                                     </Item.Description>
                                     <Item.Extra>
-                                        <Button onClick={() => selectActivity(item.id)}
+                                        <Button onClick={() => activityStoreObj.setSelectActivity(item.id)}
                                             name={item.id}
                                             content="View"
                                             floated="right"
@@ -39,7 +40,7 @@ const ActivityList: React.FC<IProps> = ({ activities, isDeleting, selectActivity
                                         <Button
                                             name={item.id}
                                             onClick={(event) => deleteHander(event, item.id)}
-                                            loading={target === item.id && isDeleting}
+                                            loading={target === item.id && activityStoreObj.isDeleting}
                                             content="Delete"
                                             floated="right"
                                             color="red" />
@@ -56,4 +57,4 @@ const ActivityList: React.FC<IProps> = ({ activities, isDeleting, selectActivity
     )
 };
 
-export default ActivityList;
+export default observer(ActivityList);

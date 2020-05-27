@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Segment, Dimmer, Loader } from 'semantic-ui-react';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 const ProgressBar: React.FC<{
     message: string,
