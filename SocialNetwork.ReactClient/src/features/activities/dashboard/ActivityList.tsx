@@ -3,7 +3,6 @@ import { Item, Segment, Button, Label } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import { observer } from 'mobx-react-lite';
 import activityStore from '../../../stores/activityStore';
-import activityService from '../../../api/activities';
 
 
 const ActivityList: React.FC = () => {
@@ -20,7 +19,7 @@ const ActivityList: React.FC = () => {
         <Segment clearing>
             <Item.Group divided>
                 {
-                    activityStoreObj.activities.map((item: IActivity) => {
+                    activityStoreObj.activityByDate.map((item: IActivity) => {
                         return (
                             <Item key={item.id} >
                                 <Item.Content>

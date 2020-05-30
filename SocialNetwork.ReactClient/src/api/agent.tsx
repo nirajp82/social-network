@@ -3,7 +3,7 @@
 const axiosInstance = axios.create({
     baseURL: "http://localhost/socialnetwork/api/",
     withCredentials: true,
-    timeout: 3000
+    timeout: 30000
 });
 
 const sleepTime = 100;
