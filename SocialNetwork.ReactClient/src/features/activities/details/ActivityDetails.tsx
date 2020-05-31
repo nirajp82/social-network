@@ -1,32 +1,49 @@
-﻿import React, { useContext } from 'react';
+﻿import React, { useContext, useEffect, useState } from 'react';
 import { Card, Image, ButtonGroup, Button } from 'semantic-ui-react';
 import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
+import { IActivity } from '../../../models/IActivity';
+import { RouteComponentProps } from 'react-router-dom';
+import ProgressBar from '../../../layout/ProgressBar';
 
+interface iRouteProps {
+    id: string;
+};
 
-const ActivityDetails: React.FC = () => {
+const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     const activityStoreObj = useContext(activityStore);
-    const selectedActivity = activityStoreObj.loadActivity('75f15285-0bae-4e57-b62b-01202e87269c');
+    const [activity, setActivity] = useState<IActivity | undefined>(undefined);
+
+    useEffect(() => {
+        const load = async () => {
+            const selectedActivity = await activityStoreObj.loadActivity(props.match.params.id);
+            setActivity(selectedActivity);
+        };
+        load();
+    }, [activityStoreObj.loadActivity]);
+
+    if (activityStoreObj.isLoading) 
+        return <ProgressBar message="Loading Activity" />
 
     return (
         <Card fluid>
-            <Image src={`/assets/categoryImages/${selectedActivity?.category}.jpg`} wrapped ui={true} />
+            <Image src={`/assets/categoryImages/${activity?.category}.jpg`} wrapped ui={true} />
             <Card.Content>
-                <Card.Header>{selectedActivity?.title}</Card.Header>
+                <Card.Header>{activity?.title}</Card.Header>
                 <Card.Meta>
-                    <span>{selectedActivity?.date}</span>
+                    <span>{activity?.date}</span>
                 </Card.Meta>
                 <Card.Description>
-                    {selectedActivity?.description}
+                    {activity?.description}
                 </Card.Description>
                 <Card.Description>
-                    {selectedActivity?.city}, {selectedActivity?.venue}
+                    {activity?.city}, {activity?.venue}
                 </Card.Description>
             </Card.Content>
             <Card.Content extra>
                 <ButtonGroup widths="2">
                     <Button onClick={() => activityStoreObj.setShowFormFlag(true)} basic color='blue' content='Edit' />
-                    <Button onClick={() => activityStoreObj.setSelectActivity("")} basic color='grey' content='Cancel' />
+                    <Button onClick={() => props.history.push("/activities") } basic color='grey' content='Cancel' />
                 </ButtonGroup>
             </Card.Content>
         </Card>

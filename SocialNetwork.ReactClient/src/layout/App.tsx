@@ -31,7 +31,7 @@ const App = () => {
                 <Container style={{ marginTop: '7em' }}>
                     <Route path="/" exact component={HomePage} />
                     <Route path="/activities/:id" component={ActivityDetails} />
-                    <Route path="/activities" component={ActivityDashboard} />
+                    <Route path="/activities" exact component={ActivityDashboard} />
                     <Route path="/createActivity" component={ActivityForm} />
                 </Container>
             </BrowserRouter>
