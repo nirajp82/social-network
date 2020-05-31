@@ -1,10 +1,12 @@
-﻿import { observable, action, computed } from 'mobx';
+﻿import { observable, action, computed, configure, runInAction } from 'mobx';
 import { createContext } from 'react';
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activities';
 
+// don't allow state modifications outside actions
+configure({ enforceActions: "always" })
+
 class activityStore {
-    //@observable activities: IActivity[] = [];
     @observable activityRegistry = new Map<string, IActivity>();
     @observable isLoading = false;
     @observable selectedActivity: IActivity | null = null;
@@ -23,6 +25,10 @@ class activityStore {
         this.showForm = value;
     };
 
+    @action setIsLoading = (value: boolean) => {
+        this.isLoading = value;
+    };
+
     @action setIsSaving = (value: boolean) => {
         this.isSaving = value;
     };
@@ -31,14 +37,48 @@ class activityStore {
         this.isDeleting = value;
     };
 
-    @action fetchActivities = async () => {
+    @action loadActivities = async () => {
+        this.setIsLoading(true);
+        try {
+            const activities = await activityService.list();
+            runInAction(() => {
+                activities.forEach((activity) => {
+                    this.activityRegistry.set(activity.id, activity);
+                })
+            });
+        } catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.setIsLoading(false);
+        }
+    };
+
+    @action loadActivity = async (id: string): Promise<IActivity | undefined> => {
+        let activity = this.getActivity(id);
+        if (activity)
+            return activity;
+
         this.isLoading = true;
-        const activities = await activityService.list().finally(() => {
-            this.isLoading = false;
-        });
-        activities.forEach((activity) => {
-            this.activityRegistry.set(activity.id, activity);
-        });
+        try {
+            activity = await activityService.details(id);
+            if (activity) {
+                const dbActivity = activity as unknown as IActivity;
+                runInAction(() => {
+                    this.activityRegistry.set(dbActivity.id, dbActivity);
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        finally {
+            this.setIsLoading(false);
+        }
+        return activity;
+    };
+
+    getActivity = (id: string): IActivity | undefined => {
+        return this.activityRegistry.get(id);
     };
 
     @action createActivity = async (activity: IActivity) => {
@@ -46,10 +86,10 @@ class activityStore {
 
         try {
             activity.id = await activityService.create(activity);
-            this.activityRegistry.set(activity.id, activity);
-            //const newActivity: IActivity = { ...activity, id: newId };
-            //this.setActivities([...this.activities, newActivity]);
-            this.setSelectActivity(activity.id);
+            runInAction(() => {
+                this.activityRegistry.set(activity.id, activity);
+                this.setSelectActivity(activity.id);
+            });
         } catch (error) {
             console.error(error);
         }
@@ -63,9 +103,10 @@ class activityStore {
         this.setIsSaving(true);
         try {
             await activityService.update(activity);
-            //this.setActivities([...this.activities.filter(a => a.id !== activity.id), activity]);
-            this.activityRegistry.set(activity.id, activity);
-            this.setSelectActivity(activity.id);
+            runInAction(() => {
+                this.activityRegistry.set(activity.id, activity);
+                this.setSelectActivity(activity.id);
+            });
         } catch (error) {
             console.error(error);
         }
@@ -79,10 +120,12 @@ class activityStore {
         this.setIsDeleting(true);
         try {
             await activityService.delete(id);
-            //this.setActivities([...this.activities.filter(a => a.id !== id)]);
-            this.activityRegistry.delete(id);
-            this.setSelectActivity("");
-
+            runInAction(() => {
+                this.activityRegistry.delete(id);
+                this.setSelectActivity("");
+                this.setIsDeleting(false);
+                this.setShowFormFlag(false);
+            });
         } catch (error) {
             console.error(error);
         }

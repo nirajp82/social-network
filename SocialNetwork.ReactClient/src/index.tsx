@@ -4,6 +4,5 @@ import './layout/styles.css';
 
 import App from './layout/App';
 
-ReactDOM.render(
-    <App />,
+ReactDOM.render(<App />,
     document.querySelector("#root"));

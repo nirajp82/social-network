@@ -6,10 +6,11 @@ import { observer } from 'mobx-react-lite';
 
 const ActivityDetails: React.FC = () => {
     const activityStoreObj = useContext(activityStore);
-    const selectedActivity = activityStoreObj.selectedActivity;
+    const selectedActivity = activityStoreObj.loadActivity('75f15285-0bae-4e57-b62b-01202e87269c');
+
     return (
         <Card fluid>
-            <Image src={`/assets/categoryImages/${selectedActivity?.category}.jpg`} wrapped ui={false} />
+            <Image src={`/assets/categoryImages/${selectedActivity?.category}.jpg`} wrapped ui={true} />
             <Card.Content>
                 <Card.Header>{selectedActivity?.title}</Card.Header>
                 <Card.Meta>

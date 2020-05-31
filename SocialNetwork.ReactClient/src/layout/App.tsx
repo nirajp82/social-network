@@ -1,18 +1,22 @@
 ﻿import React, { useContext, useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import ProgressBar from './ProgressBar';
 import activityStore from '../stores/activityStore';
 import NavBar from '../features/nav/NavBar';
+import HomePage from '../features/home/HomePage';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
+import ActivityDetails from '../features/activities/details/ActivityDetails';
+import ActivityForm from '../features/activities/forms/ActivityForm';
 
 const App = () => {
     const activityStoreObj = useContext(activityStore);
 
     useEffect(() => {
         const fetch = async () => {
-            await activityStoreObj.fetchActivities();
+            await activityStoreObj.loadActivities();
         }
         fetch();
     }, [activityStoreObj]);
@@ -22,10 +26,15 @@ const App = () => {
     }
     return (
         <React.Fragment>
-            <NavBar />
-            <Container style={{ marginTop: '7em' }}>
-                <ActivityDashboard />
-            </Container>
+            <BrowserRouter>
+                <NavBar />
+                <Container style={{ marginTop: '7em' }}>
+                    <Route path="/" exact component={HomePage} />
+                    <Route path="/activities/:id" component={ActivityDetails} />
+                    <Route path="/activities" component={ActivityDashboard} />
+                    <Route path="/createActivity" component={ActivityForm} />
+                </Container>
+            </BrowserRouter>
         </React.Fragment>
     );
 };

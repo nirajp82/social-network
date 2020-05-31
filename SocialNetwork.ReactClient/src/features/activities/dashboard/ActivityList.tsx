@@ -1,8 +1,9 @@
 ﻿import React, { SyntheticEvent, useState, useContext } from 'react';
-import { Item, Segment, Button, Label } from 'semantic-ui-react';
+import { Item, Segment, Button, Label, List } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import { observer } from 'mobx-react-lite';
 import activityStore from '../../../stores/activityStore';
+import { NavLink, Link } from 'react-router-dom';
 
 
 const ActivityList: React.FC = () => {
@@ -30,12 +31,13 @@ const ActivityList: React.FC = () => {
                                         <div>{item.city} {item.venue}</div>
                                     </Item.Description>
                                     <Item.Extra>
-                                        <Button onClick={() => activityStoreObj.setSelectActivity(item.id)}
+                                        <Button
+                                            as={Link}  
+                                            to={`/activities/${item.id}`}
                                             name={item.id}
                                             content="View"
                                             floated="right"
                                             color="blue" />
-
                                         <Button
                                             name={item.id}
                                             onClick={(event) => deleteHander(event, item.id)}
@@ -57,3 +59,5 @@ const ActivityList: React.FC = () => {
 };
 
 export default observer(ActivityList);
+
+//onClick = {() => activityStoreObj.setSelectActivity(item.id)}
