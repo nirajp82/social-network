@@ -1,9 +1,9 @@
 ﻿import React, { SyntheticEvent, useState, useContext } from 'react';
-import { Item, Segment, Button, Label, List } from 'semantic-ui-react';
+import { Item, Segment, Button, Label } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import { observer } from 'mobx-react-lite';
 import activityStore from '../../../stores/activityStore';
-import { NavLink, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const ActivityList: React.FC = () => {
@@ -32,7 +32,7 @@ const ActivityList: React.FC = () => {
                                     </Item.Description>
                                     <Item.Extra>
                                         <Button
-                                            as={Link}  
+                                            as={Link}
                                             to={`/activities/${item.id}`}
                                             name={item.id}
                                             content="View"

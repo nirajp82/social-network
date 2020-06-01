@@ -1,43 +1,64 @@
-﻿import React, { useState, FormEvent, useContext } from 'react';
+﻿import React, { useState, FormEvent, useContext, useEffect } from 'react';
 import { Form, Segment, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
+import { RouteComponentProps, Link } from 'react-router-dom';
+import * as constants from '../../../util/constants';
 
-const ActivityForm: React.FC = () => {
+
+interface IRouteProp {
+    id: string;
+}
+
+const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
-    const initializeForms = (): IActivity => {
-        let value: IActivity;
-        if (activityStoreObj.selectedActivity) {
-            value = activityStoreObj.selectedActivity;
-        }
-        else {
-            value = {
-                id: '',
-                title: '',
-                description: '',
-                date: new Date(),
-                category: '',
-                city: '',
-                venue: ''
-            };
-        }
-        return value;
-    };
+    const { loadActivity } = activityStoreObj;
 
-    const [activity, setActivity] = useState<IActivity>(initializeForms);
+    let blankActivity: IActivity = {
+        id: '',
+        title: '',
+        description: '',
+        date: null,
+        category: '',
+        city: '',
+        venue: ''
+    };
+    const [activity, setActivity] = useState<IActivity>(blankActivity);
 
     const handleInpuyChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = event.currentTarget;
         setActivity({ ...activity, [name]: value });
     };
-   
+
     const handleSubmitForm = async () => {
+        let activityId = "";
         if (activity.id === '')
-            await activityStoreObj.createActivity(activity);
-        else
+            activityId = await activityStoreObj.createActivity(activity);
+        else {
             await activityStoreObj.editActivity(activity);
+            activityId = activity.id;
+        }
+        props.history.push(`${constants.NAV_ACTIVITY_DETAIL}/${activityId}`);
     }
+
+    useEffect(() => {
+        let isComponentMounted = true;
+        if (props.match.params.id && props.match.params.id.length > 0) {
+            const load = async () => {
+                const activity = await loadActivity(props.match.params.id);
+                if (isComponentMounted && activity)
+                    setActivity(activity);
+            }
+            load();
+        }
+
+        //To fix following warning: 
+        //Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in application
+        return () => {
+            isComponentMounted = false;
+        };
+    }, [loadActivity, props.match.params.id]);
 
     return (
         <Segment clearing>
@@ -66,7 +87,7 @@ const ActivityForm: React.FC = () => {
                     name="date"
                     onChange={handleInpuyChange}
                     placeholder="Date"
-                    value={activity.date} />
+                    value={activity.date || ''} />
 
                 <Form.Input
                     name="city"
@@ -81,7 +102,7 @@ const ActivityForm: React.FC = () => {
                     value={activity.venue} />
 
                 <Button floated="right" type="Submit" loading={activityStoreObj.isSaving} positive content="Submit" />
-                <Button onClick={() => activityStoreObj.setShowFormFlag(false)} floated="right" type="Button" content="Cancel" />
+                <Button as={Link} to={constants.NAV_ACTIVITIES} floated="right" type="Button" content="Cancel" />
             </Form>
         </Segment>
     );

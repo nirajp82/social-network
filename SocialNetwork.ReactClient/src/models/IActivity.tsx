@@ -3,7 +3,7 @@
     title: string;
     description: string;
     category: string;
-    date: Date;
+    date: Date | null;
     city: string;
     venue: string;
 }

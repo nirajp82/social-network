@@ -9,17 +9,9 @@ configure({ enforceActions: "always" })
 class activityStore {
     @observable activityRegistry = new Map<string, IActivity>();
     @observable isLoading = false;
-    @observable selectedActivity: IActivity | null = null;
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
-
-    @action setSelectActivity = (id: string) => {
-        if (id === "")
-            this.selectedActivity = null;
-        else
-            this.selectedActivity = this.activityRegistry.get(id) as IActivity;
-    };
 
     @action setShowFormFlag = (value: boolean) => {
         this.showForm = value;
@@ -55,6 +47,9 @@ class activityStore {
     };
 
     @action loadActivity = async (id: string): Promise<IActivity | undefined> => {
+        if (!id || (id && id.length === 0))
+            return;
+
         let activity = this.getActivity(id);
         if (activity)
             return activity;
@@ -81,14 +76,14 @@ class activityStore {
         return this.activityRegistry.get(id);
     };
 
-    @action createActivity = async (activity: IActivity) => {
+    @action createActivity = async (activity: IActivity): Promise<string> => {
         this.setIsSaving(true);
 
         try {
             activity.id = await activityService.create(activity);
             runInAction(() => {
                 this.activityRegistry.set(activity.id, activity);
-                this.setSelectActivity(activity.id);
+                return activity.id;
             });
         } catch (error) {
             console.error(error);
@@ -97,6 +92,7 @@ class activityStore {
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         }
+        return "";
     };
 
     @action editActivity = async (activity: IActivity) => {
@@ -105,7 +101,6 @@ class activityStore {
             await activityService.update(activity);
             runInAction(() => {
                 this.activityRegistry.set(activity.id, activity);
-                this.setSelectActivity(activity.id);
             });
         } catch (error) {
             console.error(error);
@@ -122,7 +117,6 @@ class activityStore {
             await activityService.delete(id);
             runInAction(() => {
                 this.activityRegistry.delete(id);
-                this.setSelectActivity("");
                 this.setIsDeleting(false);
                 this.setShowFormFlag(false);
             });
