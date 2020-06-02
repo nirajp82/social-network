@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.IISIntegration;
@@ -5,6 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using SocialNetwork.Nucleus.Engine.Activities;
+using SocialNetwork.WebUtil;
+using System.Security.Policy;
 
 namespace SocialNetwork.API
 {
@@ -39,26 +43,26 @@ namespace SocialNetwork.API
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
             services.AddControllers(options =>
-                {
-                    options.Filters.Add(typeof(ValidateModelStateFilter));
-                    options.Filters.Add(typeof(TaskCanceledExceptionFilter));
-                })
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                });
+            {
+                options.Filters.Add(typeof(TaskCanceledExceptionFilter));
+            })
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            })
+            .AddFluentValidation(cfg =>
+            {
+                cfg.RegisterValidatorsFromAssemblyContaining<Create>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCors(_CORS_POLICY_NAME);
+            app.UseMiddleware<ErrorHandlingMiddleware>();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseCors(_CORS_POLICY_NAME);
 
             app.ConfigureCommonMiddleware();
 

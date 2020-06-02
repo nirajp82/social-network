@@ -45,7 +45,7 @@ namespace SocialNetwork.EF.Repo
                 _context.Set<TEntity>().Remove(entity);
         }
 
-        public async Task DeleteAsync(Expression<Func<TEntity, bool>> predicate,
+        public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate,
             CancellationToken cancellationToken = default)
         {
             IEnumerable<TEntity> list = await Find(predicate).ToListAsync(cancellationToken);
@@ -53,7 +53,9 @@ namespace SocialNetwork.EF.Repo
             {
                 foreach (var item in list)
                     Delete(item);
+                return list.Count();
             }
+            return 0;
         }
 
 

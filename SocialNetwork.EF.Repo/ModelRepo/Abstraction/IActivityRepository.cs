@@ -10,7 +10,7 @@ namespace SocialNetwork.EF.Repo
     {
         void Add(Activity entity);
 
-        Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
         void Update(Activity entity);
 

@@ -4,14 +4,13 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Nucleus.Engine.Activities
 {
     public class List
-    {
+    {       
         public class Query : IRequest<IEnumerable<ActivityEntity>>
         {
         }

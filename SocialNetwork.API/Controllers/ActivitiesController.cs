@@ -9,6 +9,7 @@ using SocialNetwork.APIEntity;
 using SocialNetwork.Nucleus.Engine.Activities;
 using System;
 using System.Threading;
+using SocialNetwork.WebUtil;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -38,7 +39,7 @@ namespace SocialNetwork.API.Controllers
         [HttpGet()]
         [ProducesResponseType(typeof(IEnumerable<ActivityEntity>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
@@ -72,7 +73,7 @@ namespace SocialNetwork.API.Controllers
         [HttpPost]
         [ProducesResponseType(typeof(Guid), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] Create.Command request, CancellationToken cancellationToken)
         {
@@ -84,7 +85,7 @@ namespace SocialNetwork.API.Controllers
         [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(Guid id, [FromBody] Edit.Command request,
             CancellationToken cancellationToken)
@@ -97,7 +98,7 @@ namespace SocialNetwork.API.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(APIConst.StatusCodes.Status499ClientClosedRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ValidateActivityExists()]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace SocialNetwork.API
+namespace SocialNetwork.WebUtil
 {
     public class TaskCanceledExceptionFilter : ExceptionFilterAttribute
     {
@@ -27,7 +27,7 @@ namespace SocialNetwork.API
             {
                 _logger.LogInformation("Request was cancelled");
                 context.ExceptionHandled = true;
-                context.Result = new StatusCodeResult(APIConst.StatusCodes.Status499ClientClosedRequest);
+                context.Result = new StatusCodeResult((int)StatusCodeEx.Status499ClientClosedRequest);
             }
         }
         #endregion

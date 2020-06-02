@@ -16,7 +16,7 @@ namespace SocialNetwork.EF.Repo
 
         void Delete(TEntity entity);
 
-        Task DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
+        Task<int> DeleteAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
         IQueryable<TEntity> GetAll(IEnumerable<string> includes = null);
 

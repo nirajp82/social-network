@@ -9,10 +9,10 @@ const Home: React.FC = () => {
             <Container text>
                 <Header as='h1' inverted>
                     <Image size='massive' src='/assets/logo.png' alt='logo' style={{ marginBottom: 12 }} />
-                    Reactivities
+                    Social Network
                 </Header>
 
-                <Header as='h2' inverted content={`Welcome to Reactivities`} />
+                <Header as='h2' inverted content={`Welcome to Social Network App`} />
                 <Button as={Link} to={constants.NAV_ACTIVITIES} size='huge' inverted>
                     Go to activities!
                 </Button>

@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
+using SocialNetwork.Util;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using static SocialNetwork.Nucleus.Engine.Activities.Exists;
 
@@ -20,7 +22,7 @@ namespace SocialNetwork.API
 
 
             #region Constructor
-            public ValidateActivityExistsFilter(IMediator mediator, ILogger<ValidateActivityExistsAttribute> logger)
+             public ValidateActivityExistsFilter(IMediator mediator, ILogger<ValidateActivityExistsAttribute> logger)
             {
                 _mediator = mediator;
                 _logger = logger;
@@ -36,6 +38,7 @@ namespace SocialNetwork.API
                     Guid? id = context.ActionArguments["id"] as Guid?;
                     if (id.HasValue)
                     {
+                        //Check if record exists
                         if (await _mediator.Send(new Query() { Id = id.Value }))
                         {
                             await next();

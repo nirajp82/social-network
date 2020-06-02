@@ -1,7 +1,9 @@
 ﻿using MediatR;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +37,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _unitOfWork.ActivityRepository.DeleteAsync(request.Id, cancellationToken);
+
                 int cnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (cnt > 0)
                     return Unit.Value;
