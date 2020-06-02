@@ -1,12 +1,14 @@
 ﻿import React, { useContext, useEffect, useState } from 'react';
-import { Card, Image, ButtonGroup, Button } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import { IActivity } from '../../../models/IActivity';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import ProgressBar from '../../../layout/ProgressBar';
-import * as constants from '../../../util/constants';
-
+import ActivityDetailChat from './ActivityDetailChat';
+import ActivityDetailHeader from './ActivityDetailHeader';
+import ActivityDetailInfo from './ActivityDetailInfo';
+import ActivityDetailSidebar from './ActivityDetailedSidebar';
 
 interface iRouteProps {
     id: string;
@@ -16,7 +18,6 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const [activity, setActivity] = useState<IActivity | undefined>(undefined);
     const { loadActivity } = activityStoreObj;
-
 
     useEffect(() => {
         let isComponentMounted = true;
@@ -30,7 +31,8 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
         }
 
         //To fix following warning: 
-        //Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in application
+        //Can't perform a React state update on an unmounted component. 
+        //This is a no - op, but it indicates a memory leak in application
         return () => {
             isComponentMounted = false;
         }
@@ -40,28 +42,18 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
         return <ProgressBar message="Loading Activity" />
 
     return (
-        <Card fluid>
-            <Image src={`/assets/categoryImages/${activity?.category}.jpg`} wrapped ui={true} />
-            <Card.Content>
-                <Card.Header>{activity?.title}</Card.Header>
-                <Card.Meta>
-                    <span>{activity?.date}</span>
-                </Card.Meta>
-                <Card.Description>
-                    {activity?.description}
-                </Card.Description>
-                <Card.Description>
-                    {activity?.city}, {activity?.venue}
-                </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-                <ButtonGroup widths="2">
-                    <Button as={Link} to={`${constants.NAV_MANAGE_ACTIVITY}/${activity?.id}`} basic color='blue' content='Edit' />
-                    <Button onClick={() => props.history.push("/activities")} basic color='grey' content='Cancel' />
-                </ButtonGroup>
-            </Card.Content>
-        </Card>
+        <Grid>
+            <Grid.Column width={10}>
+                <ActivityDetailHeader activity={activity} />
+                <ActivityDetailInfo activity={activity} />
+                <ActivityDetailChat />
+            </Grid.Column>
+            <Grid.Column width={6}>
+                <ActivityDetailSidebar />
+            </Grid.Column>
+        </Grid>
     )
 };
 
 export default observer(ActivityDetails);
+

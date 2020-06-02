@@ -34,11 +34,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <React.Fragment>
                     <NavBar />
                     <Container style={{ marginTop: '7em' }}>
-                        <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} component={ActivityDetails} />
+                        <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
                         <Route path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
-                        <Route key={location.key}
+                        <Route key={location.key} exact
                             path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
-                            component={ActivityForm} />
+                            component={ActivityForm} />                        
                     </Container>
                 </React.Fragment>
             )} />

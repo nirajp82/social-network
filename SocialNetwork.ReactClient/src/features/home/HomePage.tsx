@@ -1,16 +1,23 @@
 ﻿import React from 'react';
-import { Container } from 'semantic-ui-react';
+import { Container, Header, Segment, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import * as constants from '../../util/constants';
 
 const Home: React.FC = () => {
     return (
-        <Container style={{ marginTop: '7em' }}>
-            Home Page
-            <h3>
-                Go to <Link to={constants.NAV_ACTIVITIES}>Activities</Link>
-            </h3>
-        </Container>
+        <Segment inverted textAlign='center' vertical className='masthead'>
+            <Container text>
+                <Header as='h1' inverted>
+                    <Image size='massive' src='/assets/logo.png' alt='logo' style={{ marginBottom: 12 }} />
+                    Reactivities
+                </Header>
+
+                <Header as='h2' inverted content={`Welcome to Reactivities`} />
+                <Button as={Link} to={constants.NAV_ACTIVITIES} size='huge' inverted>
+                    Go to activities!
+                </Button>
+            </Container>
+        </Segment>
     );
 }
 

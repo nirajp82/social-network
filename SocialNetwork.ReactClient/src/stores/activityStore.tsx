@@ -129,8 +129,28 @@ class activityStore {
         }
     };
 
-    @computed get activityByDate(): IActivity[] {
-        return Array.from(this.activityRegistry.values());
+    @computed get activityByDate(): [string, IActivity[]][] {
+        const sortedArray = Array.from(this.activityRegistry.values()).sort(
+            (a, b): number => {
+                if (a.date && b.date) {
+                    return (new Date(a.date).getTime() - new Date(b.date).getTime());
+                }
+                else if (a)
+                    return 1;
+                return 0;
+            }
+        )
+        return this.groupActivitiesByDate(sortedArray);
+    };
+
+    groupActivitiesByDate = (sortedArray: IActivity[]): [string, IActivity[]][] => {
+        const initialValue: { [key: string]: IActivity[] } = {};
+
+        return Object.entries(sortedArray.reduce((accumulator, currentValue) => {
+            const date = currentValue.date?.toString().split('T')[0] as string;
+            accumulator[date] = accumulator[date] ? [...accumulator[date], currentValue] : [currentValue];
+            return accumulator;
+        }, initialValue));
     };
 };
 

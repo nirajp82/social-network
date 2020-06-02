@@ -1,63 +1,36 @@
-﻿import React, { SyntheticEvent, useState, useContext } from 'react';
-import { Item, Segment, Button, Label } from 'semantic-ui-react';
-import { IActivity } from '../../../models/IActivity';
+﻿import React, { useContext, Fragment } from 'react';
+import { Item,  Label } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
+
 import activityStore from '../../../stores/activityStore';
-import { Link } from 'react-router-dom';
+import ActivityListItem from './ActivityListItem';
 
 
 const ActivityList: React.FC = () => {
     const activityStoreObj = useContext(activityStore);
 
-    const [target, setTarget] = useState('');
-
-    const deleteHander = async (event: SyntheticEvent<HTMLButtonElement>, id: string) => {
-        setTarget(event.currentTarget.name);
-        await activityStoreObj.deleteActivity(id);
-    };
-
     return (
-        <Segment clearing>
-            <Item.Group divided>
-                {
-                    activityStoreObj.activityByDate.map((item: IActivity) => {
-                        return (
-                            <Item key={item.id} >
-                                <Item.Content>
-                                    <Item.Header as='a'>{item.title}</Item.Header>
-                                    <Item.Meta>{item.date}</Item.Meta>
-                                    <Item.Description>
-                                        <div>{item.description}</div>
-                                        <div>{item.city} {item.venue}</div>
-                                    </Item.Description>
-                                    <Item.Extra>
-                                        <Button
-                                            as={Link}
-                                            to={`/activities/${item.id}`}
-                                            name={item.id}
-                                            content="View"
-                                            floated="right"
-                                            color="blue" />
-                                        <Button
-                                            name={item.id}
-                                            onClick={(event) => deleteHander(event, item.id)}
-                                            loading={target === item.id && activityStoreObj.isDeleting}
-                                            content="Delete"
-                                            floated="right"
-                                            color="red" />
-
-                                        <Label basic content={item.category} />
-                                    </Item.Extra>
-                                </Item.Content>
-                            </Item>
-                        )
-                    })
-                }
-            </Item.Group>
-        </Segment>
+        <Fragment>
+            {
+                activityStoreObj.activityByDate.map(([group, activities]) => {
+                    return (
+                        <Fragment key="group">
+                            <Label size="large" color="blue">
+                                {group}
+                            </Label>
+                            <Item.Group divided>
+                                {
+                                    activities.map((item) => {
+                                        return <ActivityListItem key={item.id} activity={item} />
+                                    })
+                                }
+                            </Item.Group>
+                        </Fragment>
+                    )
+                })
+            }
+        </Fragment>
     )
 };
 
 export default observer(ActivityList);
-
-//onClick = {() => activityStoreObj.setSelectActivity(item.id)}
