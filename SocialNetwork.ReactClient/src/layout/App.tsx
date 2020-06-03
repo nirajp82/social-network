@@ -2,6 +2,7 @@
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Route, withRouter, RouteComponentProps, Switch } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import ProgressBar from './ProgressBar';
 import activityStore from '../stores/activityStore';
@@ -29,6 +30,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
     return (
         <React.Fragment>
+            <ToastContainer position="bottom-right" />
             <Route path={constants.NAV_HOME} exact component={HomePage} />
 
             <Route path={'/(.+)'} render={() => (

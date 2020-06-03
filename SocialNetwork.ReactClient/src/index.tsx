@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
 import ScrollToTop from './layout/ScrollToTop';
 import './layout/styles.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 import createBrowserHistory from './utils/createBrowserHistory';
 import App from './layout/App';
 

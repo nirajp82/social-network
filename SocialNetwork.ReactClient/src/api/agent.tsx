@@ -1,5 +1,7 @@
 ﻿import axios, { AxiosResponse } from 'axios';
 import createBrowserHistory from '../utils/createBrowserHistory';
+import * as constants from '../utils/constants';
+import { toast } from 'react-toastify';
 
 const sleepTime = 10;
 
@@ -9,8 +11,27 @@ const axiosInstance = axios.create({
     timeout: 30000
 });
 
-axios.interceptors.response.use(undefined, err => {
-    throw err.response;
+axiosInstance.interceptors.response.use((response) => response, (err) => {
+    //const { response, config, data } = err;   
+    const { response } = err;    
+    if (err.message === "Network Error" && !response) {
+        toast.error('Network error server is down for maintenance, Please try after sometime');
+        return;
+    }
+    console.log(err);
+    switch (response.status) {
+        case 400:
+            toast.error('Bad request, Please check data');
+            break;
+        case 404:
+            createBrowserHistory.push(constants.NOT_FOUND);
+            break;
+        case 500:
+            toast.error('Server Issue - Oops, something went wrong');
+            break;
+        default:
+            throw err.message;
+    }
 });
 
 const processResponse = (dbResponse: AxiosResponse) => {
