@@ -1,4 +1,6 @@
 ﻿import axios, { AxiosResponse } from 'axios';
+import createBrowserHistory from '../utils/createBrowserHistory';
+
 const sleepTime = 10;
 
 const axiosInstance = axios.create({

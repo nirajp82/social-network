@@ -2,6 +2,9 @@
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
+import * as constants from '../../../utils/constants';
+
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -22,7 +25,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: '0' }}>
                 <Image src={`/assets/categoryImages/${activity?.category}.jpg`}
-                        fluid style={activityImageStyle} />
+                    fluid style={activityImageStyle} />
                 <Segment basic style={activityImageTextStyle}>
                     <Item.Group>
                         <Item>
@@ -38,7 +41,8 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
             <Segment clearing attached="bottom">
                 <Button color='teal'>Join Activity </Button>
                 <Button>Cancel attendence</Button>
-                <Button color='orange' floated='right'>Manage Event</Button>
+                <Button as={Link} to={`${constants.NAV_MANAGE_ACTIVITY}/${activity?.id}`}
+                    color='orange' floated='right'>Manage Event</Button>
             </Segment>
         </Segment.Group>
     );

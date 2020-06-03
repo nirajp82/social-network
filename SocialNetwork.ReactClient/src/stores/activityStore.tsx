@@ -65,10 +65,8 @@ class activityStore {
             return;
 
         let activity = this.getActivity(id);
-        if (activity) {
-            //this.setActivity(activity);
+        if (activity)
             return activity;
-        }
 
         this.setIsLoadingActivity(true);
         try {
@@ -78,7 +76,6 @@ class activityStore {
                 runInAction(() => {
                     this.activityRegistry.set(dbActivity.id, dbActivity);
                 });
-                //this.setActivity(dbActivity);
                 return dbActivity;
             }
         } catch (error) {

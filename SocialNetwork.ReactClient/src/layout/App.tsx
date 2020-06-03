@@ -10,7 +10,7 @@ import HomePage from '../features/home/HomePage';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import ActivityDetails from '../features/activities/details/ActivityDetails';
 import ActivityForm from '../features/activities/forms/ActivityForm';
-import * as constants from '../util/constants';
+import * as constants from '../utils/constants';
 import NotFound from './NotFound';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {

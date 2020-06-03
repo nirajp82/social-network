@@ -41,9 +41,6 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     if (activityStoreObj.isLoadingActivity)
         return <ProgressBar message="Loading Activity" />
 
-    if (!selectedActivity)
-        return <div>Activity Not found</div>
-
     return (
         <Grid>
             <Grid.Column width={10}>

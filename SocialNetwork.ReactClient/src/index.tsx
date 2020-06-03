@@ -1,17 +1,17 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import ScrollToTop from './layout/ScrollToTop';
 import './layout/styles.css';
-
+import createBrowserHistory from './utils/createBrowserHistory';
 import App from './layout/App';
 
 
 ReactDOM.render(
-    <BrowserRouter>
+    <Router history={createBrowserHistory}>
         <React.Fragment>
             <ScrollToTop />
             <App />
         </React.Fragment>
-    </BrowserRouter>,
+    </Router>,
     document.querySelector("#root"));

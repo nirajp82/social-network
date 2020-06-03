@@ -2,6 +2,7 @@
 import { Item, Button, Segment, Icon } from 'semantic-ui-react';
 import { IActivity } from '../../../models/IActivity';
 import { Link } from 'react-router-dom';
+import * as constants from '../../../utils/constants';
 
 interface IProps {
     activity: IActivity;
@@ -34,7 +35,7 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                 <span>{activity.description}</span>
                 <Button
                     as={Link}
-                    to={`/activities/${activity.id}`}
+                    to={`${constants.NAV_ACTIVITIES}/${activity.id}`}
                     name={activity.id}
                     content="View"
                     floated="right"

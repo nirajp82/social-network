@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Container, Header, Segment, Image, Button } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import * as constants from '../../util/constants';
+import * as constants from '../../utils/constants';
 
 const Home: React.FC = () => {
     return (

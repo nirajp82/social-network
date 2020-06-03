@@ -52,7 +52,7 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(ActivityEntity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -82,7 +82,7 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
@@ -96,7 +96,7 @@ namespace SocialNetwork.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]

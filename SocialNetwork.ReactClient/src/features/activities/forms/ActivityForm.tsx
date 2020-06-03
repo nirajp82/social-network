@@ -4,7 +4,7 @@ import { IActivity } from '../../../models/IActivity';
 import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import * as constants from '../../../util/constants';
+import * as constants from '../../../utils/constants';
 
 
 interface IRouteProp {
@@ -14,7 +14,7 @@ interface IRouteProp {
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const { loadActivity } = activityStoreObj;
-    const blankActivity: IActivity = {
+    let blankActivity: IActivity = {
         id: '',
         title: '',
         description: '',
@@ -50,8 +50,6 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                 if (isComponentMounted) {
                     if (response)
                         setActivity(response);
-                    else
-                        setActivity(blankActivity);
                 }
             }
             load();
@@ -62,7 +60,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
         return () => {
             isComponentMounted = false;
         };
-    }, [loadActivity, props.match.params.id]);
+    }, [loadActivity, props.match.params.id, blankActivity]);
 
     return (
         <Grid>
