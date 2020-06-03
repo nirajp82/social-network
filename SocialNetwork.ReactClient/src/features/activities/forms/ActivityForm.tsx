@@ -14,8 +14,7 @@ interface IRouteProp {
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const { loadActivity } = activityStoreObj;
-
-    let blankActivity: IActivity = {
+    const blankActivity: IActivity = {
         id: '',
         title: '',
         description: '',
@@ -46,9 +45,14 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
         let isComponentMounted = true;
         if (props.match.params.id && props.match.params.id.length > 0) {
             const load = async () => {
-                const activity = await loadActivity(props.match.params.id);
-                if (isComponentMounted && activity)
-                    setActivity(activity);
+                const response = await loadActivity(props.match.params.id);
+                //await loadActivity(props.match.params.id);
+                if (isComponentMounted) {
+                    if (response)
+                        setActivity(response);
+                    else
+                        setActivity(blankActivity);
+                }
             }
             load();
         }

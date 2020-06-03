@@ -1,4 +1,5 @@
 ﻿import axios, { AxiosResponse } from 'axios';
+const sleepTime = 10;
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost/socialnetwork/api/",
@@ -6,7 +7,9 @@ const axiosInstance = axios.create({
     timeout: 30000
 });
 
-const sleepTime = 100;
+axios.interceptors.response.use(undefined, err => {
+    throw err.response;
+});
 
 const processResponse = (dbResponse: AxiosResponse) => {
     return dbResponse.data;

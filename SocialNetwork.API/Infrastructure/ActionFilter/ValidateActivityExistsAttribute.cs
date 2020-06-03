@@ -22,7 +22,7 @@ namespace SocialNetwork.API
 
 
             #region Constructor
-             public ValidateActivityExistsFilter(IMediator mediator, ILogger<ValidateActivityExistsAttribute> logger)
+            public ValidateActivityExistsFilter(IMediator mediator, ILogger<ValidateActivityExistsAttribute> logger)
             {
                 _mediator = mediator;
                 _logger = logger;
@@ -44,12 +44,11 @@ namespace SocialNetwork.API
                             await next();
                             return;
                         }
-                        context.Result = new NotFoundObjectResult(id.Value);
+                        throw new CustomException(HttpStatusCode.NotFound, new { MissingParameter = "Missing id parameter!" });
                         return;
                     }
                 }
-                _logger.LogError("APIConst.ErrorMessages.InvalidParam");
-                context.Result = new BadRequestObjectResult(APIConst.ErrorMessages.InvalidParam);
+                throw new CustomException(HttpStatusCode.BadRequest, new { MissingParameter = "Missing id parameter!" });
             }
             #endregion
         }

@@ -87,6 +87,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ValidateActivityExists()]
         public async Task<IActionResult> Put(Guid id, [FromBody] Edit.Command request,
             CancellationToken cancellationToken)
         {

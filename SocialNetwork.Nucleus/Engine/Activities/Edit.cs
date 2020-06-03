@@ -70,8 +70,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
                 if (cnt > 0)
                     return Unit.Value;
 
-                throw new CustomException(HttpStatusCode.InternalServerError,
-                            new { EditActivity = "Problem saving changes to database" });
+                throw new Exception("Problem saving changes to database");
             }
             #endregion
         }

@@ -8,17 +8,27 @@ configure({ enforceActions: "always" })
 
 class activityStore {
     @observable activityRegistry = new Map<string, IActivity>();
-    @observable isLoading = false;
+    @observable isLoadingActivities = false;
+    @observable isLoadingActivity = false;
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
+    //@observable selectedActivity: IActivity | undefined;
+
+    getActivity = (id: string): IActivity | undefined => {
+        return this.activityRegistry.get(id);
+    };
 
     @action setShowFormFlag = (value: boolean) => {
         this.showForm = value;
     };
 
-    @action setIsLoading = (value: boolean) => {
-        this.isLoading = value;
+    @action setIsLoadingActivities = (value: boolean) => {
+        this.isLoadingActivities = value;
+    };
+
+    @action setIsLoadingActivity = (value: boolean) => {
+        this.isLoadingActivity = value;
     };
 
     @action setIsSaving = (value: boolean) => {
@@ -29,8 +39,12 @@ class activityStore {
         this.isDeleting = value;
     };
 
+    //@action setActivity = (value: IActivity) => {
+    //    this.selectedActivity = value;
+    //};
+
     @action loadActivities = async () => {
-        this.setIsLoading(true);
+        this.setIsLoadingActivities(true);
         try {
             const activities = await activityService.list();
             runInAction(() => {
@@ -42,38 +56,37 @@ class activityStore {
             console.error(error);
         }
         finally {
-            this.setIsLoading(false);
+            this.setIsLoadingActivities(false);
         }
     };
 
-    @action loadActivity = async (id: string): Promise<IActivity | undefined> => {
+    @action loadActivity = async (id: string) => {
         if (!id || (id && id.length === 0))
             return;
 
         let activity = this.getActivity(id);
-        if (activity)
+        if (activity) {
+            //this.setActivity(activity);
             return activity;
+        }
 
-        this.isLoading = true;
+        this.setIsLoadingActivity(true);
         try {
             activity = await activityService.details(id);
             if (activity) {
-                const dbActivity = activity as unknown as IActivity;
+                const dbActivity = activity as IActivity;
                 runInAction(() => {
                     this.activityRegistry.set(dbActivity.id, dbActivity);
                 });
+                //this.setActivity(dbActivity);
+                return dbActivity;
             }
         } catch (error) {
             console.error(error);
         }
         finally {
-            this.setIsLoading(false);
+            this.setIsLoadingActivity(false);
         }
-        return activity;
-    };
-
-    getActivity = (id: string): IActivity | undefined => {
-        return this.activityRegistry.get(id);
     };
 
     @action createActivity = async (activity: IActivity): Promise<string> => {

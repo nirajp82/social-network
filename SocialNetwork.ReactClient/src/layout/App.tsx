@@ -1,7 +1,7 @@
 ﻿import React, { useContext, useEffect } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
-import { Route, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Route, withRouter, RouteComponentProps, Switch } from 'react-router-dom';
 
 import ProgressBar from './ProgressBar';
 import activityStore from '../stores/activityStore';
@@ -11,6 +11,7 @@ import ActivityDashboard from '../features/activities/dashboard/ActivityDashboar
 import ActivityDetails from '../features/activities/details/ActivityDetails';
 import ActivityForm from '../features/activities/forms/ActivityForm';
 import * as constants from '../util/constants';
+import NotFound from './NotFound';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
     const activityStoreObj = useContext(activityStore);
@@ -22,7 +23,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         fetch();
     }, [activityStoreObj]);
 
-    if (activityStoreObj.isLoading) {
+    if (activityStoreObj.isLoadingActivities) {
         return <ProgressBar message="Loading Activities"></ProgressBar>;
     }
 
@@ -34,11 +35,14 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                 <React.Fragment>
                     <NavBar />
                     <Container style={{ marginTop: '7em' }}>
-                        <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
-                        <Route path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
-                        <Route key={location.key} exact
-                            path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
-                            component={ActivityForm} />                        
+                        <Switch>
+                            <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
+                            <Route path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
+                            <Route key={location.key} exact
+                                path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
+                                component={ActivityForm} />
+                            <Route component={NotFound} />
+                        </Switch>
                     </Container>
                 </React.Fragment>
             )} />

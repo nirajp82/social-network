@@ -16,7 +16,7 @@ const NavBar: React.FC = () => {
                 <Menu.Item>
                     <Button as={NavLink} to="/createActivity" exact
                         content="Create Activity" positive />
-                </Menu.Item>
+                </Menu.Item>                
             </Container>
         </Menu>
     )
