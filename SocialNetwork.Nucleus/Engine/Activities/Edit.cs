@@ -2,7 +2,9 @@
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
+using System.Net;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -67,7 +69,9 @@ namespace SocialNetwork.Nucleus.Engine.Activities
                 int cnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (cnt > 0)
                     return Unit.Value;
-                throw new Exception("Problem saving changes to database");
+
+                throw new CustomException(HttpStatusCode.InternalServerError,
+                            new { EditActivity = "Problem saving changes to database" });
             }
             #endregion
         }

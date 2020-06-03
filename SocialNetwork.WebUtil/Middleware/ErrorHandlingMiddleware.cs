@@ -27,7 +27,6 @@ namespace SocialNetwork.WebUtil
         #region Public Methods
         public async Task InvokeAsync(HttpContext httpContext)
         {
-            string requestBody = await RequestUtil.GetBodyAsync(httpContext.Request);
             try
             {
                 await _next(httpContext);

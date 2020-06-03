@@ -3,7 +3,9 @@ using MediatR;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -68,7 +70,8 @@ namespace SocialNetwork.Nucleus.Engine.Activities
                 if (insertCnt > 0)
                     return activity.Id;
 
-                throw new Exception("Problem saving changes to database");
+                throw new CustomException(HttpStatusCode.InternalServerError,
+                            new { CreateActivity = "Problem saving changes to database" });
             }
             #endregion
         }
