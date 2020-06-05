@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router } from 'react-router-dom';
+import 'mobx-react-lite/batchingForReactDom';
 import ScrollToTop from './layout/ScrollToTop';
 import './layout/styles.css';
 import 'react-toastify/dist/ReactToastify.min.css';
