@@ -1,13 +1,16 @@
 ﻿import React, { useState, useContext, useEffect } from 'react';
 import { Form, Segment, Button, Grid } from 'semantic-ui-react';
-import { IActivity } from '../../../models/IActivity';
-import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
-import { RouteComponentProps, Link } from 'react-router-dom';
-import * as constants from '../../../utils/constants';
 import { Form as FinalForm, Field } from 'react-final-form';
+import { RouteComponentProps, Link } from 'react-router-dom';
+
+import activityStore from '../../../stores/activityStore';
+import { IActivity } from '../../../models/IActivity';
+import * as constants from '../../../utils/constants';
 import TextInput from '../../../common/form/TextInput';
 import TextAreaInput from '../../../common/form/TextAreaInput';
+import SelectInput from '../../../common/form/SelectInput';
+import { categoryOptions } from '../../../common/options/categoryOptions';
 
 
 interface IRouteProp {
@@ -95,7 +98,8 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     name="category"
                                     placeholder="Category"
                                     value={activity.category}
-                                    component={TextInput}
+                                    component={SelectInput}
+                                    options={categoryOptions}
                                 />
 
                                 <Field
