@@ -2,7 +2,7 @@
 import { createContext } from 'react';
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activities';
-import { format } from 'date-fns';
+import moment from 'moment';
 
 // don't allow state modifications outside actions
 configure({ enforceActions: "always" })
@@ -157,7 +157,7 @@ class activityStore {
     groupActivitiesByDate = (sortedArray: IActivity[]): [string, IActivity[]][] => {
         const initialValue: { [key: string]: IActivity[] } = {};
         return Object.entries(sortedArray.reduce((accumulator, currentValue) => {
-            const date = format(new Date(currentValue.date!), 'MM/dd/yyyy');
+            const date = moment(currentValue.date!).format("MM-DD-yyyy");
             accumulator[date] = accumulator[date] ? [...accumulator[date], currentValue] : [currentValue];
             return accumulator;
         }, initialValue));

@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { Segment, Grid, Icon } from 'semantic-ui-react';
+import moment from 'moment';
 
 import { IActivity } from '../../../models/IActivity';
 
@@ -22,7 +23,7 @@ const ActivityDetailInfo: React.FC<{ activity: IActivity | undefined }> = ({ act
                         <Icon name='calendar' size='large' color='teal' />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <span>{activity?.date}</span>
+                        <span>{moment(activity?.date).format('dddd Do MMM')} at {moment(activity?.date).format('h:mm A')}  </span>
                     </Grid.Column>
                 </Grid>
             </Segment>

@@ -3,11 +3,9 @@ import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 
-import { format } from 'date-fns';
-
 import { IActivity } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
-
+import moment from 'moment';
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -22,7 +20,6 @@ const activityImageTextStyle = {
     color: 'white'
 };
 
-
 const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ activity }) => {
     return (
         <Segment.Group>
@@ -34,7 +31,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                         <Item>
                             <Item.Content>
                                 <Header size="huge" content={activity?.title} style={{ color: 'white' }}></Header>
-                                <p>{activity?.date!}</p>
+                                <p>{moment(activity?.date!).format('dddd Do MMM')}</p>
                                 <p>Hosted By <strong> Shree Raj</strong> </p>
                             </Item.Content>
                         </Item>
