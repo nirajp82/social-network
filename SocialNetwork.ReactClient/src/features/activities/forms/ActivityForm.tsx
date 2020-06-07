@@ -2,7 +2,7 @@
 import { Form, Segment, Button, Grid } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { RouteComponentProps, Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import activityStore from '../../../stores/activityStore';
 import { ActivityFormValues } from '../../../models/IActivity';
@@ -13,7 +13,7 @@ import TextAreaInput from '../../../common/form/TextAreaInput';
 import SelectInput from '../../../common/form/SelectInput';
 import DateInput from '../../../common/form/DateInput';
 import { categoryOptions } from '../../../common/options/categoryOptions';
-import ProgressBar from '../../../layout/ProgressBar';
+import createBrowserHistory from '../../../utils/createBrowserHistory';
 
 interface IRouteProp {
     id: string;
@@ -33,14 +33,24 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
         }
     }, [loadActivity, props.match.params.id]);
 
-    const onFinalFormSubmit = (values: any) => {
+    const onCancelClickHandler = () => {
+        if (activity.id)
+            createBrowserHistory.push(`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`);
+        else
+            createBrowserHistory.push(constants.NAV_ACTIVITIES);
+    }
+
+    const onFinalFormSubmit = async (values: any) => {
         const { date, time, ...activity } = values;
         activity.date = util.combineDateAndTime(values.date!, values.time!);
-        console.log(activity);
+        if (activity.id) {
+            await activityStoreObj.editActivity(activity);
+        }
+        else {
+            activity.id = await activityStoreObj.createActivity(activity);
+        }
+        createBrowserHistory.push(`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`);
     };
-
-    if (activityStoreObj.isLoadingActivity)
-        return <ProgressBar message="Loading Activity..."></ProgressBar>;
 
     return (
         <Grid>
@@ -49,7 +59,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                     <FinalForm onSubmit={onFinalFormSubmit}
                         initialValues={activity}
                         render={(props) => (
-                            <Form onSubmit={props.handleSubmit}>
+                            <Form onSubmit={props.handleSubmit} loading={activityStoreObj.isLoadingActivity}>
                                 <Field
                                     name='title'
                                     placeholder='Title'
@@ -103,8 +113,18 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     component={TextInput}
                                 />
 
-                                <Button floated="right" type="Submit" loading={activityStoreObj.isSaving} positive content="Submit" />
-                                <Button as={Link} to={constants.NAV_ACTIVITIES} floated="right" type="Button" content="Cancel" />
+                                <Button
+                                    floated="right"
+                                    type="Submit"
+                                    loading={activityStoreObj.isSaving}
+                                    disabled={activityStoreObj.isLoadingActivity}
+                                    positive content="Submit" />
+                                <Button
+                                    onClick={onCancelClickHandler}
+                                    floated="right"
+                                    type="Button"
+                                    disabled={activityStoreObj.isLoadingActivity}
+                                    content="Cancel" />
                             </Form>
                         )}>
                     </FinalForm>

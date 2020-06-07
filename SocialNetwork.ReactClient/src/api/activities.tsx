@@ -1,4 +1,4 @@
-﻿import httpService from './agent';
+﻿import httpService from './httpService';
 
 import { IActivity } from '../models/IActivity';
 

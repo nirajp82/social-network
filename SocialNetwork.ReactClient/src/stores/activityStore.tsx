@@ -50,11 +50,9 @@ class activityStore {
         this.setIsLoadingActivities(true);
         try {
             const activities = await activityService.list();
-            runInAction(() => {
-                activities.forEach((activity) => {
-                    this.setActivity(activity);
-                })
-            });
+            activities.forEach((activity) => {
+                this.setActivity(activity);
+            })
             this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
@@ -87,12 +85,10 @@ class activityStore {
 
         try {
             activity.id = await activityService.create(activity);
-            runInAction(() => {
-                this.setActivity(activity);
-                return activity.id;
-            });
+            this.setActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
+            return activity.id;
         } catch (error) {
             console.error(error);
             this.setIsSaving(false);
@@ -120,9 +116,7 @@ class activityStore {
         try {
             await activityService.delete(id);
             runInAction(() => {
-                this.activityRegistry.delete(id);
-                this.setIsDeleting(false);
-                this.setShowFormFlag(false);
+                this.activityRegistry.delete(id);             
             });
             this.setIsDeleting(false);
             this.setShowFormFlag(false);

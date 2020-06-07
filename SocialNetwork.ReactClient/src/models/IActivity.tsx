@@ -24,8 +24,8 @@ export class ActivityFormValues implements IActivityFormValues {
     venue: string = '';
 
     constructor(value?: IActivityFormValues) {
+        Object.assign(this, value);
         if (value && value.date)
-            value.time = value.date;
-        Object.assign(this, value);        
+            this.time = value.date;
     }
 }

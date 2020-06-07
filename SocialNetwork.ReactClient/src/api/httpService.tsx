@@ -18,7 +18,6 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
         toast.error('Network error server is down for maintenance, Please try after sometime');
         return;
     }
-    console.log(err);
     switch (response.status) {
         case 400:
             toast.error('Bad request, Please check data');
@@ -32,6 +31,7 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
         default:
             throw err.message;
     }
+    throw err;
 });
 
 const processResponse = (dbResponse: AxiosResponse) => {
