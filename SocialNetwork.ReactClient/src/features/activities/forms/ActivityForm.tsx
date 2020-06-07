@@ -5,13 +5,15 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
 import activityStore from '../../../stores/activityStore';
-import { IActivityFormValues } from '../../../models/IActivity';
+import { ActivityFormValues } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
+import * as util from '../../../utils/util';
 import TextInput from '../../../common/form/TextInput';
 import TextAreaInput from '../../../common/form/TextAreaInput';
 import SelectInput from '../../../common/form/SelectInput';
 import DateInput from '../../../common/form/DateInput';
 import { categoryOptions } from '../../../common/options/categoryOptions';
+import ProgressBar from '../../../layout/ProgressBar';
 
 interface IRouteProp {
     id: string;
@@ -20,17 +22,7 @@ interface IRouteProp {
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const { loadActivity } = activityStoreObj;
-    let blankActivity: IActivityFormValues = {
-        id: undefined,
-        title: '',
-        description: '',
-        date: undefined,
-        time: undefined,
-        category: '',
-        city: '',
-        venue: ''
-    };
-    const [activity, setActivity] = useState(blankActivity);
+    const [activity, setActivity] = useState(new ActivityFormValues());
 
     //const handleInpuyChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     //    const { name, value } = event.currentTarget;
@@ -49,35 +41,30 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     //}
 
     useEffect(() => {
-        let isComponentMounted = true;
-        if (props.match.params.id && props.match.params.id.length > 0) {
-            const load = async () => {
-                const response = await loadActivity(props.match.params.id);
-                //await loadActivity(props.match.params.id);
-                if (isComponentMounted) {
-                    if (response)
-                        setActivity(response);
-                }
-            }
-            load();
+        if (props.match.params.id) {
+            loadActivity(props.match.params.id)
+                .then(activity => {
+                    setActivity(new ActivityFormValues(activity));
+                    console.log(activity);
+                })
         }
-
-        //To fix following warning: 
-        //Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in application
-        return () => {
-            isComponentMounted = false;
-        };
     }, [loadActivity, props.match.params.id]);
 
     const onFinalFormSubmit = (values: any) => {
-        console.log(values);
+        const { date, time, ...activity } = values;
+        activity.date = util.combineDateAndTime(values.date!, values.time!);
+        console.log(activity);
     };
+
+    if (activityStoreObj.isLoadingActivity)
+        return <ProgressBar message="Loading Activity..."></ProgressBar>;
 
     return (
         <Grid>
             <Grid.Column width={10}>
                 <Segment clearing>
                     <FinalForm onSubmit={onFinalFormSubmit}
+                        initialValues={activity}
                         render={(props) => (
                             <Form onSubmit={props.handleSubmit}>
                                 <Field
@@ -145,3 +132,4 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
 };
 
 export default observer(ActivityForm);
+

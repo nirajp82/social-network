@@ -1,8 +1,9 @@
 ﻿import { observable, action, computed, configure, runInAction } from 'mobx';
 import { createContext } from 'react';
+import moment from 'moment';
+
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activities';
-import moment from 'moment';
 
 // don't allow state modifications outside actions
 configure({ enforceActions: "always" })
@@ -53,10 +54,9 @@ class activityStore {
                     this.activityRegistry.set(activity.id, activity);
                 })
             });
+            this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
-        }
-        finally {
             this.setIsLoadingActivities(false);
         }
     };
@@ -72,17 +72,13 @@ class activityStore {
         this.setIsLoadingActivity(true);
         try {
             activity = await activityService.details(id);
-            if (activity) {
-                const dbActivity = activity as IActivity;
-                runInAction(() => {
-                    this.activityRegistry.set(dbActivity.id, dbActivity);
-                });
-                return dbActivity;
-            }
+            runInAction(() => {
+                this.activityRegistry.set(id, activity!);
+            });
+            this.setIsLoadingActivity(false);
+            return activity;
         } catch (error) {
             console.error(error);
-        }
-        finally {
             this.setIsLoadingActivity(false);
         }
     };
@@ -96,10 +92,10 @@ class activityStore {
                 this.activityRegistry.set(activity.id, activity);
                 return activity.id;
             });
+            this.setIsSaving(false);
+            this.setShowFormFlag(false);
         } catch (error) {
             console.error(error);
-        }
-        finally {
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         }
@@ -113,10 +109,10 @@ class activityStore {
             runInAction(() => {
                 this.activityRegistry.set(activity.id, activity);
             });
+            this.setIsSaving(false);
+            this.setShowFormFlag(false);
         } catch (error) {
             console.error(error);
-        }
-        finally {
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         }
@@ -131,10 +127,10 @@ class activityStore {
                 this.setIsDeleting(false);
                 this.setShowFormFlag(false);
             });
+            this.setIsDeleting(false);
+            this.setShowFormFlag(false);
         } catch (error) {
             console.error(error);
-        }
-        finally {
             this.setIsDeleting(false);
             this.setShowFormFlag(false);
         }

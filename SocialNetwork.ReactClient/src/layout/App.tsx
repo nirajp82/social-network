@@ -1,11 +1,9 @@
-﻿import React, { useContext, useEffect } from 'react';
+﻿import React from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Route, withRouter, RouteComponentProps, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import ProgressBar from './ProgressBar';
-import activityStore from '../stores/activityStore';
 import NavBar from '../features/nav/NavBar';
 import HomePage from '../features/home/HomePage';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
@@ -15,19 +13,6 @@ import * as constants from '../utils/constants';
 import NotFound from './NotFound';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
-    const activityStoreObj = useContext(activityStore);
-
-    useEffect(() => {
-        const fetch = async () => {
-            await activityStoreObj.loadActivities();
-        }
-        fetch();
-    }, [activityStoreObj]);
-
-    if (activityStoreObj.isLoadingActivities) {
-        return <ProgressBar message="Loading Activities"></ProgressBar>;
-    }
-
     return (
         <React.Fragment>
             <ToastContainer position="bottom-right" />
