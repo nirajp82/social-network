@@ -31,6 +31,7 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
         default:
             throw err.message;
     }
+    console.log(err);
     throw err;
 });
 

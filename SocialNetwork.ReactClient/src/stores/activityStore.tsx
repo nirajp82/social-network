@@ -94,21 +94,23 @@ class activityStore {
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         }
-        return "";
+        return '';
     };
 
-    @action editActivity = async (activity: IActivity) => {
+    @action editActivity = async (activity: IActivity): Promise<boolean> => {
         this.setIsSaving(true);
         try {
             await activityService.update(activity);
             this.setActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
+            return true;
         } catch (error) {
             console.error(error);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         }
+        return false;
     };
 
     @action deleteActivity = async (id: string) => {
@@ -116,7 +118,7 @@ class activityStore {
         try {
             await activityService.delete(id);
             runInAction(() => {
-                this.activityRegistry.delete(id);             
+                this.activityRegistry.delete(id);
             });
             this.setIsDeleting(false);
             this.setShowFormFlag(false);

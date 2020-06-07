@@ -3,6 +3,7 @@ import { Form, Segment, Button, Grid } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps } from 'react-router-dom';
+import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from 'revalidate';
 
 import activityStore from '../../../stores/activityStore';
 import { ActivityFormValues } from '../../../models/IActivity';
@@ -19,6 +20,19 @@ interface IRouteProp {
     id: string;
 }
 
+const validate = combineValidators({
+    title: isRequired({ message: 'The Event title is required' }),
+    description: composeValidators(
+        isRequired('Description'),
+        hasLengthGreaterThan(4)({ message: 'Description needs to be at least 5 characters' }),
+    )(),
+    category: isRequired({ message: 'The Event category is required' }),
+    date: isRequired('Date'),
+    time: isRequired('Time'),
+    city: isRequired('City'),
+    venue: isRequired('Venue')
+});
+
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const { loadActivity } = activityStoreObj;
@@ -33,9 +47,13 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
         }
     }, [loadActivity, props.match.params.id]);
 
+    const redirectToDetailPage = (id: string) => {
+        createBrowserHistory.push(`${constants.NAV_ACTIVITY_DETAIL}/${id}`);
+    }
+
     const onCancelClickHandler = () => {
         if (activity.id)
-            createBrowserHistory.push(`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`);
+            redirectToDetailPage(activity.id);
         else
             createBrowserHistory.push(constants.NAV_ACTIVITIES);
     }
@@ -44,12 +62,17 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
         const { date, time, ...activity } = values;
         activity.date = util.combineDateAndTime(values.date!, values.time!);
         if (activity.id) {
-            await activityStoreObj.editActivity(activity);
+            const isSuccess = await activityStoreObj.editActivity(activity);
+            if (isSuccess)
+                redirectToDetailPage(activity.id);
         }
         else {
-            activity.id = await activityStoreObj.createActivity(activity);
+            const id = await activityStoreObj.createActivity(activity);
+            if (id && id !== '') {
+                activity.id = id;
+                redirectToDetailPage(id);
+            }
         }
-        createBrowserHistory.push(`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`);
     };
 
     return (
@@ -57,9 +80,12 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
             <Grid.Column width={10}>
                 <Segment clearing>
                     <FinalForm onSubmit={onFinalFormSubmit}
+                        validate={validate}
                         initialValues={activity}
                         render={(props) => (
-                            <Form onSubmit={props.handleSubmit} loading={activityStoreObj.isLoadingActivity}>
+                            <Form
+                                onSubmit={props.handleSubmit}
+                                loading={activityStoreObj.isLoadingActivity}>
                                 <Field
                                     name='title'
                                     placeholder='Title'
@@ -117,7 +143,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     floated="right"
                                     type="Submit"
                                     loading={activityStoreObj.isSaving}
-                                    disabled={activityStoreObj.isLoadingActivity}
+                                    disabled={activityStoreObj.isLoadingActivity || props.invalid || props.pristine}
                                     positive content="Submit" />
                                 <Button
                                     onClick={onCancelClickHandler}
