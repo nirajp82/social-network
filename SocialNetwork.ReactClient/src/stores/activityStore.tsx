@@ -41,9 +41,10 @@ class activityStore {
         this.isDeleting = value;
     };
 
-    //@action setActivity = (value: IActivity) => {
-    //    this.selectedActivity = value;
-    //};
+    @action setActivity = (activity: IActivity) => {
+        activity.date = new Date(activity.date);
+        this.activityRegistry.set(activity.id, activity);
+    };
 
     @action loadActivities = async () => {
         this.setIsLoadingActivities(true);
@@ -51,7 +52,7 @@ class activityStore {
             const activities = await activityService.list();
             runInAction(() => {
                 activities.forEach((activity) => {
-                    this.activityRegistry.set(activity.id, activity);
+                    this.setActivity(activity);
                 })
             });
             this.setIsLoadingActivities(false);
@@ -72,9 +73,7 @@ class activityStore {
         this.setIsLoadingActivity(true);
         try {
             activity = await activityService.details(id);
-            runInAction(() => {
-                this.activityRegistry.set(id, activity!);
-            });
+            this.setActivity(activity!);
             this.setIsLoadingActivity(false);
             return activity;
         } catch (error) {
@@ -89,7 +88,7 @@ class activityStore {
         try {
             activity.id = await activityService.create(activity);
             runInAction(() => {
-                this.activityRegistry.set(activity.id, activity);
+                this.setActivity(activity);
                 return activity.id;
             });
             this.setIsSaving(false);
@@ -106,9 +105,7 @@ class activityStore {
         this.setIsSaving(true);
         try {
             await activityService.update(activity);
-            runInAction(() => {
-                this.activityRegistry.set(activity.id, activity);
-            });
+            this.setActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
         } catch (error) {
@@ -140,7 +137,7 @@ class activityStore {
         const sortedArray = Array.from(this.activityRegistry.values()).sort(
             (a, b): number => {
                 if (a.date && b.date) {
-                    return (new Date(a.date).getTime() - new Date(b.date).getTime());
+                    return a.date.getTime() - b.date.getTime();
                 }
                 else if (a)
                     return 1;

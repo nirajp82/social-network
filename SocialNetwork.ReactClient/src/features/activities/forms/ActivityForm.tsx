@@ -24,28 +24,11 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const { loadActivity } = activityStoreObj;
     const [activity, setActivity] = useState(new ActivityFormValues());
 
-    //const handleInpuyChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //    const { name, value } = event.currentTarget;
-    //    setActivity({ ...activity, [name]: value });
-    //};
-
-    //const handleSubmitForm = async () => {
-    //    let activityId = "";
-    //    if (activity.id === '')
-    //        activityId = await activityStoreObj.createActivity(activity);
-    //    else {
-    //        await activityStoreObj.editActivity(activity);
-    //        activityId = activity.id;
-    //    }
-    //    props.history.push(`${constants.NAV_ACTIVITY_DETAIL}/${activityId}`);
-    //}
-
     useEffect(() => {
         if (props.match.params.id) {
             loadActivity(props.match.params.id)
                 .then(activity => {
                     setActivity(new ActivityFormValues(activity));
-                    console.log(activity);
                 })
         }
     }, [loadActivity, props.match.params.id]);
