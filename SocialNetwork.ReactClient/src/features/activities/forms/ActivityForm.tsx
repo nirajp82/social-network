@@ -10,6 +10,7 @@ import * as constants from '../../../utils/constants';
 import TextInput from '../../../common/form/TextInput';
 import TextAreaInput from '../../../common/form/TextAreaInput';
 import SelectInput from '../../../common/form/SelectInput';
+import DateInput from '../../../common/form/DateInput';
 import { categoryOptions } from '../../../common/options/categoryOptions';
 
 
@@ -106,7 +107,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     name="date"
                                     placeholder="Date"
                                     value={activity.date || ''}
-                                    component={TextInput}
+                                    component={DateInput}
                                 />
 
                                 <Field

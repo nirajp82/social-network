@@ -1,0 +1,71 @@
+{
+  "_from": "react-widgets-date-fns",
+  "_id": "react-widgets-date-fns@4.1.0",
+  "_inBundle": false,
+  "_integrity": "sha512-1kC4ziEk0KO6TVa9w9CIrQ10FawU8IYWEQKwRiNOnD5utAQrxUgMUmeyUfHNM9jCuc8Gl86596tlib3qQJj4zQ==",
+  "_location": "/react-widgets-date-fns",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "react-widgets-date-fns",
+    "name": "react-widgets-date-fns",
+    "escapedName": "react-widgets-date-fns",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/react-widgets-date-fns/-/react-widgets-date-fns-4.1.0.tgz",
+  "_shasum": "89b7445ff28188897329837b8e62534206ef37c6",
+  "_spec": "react-widgets-date-fns",
+  "_where": "C:\\Users\\AANCHAL\\source\\social-network\\SocialNetwork.ReactClient",
+  "authors": [
+    "Eduardo Cancino (https://github.com/ecancino)",
+    "Marnus Weststrate <marnusw@gmail.com> (https://github.com/marnusw)"
+  ],
+  "bugs": {
+    "url": "https://github.com/jquense/react-widgets/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "A date-fns localizer for react-widgets",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "cross-env": "^5.2.0",
+    "date-fns": "^2.0.0",
+    "react-widgets": "^4.5.0",
+    "rimraf": "^2.6.2"
+  },
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "gitHead": "584cc449b22b9db5d1a25185cd3d69d396252621",
+  "homepage": "https://github.com/jquense/react-widgets#readme",
+  "keywords": [
+    "react-widgets"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "name": "react-widgets-date-fns",
+  "peerDependencies": {
+    "date-fns": "^2.0.0",
+    "react-widgets": "^4.2.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jquense/react-widgets.git"
+  },
+  "scripts": {
+    "build": "babel localizer.js -o index.js",
+    "clean": "rimraf dist/* lib/*",
+    "dist": "node ../../tools/build-localizer.js",
+    "prepublishOnly": "npm run clean && npm run build && npm run dist"
+  },
+  "version": "4.1.0"
+}

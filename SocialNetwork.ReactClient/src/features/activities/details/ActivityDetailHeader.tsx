@@ -1,8 +1,11 @@
 ﻿import React from 'react';
 import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
-import { IActivity } from '../../../models/IActivity';
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
+
+import { format } from 'date-fns';
+
+import { IActivity } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 
 
@@ -31,7 +34,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                         <Item>
                             <Item.Content>
                                 <Header size="huge" content={activity?.title} style={{ color: 'white' }}></Header>
-                                <p>{activity?.date}</p>
+                                <p>{activity?.date!}</p>
                                 <p>Hosted By <strong> Shree Raj</strong> </p>
                             </Item.Content>
                         </Item>

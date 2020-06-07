@@ -16,7 +16,7 @@ const TextInput: React.FC<IProps> = ({
             <input {...input} placeholder={placeholder} />
             {touched && error && (
                 <Label basic color='red'>
-                    {error}FormFieldProps
+                    {error}
                 </Label>
             )}
         </Form.Field>

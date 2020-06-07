@@ -2,6 +2,7 @@
 import { createContext } from 'react';
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activities';
+import { format } from 'date-fns';
 
 // don't allow state modifications outside actions
 configure({ enforceActions: "always" })
@@ -155,9 +156,8 @@ class activityStore {
 
     groupActivitiesByDate = (sortedArray: IActivity[]): [string, IActivity[]][] => {
         const initialValue: { [key: string]: IActivity[] } = {};
-
         return Object.entries(sortedArray.reduce((accumulator, currentValue) => {
-            const date = currentValue.date?.toString().split('T')[0] as string;
+            const date = format(new Date(currentValue.date!), 'MM/dd/yyyy');
             accumulator[date] = accumulator[date] ? [...accumulator[date], currentValue] : [currentValue];
             return accumulator;
         }, initialValue));
