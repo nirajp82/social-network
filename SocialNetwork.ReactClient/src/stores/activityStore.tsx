@@ -157,7 +157,7 @@ class activityStore {
     groupActivitiesByDate = (sortedArray: IActivity[]): [string, IActivity[]][] => {
         const initialValue: { [key: string]: IActivity[] } = {};
         return Object.entries(sortedArray.reduce((accumulator, currentValue) => {
-            const date = moment(currentValue.date!).format("MM-DD-yyyy");
+            const date = moment(currentValue.date).format("MM-DD-yyyy");
             accumulator[date] = accumulator[date] ? [...accumulator[date], currentValue] : [currentValue];
             return accumulator;
         }, initialValue));

@@ -5,14 +5,13 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps, Link } from 'react-router-dom';
 
 import activityStore from '../../../stores/activityStore';
-import { IActivity } from '../../../models/IActivity';
+import { IActivityFormValues } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 import TextInput from '../../../common/form/TextInput';
 import TextAreaInput from '../../../common/form/TextAreaInput';
 import SelectInput from '../../../common/form/SelectInput';
 import DateInput from '../../../common/form/DateInput';
 import { categoryOptions } from '../../../common/options/categoryOptions';
-
 
 interface IRouteProp {
     id: string;
@@ -21,16 +20,17 @@ interface IRouteProp {
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     const activityStoreObj = useContext(activityStore);
     const { loadActivity } = activityStoreObj;
-    let blankActivity: IActivity = {
-        id: '',
+    let blankActivity: IActivityFormValues = {
+        id: undefined,
         title: '',
         description: '',
-        date: null,
+        date: undefined,
+        time: undefined,
         category: '',
         city: '',
         venue: ''
     };
-    const [activity, setActivity] = useState<IActivity>(blankActivity);
+    const [activity, setActivity] = useState(blankActivity);
 
     //const handleInpuyChange = (event: FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     //    const { name, value } = event.currentTarget;
@@ -103,12 +103,21 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     options={categoryOptions}
                                 />
 
-                                <Field
-                                    name="date"
-                                    placeholder="Date"
-                                    value={activity.date || ''}
-                                    component={DateInput}
-                                />
+                                <Form.Group widths='equal'>
+                                    <Field component={DateInput}
+                                        name="date"
+                                        placeholder="Date"
+                                        date={true}
+                                        value={activity.date}
+                                    />
+
+                                    <Field component={DateInput}
+                                        name="time"
+                                        placeholder="Time"
+                                        time={true}
+                                        value={activity.time}
+                                    />
+                                </Form.Group>
 
                                 <Field
                                     name="city"
