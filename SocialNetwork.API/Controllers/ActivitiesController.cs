@@ -13,25 +13,8 @@ using SocialNetwork.WebUtil;
 
 namespace SocialNetwork.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class ActivitiesController : ControllerBase
-    {
-        #region Members
-        private ILogger<ActivitiesController> _logger { get; }
-        private IMediator _mediator { get; }
-        #endregion
-
-
-        #region Constructor
-        public ActivitiesController(ILogger<ActivitiesController> logger, IMediator mediator)
-        {
-            _logger = logger;
-            _mediator = mediator;
-        }
-        #endregion
-
-
+    public class ActivitiesController : BaseController
+    {               
         #region Queries Action Methods
         /// <summary>
         /// Fetch list of all activities
@@ -44,7 +27,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
-            var result = await _mediator.Send(new List.Query(), cancellationToken);
+            var result = await Mediator.Send(new List.ListQuery(), cancellationToken);
             if (result?.Any() == true)
                 return Ok(result);
             else
@@ -60,7 +43,7 @@ namespace SocialNetwork.API.Controllers
         [ValidateActivityExists()]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            ActivityEntity entity = await _mediator.Send(new Details.Query { Id = id }, cancellationToken);
+            ActivityEntity entity = await Mediator.Send(new Details.DetailsQuery { Id = id }, cancellationToken);
             if (entity != null)
                 return Ok(entity);
             else
@@ -75,9 +58,9 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] Create.Command request, CancellationToken cancellationToken)
+        public async Task<IActionResult> Post([FromBody] Create.CreateCommand request, CancellationToken cancellationToken)
         {
-            Guid guid = await _mediator.Send(request, cancellationToken);
+            Guid guid = await Mediator.Send(request, cancellationToken);
             return CreatedAtAction(nameof(Get), guid);
         }
 
@@ -88,11 +71,11 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ValidateActivityExists()]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Edit.Command request,
+        public async Task<IActionResult> Put(Guid id, [FromBody] Edit.EditCommand request,
             CancellationToken cancellationToken)
         {
             request.Id = id;
-            await _mediator.Send(request, cancellationToken);
+            await Mediator.Send(request, cancellationToken);
             return NoContent();
         }
 
@@ -104,7 +87,7 @@ namespace SocialNetwork.API.Controllers
         [ValidateActivityExists()]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new Delete.Command { Id = id }, cancellationToken);
+            await Mediator.Send(new Delete.DeleteCommand { Id = id }, cancellationToken);
             return NoContent();
         }
         #endregion

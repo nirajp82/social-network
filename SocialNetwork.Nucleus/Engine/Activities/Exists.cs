@@ -8,12 +8,12 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 {
     public class Exists
     {
-        public class Query : IRequest<bool>
+        public class ExistsQuery : IRequest<bool>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, bool>
+        public class ExistsHandler : IRequestHandler<ExistsQuery, bool>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -21,7 +21,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork)
+            public ExistsHandler(IUnitOfWork unitOfWork)
             {
                 _unitOfWork = unitOfWork;
             }
@@ -29,7 +29,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Methods
-            public async Task<bool> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<bool> Handle(ExistsQuery request, CancellationToken cancellationToken)
             {
                 bool result = await _unitOfWork.ActivityRepository.ExistsAsync(request.Id, cancellationToken);
                 return result;

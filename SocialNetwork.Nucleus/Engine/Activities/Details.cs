@@ -11,12 +11,12 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 {
     public class Details
     {
-        public class Query : IRequest<ActivityEntity>
+        public class DetailsQuery : IRequest<ActivityEntity>
         {
             public Guid Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, ActivityEntity>
+        public class DetailsHandler : IRequestHandler<DetailsQuery, ActivityEntity>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -25,7 +25,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public DetailsHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
@@ -34,7 +34,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
 
 
             #region Methods
-            public async Task<ActivityEntity> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ActivityEntity> Handle(DetailsQuery request, CancellationToken cancellationToken)
             {
                 Activity result = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
                 return _mapperHelper.Map<Activity, ActivityEntity>(result);

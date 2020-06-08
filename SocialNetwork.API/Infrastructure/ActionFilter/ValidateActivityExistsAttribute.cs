@@ -38,14 +38,13 @@ namespace SocialNetwork.API
                     Guid? id = context.ActionArguments["id"] as Guid?;
                     if (id.HasValue)
                     {
-                        //Check if record exists
-                        if (await _mediator.Send(new Query() { Id = id.Value }))
+                        //Check if record exists, Send Request Exists
+                        if (await _mediator.Send(new ExistsQuery() { Id = id.Value }))
                         {
                             await next();
                             return;
                         }
                         throw new CustomException(HttpStatusCode.NotFound, new { MissingParameter = "Missing id parameter!" });
-                        return;
                     }
                 }
                 throw new CustomException(HttpStatusCode.BadRequest, new { MissingParameter = "Missing id parameter!" });
