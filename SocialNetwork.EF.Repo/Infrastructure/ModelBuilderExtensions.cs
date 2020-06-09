@@ -120,8 +120,7 @@ namespace SocialNetwork.EF.Repo.Infrastructure
             foreach (var item in activities)
             {
                 item.Id = Guid.NewGuid();
-                item.CreatedBy = "Seed";
-                item.UpdatedBy = "Seed";
+                SeedAuditFields(item);
             }
 
             modelBuilder.Entity<Activity>()
@@ -154,8 +153,7 @@ namespace SocialNetwork.EF.Repo.Infrastructure
             foreach (var user in users)
             {
                 user.Id = Guid.NewGuid();
-                user.CreatedBy = "Seed";
-                user.UpdatedBy = "Seed";
+                SeedAuditFields(user);
             }
 
             modelBuilder.Entity<AppUser>()
@@ -201,13 +199,20 @@ namespace SocialNetwork.EF.Repo.Infrastructure
                 iUser.Id = Guid.NewGuid();
                 iUser.UserName = user.Email;
                 iUser.AppUserId = user.Id;
-                iUser.CreatedBy = "Seed";
-                iUser.UpdatedBy = "Seed";
+                SeedAuditFields(iUser);
 
                 iUsers.Add(iUser);
             }
 
             return iUsers;
+        }
+
+        private static void SeedAuditFields(IAuditModel audit)
+        {
+            audit.CreatedBy = "Seed";
+            audit.UpdatedBy = "Seed";
+            audit.CreatedDate = DateTime.Now;
+            audit.UpdatedDate = DateTime.Now;
         }
         #endregion
     }

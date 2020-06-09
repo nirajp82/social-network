@@ -2,3 +2,8 @@
 2: install "Microsoft.EntityFrameworkCore.Tools" package to Repository Project. in this case "SocialNetwork.EF.Repo"
 3: Run command "Add-Migration InitialMigration" from Package manager console to create migration.
 4: To Apply Created Migration run command from PMC "Update-Database"
+5: To Remove migration by value
+	  Update-Database -Migration:0
+	  Remove-Migration
+
+
