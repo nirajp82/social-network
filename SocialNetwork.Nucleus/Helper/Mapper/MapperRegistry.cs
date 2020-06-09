@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using SocialNetwork.APIEntity;
 using SocialNetwork.DataModel;
-using SocialNetwork.Nucleus.Engine.Activities;
+using SocialNetwork.Nucleus.Engine.Activity;
+using SocialNetwork.Nucleus.Engine.User;
 
 namespace SocialNetwork.Nucleus.Helper
 {
@@ -12,11 +13,8 @@ namespace SocialNetwork.Nucleus.Helper
         {
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
             Map<Value, ValueEntity>();
-            Map<ValueEntity, Value>();
 
             Map<Activity, ActivityEntity>();
-            Map<ActivityEntity, Activity>();
-
             Map<Create.CreateCommand, Activity>();
             Map<Edit.EditCommand, Activity>();
         }
@@ -24,7 +22,13 @@ namespace SocialNetwork.Nucleus.Helper
 
 
         #region Private Methods
-        IMappingExpression<source, dest> Map<source, dest>() => CreateMap<source, dest>();
+        IMappingExpression<source, dest> Map<source, dest>(bool createReserseMap = true)
+        {
+            if (createReserseMap)
+                return CreateMap<dest, source>().ReverseMap();
+
+            return CreateMap<source, dest>();
+        }
         #endregion
     }
 }

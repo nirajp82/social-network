@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.APIEntity;
-using SocialNetwork.Nucleus.Engine.Activities;
+using SocialNetwork.Nucleus.Engine.Activity;
 using System;
 using System.Threading;
 using SocialNetwork.WebUtil;
@@ -21,7 +21,6 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(typeof(IEnumerable<ActivityEntity>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {

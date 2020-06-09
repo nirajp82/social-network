@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using SocialNetwork.APIEntity;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Details
     {
@@ -36,8 +36,8 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<ActivityEntity> Handle(DetailsQuery request, CancellationToken cancellationToken)
             {
-                Activity result = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
-                return _mapperHelper.Map<Activity, ActivityEntity>(result);
+                DataModel.Activity result = await _unitOfWork.ActivityRepo.FindFirstAsync(request.Id, cancellationToken);
+                return _mapperHelper.Map<DataModel.Activity, ActivityEntity>(result);
             }
             #endregion
         }

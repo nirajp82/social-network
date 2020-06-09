@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    public interface IActivityRepository
+    public interface IActivityRepo
     {
         void Add(Activity entity);
 

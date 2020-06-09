@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-using SocialNetwork.Nucleus.Engine.Activities;
+using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.WebUtil;
 
 namespace SocialNetwork.API

@@ -6,7 +6,7 @@ using SocialNetwork.Util;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using static SocialNetwork.Nucleus.Engine.Activities.Exists;
+using static SocialNetwork.Nucleus.Engine.Activity.Exists;
 
 namespace SocialNetwork.API
 {

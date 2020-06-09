@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Exists
     {
@@ -31,7 +31,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<bool> Handle(ExistsQuery request, CancellationToken cancellationToken)
             {
-                bool result = await _unitOfWork.ActivityRepository.ExistsAsync(request.Id, cancellationToken);
+                bool result = await _unitOfWork.ActivityRepo.ExistsAsync(request.Id, cancellationToken);
                 return result;
             }
             #endregion

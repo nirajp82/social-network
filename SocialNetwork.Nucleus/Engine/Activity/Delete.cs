@@ -1,11 +1,12 @@
 ﻿using MediatR;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Delete
     {
@@ -34,7 +35,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<Unit> Handle(DeleteCommand request, CancellationToken cancellationToken)
             {
-                await _unitOfWork.ActivityRepository.DeleteAsync(request.Id, cancellationToken);
+                await _unitOfWork.ActivityRepo.DeleteAsync(request.Id, cancellationToken);
 
                 int cnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (cnt > 0)

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal class ActivityRepository : RepositoryBase<Activity>, IActivityRepository
+    internal class ActivityRepo : RepositoryBase<Activity>, IActivityRepo
     {
         #region Constructor
-        public ActivityRepository(ApplicationContext context) : base(context)
+        public ActivityRepo(ApplicationContext context) : base(context)
         {
         }
         #endregion

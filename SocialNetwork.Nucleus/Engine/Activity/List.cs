@@ -1,13 +1,13 @@
 ﻿using MediatR;
 using SocialNetwork.APIEntity;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class List
     {       
@@ -35,8 +35,8 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<IEnumerable<ActivityEntity>> Handle(ListQuery request, CancellationToken cancellationToken)
             {
-                var result = await _unitOfWork.ActivityRepository.GetAllAsync(cancellationToken);
-                return _mapperHelper.MapList<Activity, ActivityEntity>(result);
+                var result = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
+                return _mapperHelper.MapList<DataModel.Activity, ActivityEntity>(result);
             }
             #endregion
         }

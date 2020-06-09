@@ -10,7 +10,7 @@ using SocialNetwork.EF.Repo;
 namespace SocialNetwork.EF.Repo.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200609055955_Initial-Migration")]
+    [Migration("20200609190420_Initial-Migration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,147 +66,147 @@ namespace SocialNetwork.EF.Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Activities");
+                    b.ToTable("Activity");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7af11db1-b7f1-43e6-855d-baee9d0d1e47"),
+                            Id = new Guid("30d3daf6-e45f-406b-8a7a-c9c9832bfb7e"),
                             Category = "drinks",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(9652),
-                            Date = new DateTime(2020, 4, 9, 1, 59, 54, 732, DateTimeKind.Local).AddTicks(8595),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(1566),
+                            Date = new DateTime(2020, 4, 9, 15, 4, 19, 950, DateTimeKind.Local).AddTicks(6896),
                             Description = "Activity 2 months ago",
                             Title = "Past Activity 1",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(517),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(2446),
                             Venue = "Pub"
                         },
                         new
                         {
-                            Id = new Guid("8bf4d332-c011-4d21-852f-b6d225936c0a"),
+                            Id = new Guid("f26787cc-3895-4485-8375-2fe35d70f1fc"),
                             Category = "culture",
                             City = "Paris",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1245),
-                            Date = new DateTime(2020, 5, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(5850),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3367),
+                            Date = new DateTime(2020, 5, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6496),
                             Description = "Activity 1 month ago",
                             Title = "Past Activity 2",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1311),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3430),
                             Venue = "Louvre"
                         },
                         new
                         {
-                            Id = new Guid("a3d4ab26-de38-446a-a4a6-04a341e7a33f"),
+                            Id = new Guid("54295d0c-b5e4-4868-96e9-5dce2c6dd9e8"),
                             Category = "culture",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1333),
-                            Date = new DateTime(2020, 7, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(5976),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3458),
+                            Date = new DateTime(2020, 7, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6657),
                             Description = "Activity 1 month in future",
                             Title = "Future Activity 1",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1337),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3463),
                             Venue = "Natural History Museum"
                         },
                         new
                         {
-                            Id = new Guid("bfda5fc8-9266-4cec-b8f0-808b697f14d4"),
+                            Id = new Guid("8179c099-9014-412b-87ed-bd87d41527bf"),
                             Category = "music",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1342),
-                            Date = new DateTime(2020, 8, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(5985),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3470),
+                            Date = new DateTime(2020, 8, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6671),
                             Description = "Activity 2 months in future",
                             Title = "Future Activity 2",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1346),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3475),
                             Venue = "O2 Arena"
                         },
                         new
                         {
-                            Id = new Guid("c17dd6f0-0df7-4a46-a49c-a32fe5825042"),
+                            Id = new Guid("aeb22f5e-85fc-4eba-95bb-5646c063edc9"),
                             Category = "drinks",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1350),
-                            Date = new DateTime(2020, 9, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(5991),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3481),
+                            Date = new DateTime(2020, 9, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6678),
                             Description = "Activity 3 months in future",
                             Title = "Future Activity 3",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1354),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3486),
                             Venue = "Another pub"
                         },
                         new
                         {
-                            Id = new Guid("520adb89-8c38-4e7c-84e2-ed040f139d0d"),
+                            Id = new Guid("d7202aa0-307f-4a97-a66a-85c4f519f722"),
                             Category = "drinks",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1358),
-                            Date = new DateTime(2020, 10, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(6002),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3511),
+                            Date = new DateTime(2020, 10, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6693),
                             Description = "Activity 4 months in future",
                             Title = "Future Activity 4",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1361),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3516),
                             Venue = "Yet another pub"
                         },
                         new
                         {
-                            Id = new Guid("9cc05fe6-3d50-4893-a3fe-2e6a65627335"),
+                            Id = new Guid("43ba9bf0-5da1-40fe-ab9a-db9d2d7d7092"),
                             Category = "drinks",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1374),
-                            Date = new DateTime(2020, 11, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(6006),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3523),
+                            Date = new DateTime(2020, 11, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6700),
                             Description = "Activity 5 months in future",
                             Title = "Future Activity 5",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1377),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3528),
                             Venue = "Just another pub"
                         },
                         new
                         {
-                            Id = new Guid("bd5e124a-f52a-437b-86c9-293f9ca7f744"),
+                            Id = new Guid("48fda600-d109-4d40-b4f5-c0ea55c104c2"),
                             Category = "music",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1382),
-                            Date = new DateTime(2020, 12, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(6011),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3536),
+                            Date = new DateTime(2020, 12, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6707),
                             Description = "Activity 6 months in future",
                             Title = "Future Activity 6",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1385),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3540),
                             Venue = "Roundhouse Camden"
                         },
                         new
                         {
-                            Id = new Guid("bfd99b3c-4284-435c-aa60-f243bb631138"),
+                            Id = new Guid("3c793a28-bb40-4c80-a5f3-ccfbfd9dda1e"),
                             Category = "travel",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1390),
-                            Date = new DateTime(2021, 1, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(6016),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3546),
+                            Date = new DateTime(2021, 1, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6713),
                             Description = "Activity 2 months ago",
                             Title = "Future Activity 7",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1393),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3551),
                             Venue = "Somewhere on the Thames"
                         },
                         new
                         {
-                            Id = new Guid("4493a995-eb08-45bd-8097-0476cd0b4ff0"),
+                            Id = new Guid("7c237c6d-8ea4-4ed2-91d5-16f766be6328"),
                             Category = "film",
                             City = "London",
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1397),
-                            Date = new DateTime(2021, 2, 9, 1, 59, 54, 736, DateTimeKind.Local).AddTicks(6022),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3557),
+                            Date = new DateTime(2021, 2, 9, 15, 4, 19, 955, DateTimeKind.Local).AddTicks(6722),
                             Description = "Activity 8 months in future",
                             Title = "Future Activity 8",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 737, DateTimeKind.Local).AddTicks(1400),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 956, DateTimeKind.Local).AddTicks(3562),
                             Venue = "Cinema"
                         });
                 });
@@ -250,36 +250,36 @@ namespace SocialNetwork.EF.Repo.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f4d9159b-b58c-4fb2-81b7-2d3fe405d806"),
+                            Id = new Guid("f4771684-36a6-4b2f-bc5b-fd8e8f47b990"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1269),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8112),
                             Email = "JohnDoe@domain.com",
                             FirstName = "John",
                             LastName = "Doe",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1366)
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8222)
                         },
                         new
                         {
-                            Id = new Guid("1bf940fd-f42b-41d0-8a0c-162fa24f697a"),
+                            Id = new Guid("58829eb4-94da-4903-9b52-8a3150472d9b"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1422),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8295),
                             Email = "Jane.Smith@domain.com",
                             FirstName = "Jane",
                             LastName = "Smith",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1427)
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8302)
                         },
                         new
                         {
-                            Id = new Guid("bc31b845-485b-4d4c-b4ea-891189d24a13"),
+                            Id = new Guid("7a9cbf8c-a162-46c4-b6c6-284c014f1f6d"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1433),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8310),
                             Email = "Bruce.Lee@domain.com",
                             FirstName = "Bruce",
                             LastName = "Lee",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 738, DateTimeKind.Local).AddTicks(1436)
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 957, DateTimeKind.Local).AddTicks(8315)
                         });
                 });
 
@@ -328,38 +328,38 @@ namespace SocialNetwork.EF.Repo.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("6acf2fb8-fc3f-4cd1-9c3d-d792fda6d776"),
-                            AppUserId = new Guid("f4d9159b-b58c-4fb2-81b7-2d3fe405d806"),
+                            Id = new Guid("a9f17d50-3121-4b93-be15-06a9db1ec5e9"),
+                            AppUserId = new Guid("f4771684-36a6-4b2f-bc5b-fd8e8f47b990"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1220),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1364),
                             Passoword = "/8j7Y3aH1/NIcu5PWDxBaTftbv7kIhPN7IsIY+iDIZ0=",
                             Salt = "St0OnTE2Ju3Li9uSnlz/Mg==",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1296),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1436),
                             UserName = "JohnDoe@domain.com"
                         },
                         new
                         {
-                            Id = new Guid("68d1edd5-66d2-4d63-907b-ce4bf788e971"),
-                            AppUserId = new Guid("1bf940fd-f42b-41d0-8a0c-162fa24f697a"),
+                            Id = new Guid("5ca511e5-42ec-43fa-ab2e-cf82f272ac8f"),
+                            AppUserId = new Guid("58829eb4-94da-4903-9b52-8a3150472d9b"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1532),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1801),
                             Passoword = "S10V+ChlwEm8VzgQIqvhHrUS65y7d9/E0AiYhKLwT0o=",
                             Salt = "f9/SzZwluz+xI51/VQQIzg==",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1539),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1814),
                             UserName = "Jane.Smith@domain.com"
                         },
                         new
                         {
-                            Id = new Guid("65ea30c7-73d6-4d5d-8caa-975341de67de"),
-                            AppUserId = new Guid("bc31b845-485b-4d4c-b4ea-891189d24a13"),
+                            Id = new Guid("411c9873-261f-4424-a228-06039a86f09e"),
+                            AppUserId = new Guid("7a9cbf8c-a162-46c4-b6c6-284c014f1f6d"),
                             CreatedBy = "Seed",
-                            CreatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1547),
+                            CreatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1825),
                             Passoword = "5OekvvKMPp2M+O3Ts2/G912N9lCNqz412l1y8uHazZc=",
                             Salt = "DEX8D+3HR9flD6NpGibucQ==",
                             UpdatedBy = "Seed",
-                            UpdatedDate = new DateTime(2020, 6, 9, 1, 59, 54, 739, DateTimeKind.Local).AddTicks(1551),
+                            UpdatedDate = new DateTime(2020, 6, 9, 15, 4, 19, 959, DateTimeKind.Local).AddTicks(1830),
                             UserName = "Bruce.Lee@domain.com"
                         });
                 });
@@ -378,7 +378,7 @@ namespace SocialNetwork.EF.Repo.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Values");
+                    b.ToTable("Value");
 
                     b.HasData(
                         new

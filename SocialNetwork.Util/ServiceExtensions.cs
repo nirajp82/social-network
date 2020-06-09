@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Net;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace SocialNetwork.Util
 {
@@ -10,7 +7,9 @@ namespace SocialNetwork.Util
         public static void ConfigureUtilServices(this IServiceCollection services)
         {
             services.AddSingleton<ICryptoHelper, CryptoHelper>();
+            services.AddSingleton<IMapperHelper, MapperHelper>();
             services.AddSingleton<AppConfigHelper>();
+            services.AddSingleton<UtilFactory>();
         }
     }
 }

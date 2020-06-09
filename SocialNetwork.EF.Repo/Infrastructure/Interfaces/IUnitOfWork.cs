@@ -5,8 +5,9 @@ namespace SocialNetwork.EF.Repo
 {
     public interface IUnitOfWork
     {
-        IActivityRepository ActivityRepository { get; }
-        IValueRepository ValueRepository { get; }
+        IActivityRepo ActivityRepo { get; }
+        IValueRepo ValueRepo { get; }
+        IIdentityUserRepo IdentityUserRepo { get; }
         Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

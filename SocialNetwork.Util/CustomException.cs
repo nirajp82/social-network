@@ -11,7 +11,7 @@ namespace SocialNetwork.Util
         #endregion
 
         #region Constructor
-        public CustomException(HttpStatusCode statusCode, object errors)
+        public CustomException(HttpStatusCode statusCode, object errors = default)
         {
             StatusCode = statusCode;
             Errors = errors;

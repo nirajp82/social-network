@@ -33,6 +33,7 @@ namespace SocialNetwork.EF.Repo
 
             modelBuilder.ApplyConfiguration(new AppUserConfig());
 
+            //Set string type to VARCHAR
             foreach (var property in modelBuilder.Model.GetEntityTypes()
                         .SelectMany(t => t.GetProperties())
                         .Where(p => p.ClrType == typeof(string)))
@@ -41,6 +42,12 @@ namespace SocialNetwork.EF.Repo
                 maxLen = maxLen ?? 1;
                 if (property.GetColumnType() == null)
                     property.SetColumnType($"VARCHAR({maxLen})");
+            }
+
+            //Keep Singular Table Name
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                entityType.SetTableName(entityType.DisplayName());
             }
             base.OnModelCreating(modelBuilder);
         }
@@ -65,6 +72,11 @@ namespace SocialNetwork.EF.Repo
                 ((IAuditModel)entityEntry.Entity).UpdatedDate = DateTime.Now;
                 if (entityEntry.State == EntityState.Added)
                     ((IAuditModel)entityEntry.Entity).CreatedDate = DateTime.Now;
+                else 
+                {
+                    entityEntry.Property(nameof(IAuditModel.CreatedDate)).IsModified = false;
+                    entityEntry.Property(nameof(IAuditModel.CreatedBy)).IsModified = false;
+                }
             }
         }
         #endregion

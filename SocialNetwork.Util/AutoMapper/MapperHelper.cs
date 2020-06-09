@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SocialNetwork.Nucleus.Helper
+namespace SocialNetwork.Util
 {
     internal class MapperHelper : IMapperHelper
     {

@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Create
     {
@@ -59,10 +59,10 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             #region Methods
             public async Task<Guid> Handle(CreateCommand request, CancellationToken cancellationToken)
             {
-                Activity activity = _mapperHelper.Map<CreateCommand, Activity>(request);
+                DataModel.Activity activity = _mapperHelper.Map<CreateCommand, DataModel.Activity>(request);
                 //Generate new Id for new Entity
                 activity.Id = Guid.NewGuid();
-                _unitOfWork.ActivityRepository.Add(activity);
+                _unitOfWork.ActivityRepo.Add(activity);
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)

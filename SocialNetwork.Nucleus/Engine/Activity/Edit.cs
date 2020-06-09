@@ -1,13 +1,13 @@
 ﻿using MediatR;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Helper;
+using SocialNetwork.Util;
 using System;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activities
+namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Edit
     {
@@ -50,7 +50,7 @@ namespace SocialNetwork.Nucleus.Engine.Activities
             public async Task<Unit> Handle(EditCommand request, CancellationToken cancellationToken)
             {
                 //Get existing activity from database
-                Activity dbActivity = await _unitOfWork.ActivityRepository.FindFirstAsync(request.Id, cancellationToken);
+                DataModel.Activity dbActivity = await _unitOfWork.ActivityRepo.FindFirstAsync(request.Id, cancellationToken);
 
                 //Keep existing value as if user is not passing it from front end
                 request.Category ??= dbActivity.Category;
@@ -60,9 +60,9 @@ namespace SocialNetwork.Nucleus.Engine.Activities
                 request.Title ??= dbActivity.Title;
                 request.Venue ??= dbActivity.Venue;
 
-                Activity activity = _mapperHelper.Map<EditCommand, Activity>(request);
+                DataModel.Activity activity = _mapperHelper.Map<EditCommand, DataModel.Activity>(request);
 
-                _unitOfWork.ActivityRepository.Update(activity);
+                _unitOfWork.ActivityRepo.Update(activity);
 
                 int cnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (cnt > 0)

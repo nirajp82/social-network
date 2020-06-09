@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    public interface IValueRepository
+    public interface IValueRepo
     {
         Task<IEnumerable<Value>> FindAllAsync();
 

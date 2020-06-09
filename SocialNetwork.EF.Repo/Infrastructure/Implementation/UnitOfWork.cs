@@ -6,34 +6,20 @@ namespace SocialNetwork.EF.Repo
     internal class UnitOfWork : IUnitOfWork
     {
         #region Private Members
-        private IActivityRepository _activityRepository { get; set; }
-        private IValueRepository _valueRepository { get; set; }
+        private IActivityRepo _activityRepository { get; set; }
+        private IValueRepo _valueRepository { get; set; }
+        private IIdentityUserRepo _identityUserRepo { get; set; }
+
         private ApplicationContext _context { get; }
         #endregion
 
 
         #region Public Members
-        public IActivityRepository ActivityRepository
-        {
-            get
-            {
-                if (_activityRepository == null)
-                    _activityRepository = new ActivityRepository(_context);
-
-                return _activityRepository;
-            }
-        }
-
-        public IValueRepository ValueRepository
-        {
-            get
-            {
-                if (_valueRepository == null)
-                    _valueRepository = new ValueRepository(_context);
-
-                return _valueRepository;
-            }
-        }
+        //This way the private property is used when not null, or is initialized to the assigned value. 
+        //When the statement after the null-coalescing operator ?? is executed, the assigned value to IActivityRepo is actually returned by the propery.
+        public IActivityRepo ActivityRepo => _activityRepository ?? (_activityRepository = new ActivityRepo(_context));
+        public IValueRepo ValueRepo => _valueRepository ?? (_valueRepository = new ValueRepo(_context));
+        public IIdentityUserRepo IdentityUserRepo => _identityUserRepo ?? (_identityUserRepo = new IdentityUserRepo(_context));
         #endregion
 
 

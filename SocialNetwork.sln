@@ -34,9 +34,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Nucleus", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.EF.Repo", "SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj", "{E89947FE-AA33-4546-B77E-D46E70B3CFC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Util", "SocialNetwork.Util\SocialNetwork.Util.csproj", "{A694DAA8-A59E-48CF-B2E3-4930992183FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.Util", "SocialNetwork.Util\SocialNetwork.Util.csproj", "{A694DAA8-A59E-48CF-B2E3-4930992183FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.WebUtil", "SocialNetwork.WebUtil\SocialNetwork.WebUtil.csproj", "{222715F1-25DB-43C7-8876-2466B59CE508}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork.WebUtil", "SocialNetwork.WebUtil\SocialNetwork.WebUtil.csproj", "{222715F1-25DB-43C7-8876-2466B59CE508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Infrastructure", "SocialNetwork.Infrastructure\SocialNetwork.Infrastructure.csproj", "{31C7F92C-AE70-4F2D-9AE3-B5713B3EE642}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{222715F1-25DB-43C7-8876-2466B59CE508}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{222715F1-25DB-43C7-8876-2466B59CE508}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{222715F1-25DB-43C7-8876-2466B59CE508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31C7F92C-AE70-4F2D-9AE3-B5713B3EE642}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31C7F92C-AE70-4F2D-9AE3-B5713B3EE642}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31C7F92C-AE70-4F2D-9AE3-B5713B3EE642}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31C7F92C-AE70-4F2D-9AE3-B5713B3EE642}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

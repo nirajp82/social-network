@@ -32,26 +32,14 @@ namespace SocialNetwork.Nucleus
         #region Public Methods
         public async Task<IEnumerable<ValueEntity>> FindAllAsync()
         {
-            IEnumerable<Value> result = await _unitOfWork.ValueRepository.FindAllAsync();
-            var list = result.ToList();
-            list.Clear();
-            string salt1 = _cryptoHelper.CreateBase64Salt();
-            string salt2 = _cryptoHelper.CreateBase64Salt();
-            string salt3 = _cryptoHelper.CreateBase64Salt();
-            string salt4 = _cryptoHelper.CreateBase64Salt();
-            string salt5 = _cryptoHelper.CreateBase64Salt();
-            list.Add(new Value { Name = $"{salt1} ||-|| {_cryptoHelper.GenerateHash("Password1", salt1)}" });
-            list.Add(new Value { Name = $"{salt2} ||-|| {_cryptoHelper.GenerateHash("Password2", salt2)}" });
-            list.Add(new Value { Name = $"{salt3} ||-|| {_cryptoHelper.GenerateHash("Password3", salt3)}" });
-            list.Add(new Value { Name = $"{salt4} ||-|| {_cryptoHelper.GenerateHash("Password4", salt4)}" });
-            list.Add(new Value { Name = $"{salt5} ||-|| {_cryptoHelper.GenerateHash("Password5", salt5)}" });
-            return _mapperHelper.MapList<Value, ValueEntity>(list);
-        }
+            IEnumerable<Value> result = await _unitOfWork.ValueRepo.FindAllAsync();
+            return _mapperHelper.MapList<Value, ValueEntity>(result);
+        }       
 
         public async Task<ValueEntity> AddAsync(ValueEntity entity)
         {
             Value value = _mapperHelper.Map<ValueEntity, Value>(entity);
-            _unitOfWork.ValueRepository.Add(value);
+            _unitOfWork.ValueRepo.Add(value);
             await _unitOfWork.SaveAsync();
             return _mapperHelper.Map<Value, ValueEntity>(value);
 
@@ -60,21 +48,38 @@ namespace SocialNetwork.Nucleus
         public async Task UpdateAsync(ValueEntity entity)
         {
             Value value = _mapperHelper.Map<ValueEntity, Value>(entity);
-            _unitOfWork.ValueRepository.Update(value);
+            _unitOfWork.ValueRepo.Update(value);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task DeleteAsync(long valueId)
         {
-            await _unitOfWork.ValueRepository.DeleteAsync(valueId);
+            await _unitOfWork.ValueRepo.DeleteAsync(valueId);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task<ValueEntity> FindFirstAsync(long valueId)
         {
-            Value value = await _unitOfWork.ValueRepository.FindFirstAsync(valueId);
+            Value value = await _unitOfWork.ValueRepo.FindFirstAsync(valueId);
             return _mapperHelper.Map<Value, ValueEntity>(value);
         }
         #endregion
+
+        //private List<Value> NewMethod(IEnumerable<Value> result)
+        //{
+        //    var list = result.ToList();
+        //    list.Clear();
+        //    string salt1 = _cryptoHelper.CreateBase64Salt();
+        //    string salt2 = _cryptoHelper.CreateBase64Salt();
+        //    string salt3 = _cryptoHelper.CreateBase64Salt();
+        //    string salt4 = _cryptoHelper.CreateBase64Salt();
+        //    string salt5 = _cryptoHelper.CreateBase64Salt();
+        //    list.Add(new Value { Name = $"{salt1} ||-|| {_cryptoHelper.GenerateHash("Password1", salt1)}" });
+        //    list.Add(new Value { Name = $"{salt2} ||-|| {_cryptoHelper.GenerateHash("Password2", salt2)}" });
+        //    list.Add(new Value { Name = $"{salt3} ||-|| {_cryptoHelper.GenerateHash("Password3", salt3)}" });
+        //    list.Add(new Value { Name = $"{salt4} ||-|| {_cryptoHelper.GenerateHash("Password4", salt4)}" });
+        //    list.Add(new Value { Name = $"{salt5} ||-|| {_cryptoHelper.GenerateHash("Password5", salt5)}" });
+        //    return list;
+        //}
     }
 }

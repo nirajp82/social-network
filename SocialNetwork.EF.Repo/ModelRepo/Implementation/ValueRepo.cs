@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    internal class ValueRepository : RepositoryBase<Value>, IValueRepository
+    internal class ValueRepo : RepositoryBase<Value>, IValueRepo
     {
         #region Constructor
-        public ValueRepository(ApplicationContext context) : base(context)
+        public ValueRepo(ApplicationContext context) : base(context)
         {
         }
 

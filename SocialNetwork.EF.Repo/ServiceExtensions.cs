@@ -32,6 +32,5 @@ namespace SocialNetwork.EF.Repo
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
         #endregion
-
     }
 }

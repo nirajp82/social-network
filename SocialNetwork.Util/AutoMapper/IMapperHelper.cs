@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SocialNetwork.Nucleus.Helper
+namespace SocialNetwork.Util
 {
     public interface IMapperHelper
     {
