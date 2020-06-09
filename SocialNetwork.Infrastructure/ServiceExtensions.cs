@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -12,6 +14,17 @@ namespace SocialNetwork.Infrastructure
         public static void ConfigureInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt => 
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters
+                    { 
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = Helper.SecurityKey,
+
+                    };
+                });
         }
         #endregion
     }

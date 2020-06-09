@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.WebUtil;
 
@@ -38,16 +37,9 @@ namespace SocialNetwork.API
                 });
             });
 
-            services.AddAuthentication(IISDefaults.AuthenticationScheme);
-
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(TaskCanceledExceptionFilter));
-            })
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             })
             .AddFluentValidation(cfg =>
             {
@@ -60,14 +52,15 @@ namespace SocialNetwork.API
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
+            app.UseRouting();
+
             app.UseCors(_CORS_POLICY_NAME);
 
             app.ConfigureCommonMiddleware();
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

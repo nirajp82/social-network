@@ -8,6 +8,8 @@ using SocialNetwork.Nucleus.Engine.Activity;
 using System;
 using System.Threading;
 using SocialNetwork.WebUtil;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -22,6 +24,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new List.ListQuery(), cancellationToken);
