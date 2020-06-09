@@ -4,11 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using SocialNetwork.Nucleus.Engine.Activities;
 using SocialNetwork.WebUtil;
-using System.Security.Policy;
 
 namespace SocialNetwork.API
 {

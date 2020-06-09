@@ -16,6 +16,8 @@ namespace SocialNetwork.EF.Repo.Infrastructure
                           new Value { Id = 3, Name = "Value 301" });
 
             CreateActivities(modelBuilder);
+
+            CreateUser(modelBuilder);
         }
         #endregion
 
@@ -112,16 +114,100 @@ namespace SocialNetwork.EF.Repo.Infrastructure
                       Category = "film",
                       City = "London",
                       Venue = "Cinema",
-                  } 
+                  }
             };
 
             foreach (var item in activities)
             {
                 item.Id = Guid.NewGuid();
+                item.CreatedBy = "Seed";
+                item.UpdatedBy = "Seed";
             }
 
             modelBuilder.Entity<Activity>()
                 .HasData(activities);
+        }
+
+        private static void CreateUser(ModelBuilder modelBuilder)
+        {
+            //"Salt": "ywSeIEpKvoqze+9lvZaZ2g==" Password: "ZGM2ksCCUhC+7va1BBZ9bEw2H9tsCowdW9Pkflnp22U="
+            //"Salt": "khOLQmG0hV6zkQNh8AyPPw==" Password: "dRV51KAkm6d9QggTJd3gDL+BBAg99/7lI564TQKjKTU="
+            IEnumerable<AppUser> users = new List<AppUser> { new AppUser
+            {
+                 FirstName = "John",
+                 LastName = "Doe",
+                 Email = "JohnDoe@domain.com"
+            },
+             new AppUser
+            {
+                 FirstName = "Jane",
+                 LastName = "Smith",
+                 Email = "Jane.Smith@domain.com"
+            },
+             new AppUser
+            {
+                 FirstName = "Bruce",
+                 LastName = "Lee",
+                 Email = "Bruce.Lee@domain.com"
+            }};
+
+            foreach (var user in users)
+            {
+                user.Id = Guid.NewGuid();
+                user.CreatedBy = "Seed";
+                user.UpdatedBy = "Seed";
+            }
+
+            modelBuilder.Entity<AppUser>()
+                .HasData(users);
+
+            ICollection<IdentityUser> iUsers = CreateIdentityUsers(users);
+            modelBuilder.Entity<IdentityUser>().HasData(iUsers);
+        }
+
+        private static ICollection<IdentityUser> CreateIdentityUsers(IEnumerable<AppUser> users)
+        {
+            ICollection<IdentityUser> iUsers = new List<IdentityUser>();
+            int cnt = 0;
+            foreach (var user in users)
+            {
+                cnt++;
+                IdentityUser iUser = null;
+                if (cnt == 1)
+                {
+                    iUser = new IdentityUser
+                    {
+                        Salt = "St0OnTE2Ju3Li9uSnlz/Mg==",
+                        Passoword = "/8j7Y3aH1/NIcu5PWDxBaTftbv7kIhPN7IsIY+iDIZ0="
+                    };
+                }
+                else if (cnt == 2)
+                {
+                    iUser = new IdentityUser
+                    {
+                        Salt = "f9/SzZwluz+xI51/VQQIzg==",
+                        Passoword = "S10V+ChlwEm8VzgQIqvhHrUS65y7d9/E0AiYhKLwT0o="
+                    };
+                }
+                else if (cnt == 3)
+                {
+                    iUser = new IdentityUser
+                    {
+                        Salt = "DEX8D+3HR9flD6NpGibucQ==",
+                        Passoword = "5OekvvKMPp2M+O3Ts2/G912N9lCNqz412l1y8uHazZc="
+                    };
+                }
+
+                iUser.Id = Guid.NewGuid();
+                iUser.UserName = user.Email;
+                iUser.AppUserId = user.Id;
+                iUser.CreatedBy = "Seed";
+                iUser.UpdatedBy = "Seed";
+
+                iUsers.Add(iUser);
+            }
+
+            return iUsers;
         }
         #endregion
     }

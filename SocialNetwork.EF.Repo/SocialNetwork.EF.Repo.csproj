@@ -7,6 +7,12 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200514030126_InitialMigration.cs" />
     <Compile Remove="Migrations\20200514030126_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200517194401_SeedActivity.cs" />
+    <Compile Remove="Migrations\20200517194401_SeedActivity.Designer.cs" />
+    <Compile Remove="Migrations\20200609045620_AddedIdentity.cs" />
+    <Compile Remove="Migrations\20200609045620_AddedIdentity.Designer.cs" />
+    <Compile Remove="Migrations\20200609053859_Initial.cs" />
+    <Compile Remove="Migrations\20200609053859_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,10 +23,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.4" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ModelConfig\" />
   </ItemGroup>
 
   <ItemGroup>
