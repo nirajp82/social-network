@@ -26,6 +26,7 @@ namespace SocialNetwork.API
                     Contact = new OpenApiContact
                     {
                         Name = "NPatel",
+                        Email = "nijpatel90@hotmail.com",
                         Url = new Uri("https://github.com/nirajp82/"),
                     },
                     License = new OpenApiLicense
@@ -35,6 +36,28 @@ namespace SocialNetwork.API
                     }
                 });
                 options.CustomSchemaIds(s => $"{s.FullName}");
+
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                {
+                     new OpenApiSecurityScheme
+                     {
+                       Reference = new OpenApiReference
+                       {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                       }
+                      },
+                      new string[] { }
+                }
+              });
             });
         }
 
@@ -45,7 +68,7 @@ namespace SocialNetwork.API
             {
                 c.SwaggerEndpoint($"{_docName}/swagger.json", "SocialNetwork API");
             });
-        } 
+        }
         #endregion
     }
 }

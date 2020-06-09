@@ -16,13 +16,15 @@ namespace SocialNetwork.Infrastructure
             services.AddScoped<IJwtGenerator, JwtGenerator>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(opt => 
+                .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
-                    { 
+                    {
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = Helper.SecurityKey,
-
+                        //TODO: Customize this options.
+                        ValidateAudience = false,
+                        ValidateIssuer = false
                     };
                 });
         }

@@ -24,7 +24,6 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             var result = await Mediator.Send(new List.ListQuery(), cancellationToken);
@@ -41,6 +40,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ValidateActivityExists()]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
             ActivityEntity entity = await Mediator.Send(new Details.DetailsQuery { Id = id }, cancellationToken);
