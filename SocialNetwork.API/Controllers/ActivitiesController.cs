@@ -39,8 +39,8 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ValidateActivityExists()]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
             ActivityEntity entity = await Mediator.Send(new Details.DetailsQuery { Id = id }, cancellationToken);
@@ -70,7 +70,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ValidateActivityExists()]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
         public async Task<IActionResult> Put(Guid id, [FromBody] Edit.EditCommand request,
             CancellationToken cancellationToken)
         {
@@ -84,7 +84,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ValidateActivityExists()]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Delete.DeleteCommand { Id = id }, cancellationToken);

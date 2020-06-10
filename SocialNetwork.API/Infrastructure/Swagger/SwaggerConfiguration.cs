@@ -15,10 +15,10 @@ namespace SocialNetwork.API
         #region Public Methods
         public static void ConfigureSwaggerService(this IServiceCollection services)
         {
-            services.AddSwaggerGen(options =>
+            services.AddSwaggerGen(swaggerOptions =>
             {
-                options.DescribeAllParametersInCamelCase();
-                options.SwaggerDoc(_docName, new OpenApiInfo
+                swaggerOptions.DescribeAllParametersInCamelCase();
+                swaggerOptions.SwaggerDoc(_docName, new OpenApiInfo
                 {
                     Title = "SocialNetwork API",
                     Version = "Version 1",
@@ -35,9 +35,9 @@ namespace SocialNetwork.API
                         Url = new Uri("https://opensource.org/licenses/MIT"),
                     }
                 });
-                options.CustomSchemaIds(s => $"{s.FullName}");
+                swaggerOptions.CustomSchemaIds(s => $"{s.FullName}");
 
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
                     Description = "Please insert JWT with Bearer into field",
@@ -45,20 +45,22 @@ namespace SocialNetwork.API
                     Type = SecuritySchemeType.ApiKey
                 });
 
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                     new OpenApiSecurityScheme
-                     {
-                       Reference = new OpenApiReference
-                       {
-                         Type = ReferenceType.SecurityScheme,
-                         Id = "Bearer"
-                       }
-                      },
-                      new string[] { }
-                }
-              });
+                swaggerOptions.OperationFilter<AuthOperationFilter>();
+                //options.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                //{
+                //     new OpenApiSecurityScheme
+                //     {
+                //       Reference = new OpenApiReference
+                //       {
+                //         Type = ReferenceType.SecurityScheme,
+                //         Id = "Bearer"
+                //       }
+                //      },
+                //      new string[] { }
+                //}                
+                //});
             });
+
         }
 
         public static void ConfigureSwaggerMiddleware(this IApplicationBuilder appBuilder)
