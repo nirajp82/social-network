@@ -11,7 +11,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Create
     {
-        public class CreateCommand : IRequest<Guid>
+        public class Command : IRequest<Guid>
         {
             public string Title { get; set; }
 
@@ -26,9 +26,9 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             public string Venue { get; set; }
         }
 
-        public class CreateCommandValidator : AbstractValidator<CreateCommand>
+        public class CommandValidator : AbstractValidator<Command>
         {
-            public CreateCommandValidator()
+            public CommandValidator()
             {
                 RuleFor(c => c.Title).NotEmpty();
                 RuleFor(c => c.Description).NotEmpty();
@@ -39,7 +39,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             }
         }
 
-        public class CreateHandler : IRequestHandler<CreateCommand, Guid>
+        public class Handler : IRequestHandler<Command, Guid>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -48,7 +48,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Constuctor
-            public CreateHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
@@ -57,9 +57,9 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<Guid> Handle(CreateCommand request, CancellationToken cancellationToken)
+            public async Task<Guid> Handle(Command request, CancellationToken cancellationToken)
             {
-                DataModel.Activity activity = _mapperHelper.Map<CreateCommand, DataModel.Activity>(request);
+                DataModel.Activity activity = _mapperHelper.Map<Command, DataModel.Activity>(request);
                 //Generate new Id for new Entity
                 activity.Id = Guid.NewGuid();
                 _unitOfWork.ActivityRepo.Add(activity);

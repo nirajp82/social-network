@@ -36,7 +36,7 @@ namespace SocialNetwork.API
                 if (id.HasValue)
                 {
                     //Check if record exists, Send Request Exists
-                    if (await _mediator.Send(new ExistsQuery() { Id = id.Value }))
+                    if (await _mediator.Send(new Query() { Id = id.Value }))
                     {
                         await next();
                         return;

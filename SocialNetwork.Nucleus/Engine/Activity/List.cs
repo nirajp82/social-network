@@ -11,11 +11,11 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class List
     {       
-        public class ListQuery : IRequest<IEnumerable<ActivityEntity>>
+        public class Query : IRequest<IEnumerable<ActivityEntity>>
         {
         }
 
-        public class ListHandler : IRequestHandler<ListQuery, IEnumerable<ActivityEntity>>
+        public class Handler : IRequestHandler<Query, IEnumerable<ActivityEntity>>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -24,7 +24,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Constuctor
-            public ListHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
@@ -33,7 +33,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<IEnumerable<ActivityEntity>> Handle(ListQuery request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ActivityEntity>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var result = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
                 return _mapperHelper.MapList<DataModel.Activity, ActivityEntity>(result);

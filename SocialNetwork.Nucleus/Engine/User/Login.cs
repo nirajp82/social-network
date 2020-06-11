@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
+using SocialNetwork.APIEntity;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
-using SocialNetwork.Infrastructure;
 using SocialNetwork.Util;
 using System.Net;
 using System.Threading;
@@ -12,30 +12,22 @@ namespace SocialNetwork.Nucleus.Engine.User
 {
     public class Login
     {
-        public class User
-        {
-            public string DisplayName { get; set; }
-            public string UserName { get; set; }
-            public string Token { get; set; }
-            public string Image { get; set; }
-        }
-
-        public class LoginQuery : IRequest<User>
+        public class Command : IRequest<UserEntity>
         {
             public string UserName { get; set; }
             public string Password { get; set; }
         }
 
-        public class LoginValidator : AbstractValidator<LoginQuery>
+        public class Validator : AbstractValidator<Command>
         {
-            public LoginValidator()
+            public Validator()
             {
                 RuleFor(l => l.UserName).NotEmpty();
                 RuleFor(l => l.Password).NotEmpty();
             }
         }
 
-        public class LoginHandler : IRequestHandler<LoginQuery, User>
+        public class Handler : IRequestHandler<Command, UserEntity>
         {
             #region Members
             private IJwtGenerator _jwtGenerator { get; }
@@ -45,7 +37,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
 
             #region Constuctor
-            public LoginHandler(IUnitOfWork unitOfWork,IJwtGenerator jwtGenerator,   UtilFactory utilFactory)
+            public Handler(IUnitOfWork unitOfWork, IJwtGenerator jwtGenerator, UtilFactory utilFactory)
             {
                 _unitOfWork = unitOfWork;
                 _jwtGenerator = jwtGenerator;
@@ -55,7 +47,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
 
             #region Methods
-            public async Task<User> Handle(LoginQuery request, CancellationToken cancellationToken)
+            public async Task<UserEntity> Handle(Command request, CancellationToken cancellationToken)
             {
                 IdentityUser user = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
                 if (user == null)
@@ -63,8 +55,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
                 if (_cryptoHelper.GenerateHash(request.Password, user.Salt) == user.Passoword)
                 {
-                    //TODO: Generate Token
-                    return new User
+                    return new UserEntity
                     {
                         UserName = request.UserName,
                         DisplayName = $"{user.AppUser.LastName}, {user.AppUser.FirstName}",

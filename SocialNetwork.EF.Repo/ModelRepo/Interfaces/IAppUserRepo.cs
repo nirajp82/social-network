@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
-    public interface IIdentityUserRepo
+    public interface IAppUserRepo
     {
-        Task<bool> HasAnyAsync(Expression<Func<IdentityUser, bool>> predicate,
+        Task<bool> HasAnyAsync(Expression<Func<AppUser, bool>> predicate,
                     CancellationToken cancellationToken = default);
 
-        Task<IdentityUser> FindFirstAsync(string userName, CancellationToken cancellationToken);
+        void Add(AppUser user);
     }
 }

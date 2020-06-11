@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.Infrastructure
+namespace SocialNetwork.Nucleus
 {
     public interface IJwtGenerator
     {

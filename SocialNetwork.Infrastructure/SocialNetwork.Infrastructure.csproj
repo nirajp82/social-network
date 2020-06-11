@@ -10,4 +10,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.6.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SocialNetwork.Nucleus\SocialNetwork.Nucleus.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -10,12 +10,12 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Delete
     {
-        public class DeleteCommand : IRequest
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
 
-        public class DeleteHandler : IRequestHandler<DeleteCommand>
+        public class Handler : IRequestHandler<Command>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -24,7 +24,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Constuctor
-            public DeleteHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
@@ -33,7 +33,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<Unit> Handle(DeleteCommand request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 await _unitOfWork.ActivityRepo.DeleteAsync(request.Id, cancellationToken);
 

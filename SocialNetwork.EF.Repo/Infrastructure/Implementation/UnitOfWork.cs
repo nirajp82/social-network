@@ -8,6 +8,7 @@ namespace SocialNetwork.EF.Repo
         #region Private Members
         private IActivityRepo _activityRepository { get; set; }
         private IValueRepo _valueRepository { get; set; }
+        private IAppUserRepo _appUserRepo { get; set; }
         private IIdentityUserRepo _identityUserRepo { get; set; }
 
         private ApplicationContext _context { get; }
@@ -19,6 +20,7 @@ namespace SocialNetwork.EF.Repo
         //When the statement after the null-coalescing operator ?? is executed, the assigned value to IActivityRepo is actually returned by the propery.
         public IActivityRepo ActivityRepo => _activityRepository ?? (_activityRepository = new ActivityRepo(_context));
         public IValueRepo ValueRepo => _valueRepository ?? (_valueRepository = new ValueRepo(_context));
+        public IAppUserRepo AppUserRepo => _appUserRepo ?? (_appUserRepo = new AppUserRepo(_context));
         public IIdentityUserRepo IdentityUserRepo => _identityUserRepo ?? (_identityUserRepo = new IdentityUserRepo(_context));
         #endregion
 

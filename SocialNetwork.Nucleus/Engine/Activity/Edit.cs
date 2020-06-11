@@ -11,7 +11,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class Edit
     {
-        public class EditCommand : IRequest
+        public class Command : IRequest
         {
             [JsonIgnore]
             public Guid Id { get; set; }
@@ -29,7 +29,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             public string Venue { get; set; }
         }
 
-        public class EditHandler : IRequestHandler<EditCommand>
+        public class Handler : IRequestHandler<Command>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -38,7 +38,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Constuctor
-            public EditHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
@@ -47,7 +47,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<Unit> Handle(EditCommand request, CancellationToken cancellationToken)
+            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 //Get existing activity from database
                 DataModel.Activity dbActivity = await _unitOfWork.ActivityRepo.FindFirstAsync(request.Id, cancellationToken);
@@ -60,7 +60,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
                 request.Title ??= dbActivity.Title;
                 request.Venue ??= dbActivity.Venue;
 
-                DataModel.Activity activity = _mapperHelper.Map<EditCommand, DataModel.Activity>(request);
+                DataModel.Activity activity = _mapperHelper.Map<Command, DataModel.Activity>(request);
 
                 _unitOfWork.ActivityRepo.Update(activity);
 

@@ -18,7 +18,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Login(Login.LoginQuery query, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login(Login.Command query, CancellationToken cancellationToken)
         {
             var user = await Mediator.Send(query, cancellationToken);
             return Ok(user);
