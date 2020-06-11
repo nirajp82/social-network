@@ -13,7 +13,7 @@ namespace SocialNetwork.Nucleus
     {
         public static void ConfigureNucleusServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.ConfigureInfrastructureServices();
+            services.ConfigureInfrastructureServices(configuration);
             services.ConfigureRepoServices(configuration);
             services.AddScoped<IValueEngine, ValueEngine>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

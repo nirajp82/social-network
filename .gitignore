@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 appsettings.*.json
+secrets.json
 *.db
 *.config
 web.config

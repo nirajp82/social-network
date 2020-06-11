@@ -35,8 +35,10 @@ namespace SocialNetwork.API
                         Url = new Uri("https://opensource.org/licenses/MIT"),
                     }
                 });
-                swaggerOptions.CustomSchemaIds(s => $"{s.FullName}");
+                //To avoid name conflict issues.
+                //swaggerOptions.CustomSchemaIds(s => $"{s.FullName}");
 
+                //Add Security Definition (Provide place that will allow user to enter Token) on the swagger UI page
                 swaggerOptions.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
@@ -45,7 +47,10 @@ namespace SocialNetwork.API
                     Type = SecuritySchemeType.ApiKey
                 });
 
+                //Selectively apply SecurityScheme to selected operation
                 swaggerOptions.OperationFilter<AuthOperationFilter>();
+
+                //To Apply Security Scheme to all the APIs.
                 //options.AddSecurityRequirement(new OpenApiSecurityRequirement {
                 //{
                 //     new OpenApiSecurityScheme

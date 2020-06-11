@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,6 +10,20 @@ namespace SocialNetwork.Infrastructure
 {
     internal class JwtGenerator : IJwtGenerator
     {
+        #region Private Members
+        private readonly IConfiguration _configuration;
+        #endregion
+
+
+        #region Constructor
+        public JwtGenerator(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+        #endregion
+
+
+        #region Public Methods
         public string CreateToken(string userName)
         {
             var claims = new List<Claim>
@@ -17,7 +32,8 @@ namespace SocialNetwork.Infrastructure
             };
 
             //Generate Signing Credentials
-            SigningCredentials credentials = new SigningCredentials(Helper.SecurityKey, SecurityAlgorithms.HmacSha512Signature);
+            SymmetricSecurityKey securityKey = Helper.GenerateSecurityKey(_configuration);
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -30,5 +46,6 @@ namespace SocialNetwork.Infrastructure
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+        #endregion
     }
 }
