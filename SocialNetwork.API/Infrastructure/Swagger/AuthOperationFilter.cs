@@ -14,9 +14,9 @@ namespace SocialNetwork.API
     {
         public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            bool isAuthorizedOp = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any() ||
-                                    context.MethodInfo.GetCustomAttributes(true).OfType<AuthorizeAttribute>().Any();
-            if (!isAuthorizedOp)
+            bool hasAllowAnonymousAttr = context.MethodInfo.DeclaringType.GetCustomAttributes(true).OfType<AllowAnonymousAttribute>().Any() ||
+                                    context.MethodInfo.GetCustomAttributes(true).OfType<AllowAnonymousAttribute>().Any();
+            if (hasAllowAnonymousAttr)
                 return;
 
             operation.Responses.TryAdd(StatusCodes.Status401Unauthorized.ToString(), 

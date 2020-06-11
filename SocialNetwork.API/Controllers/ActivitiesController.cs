@@ -39,7 +39,6 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {

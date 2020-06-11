@@ -1,6 +1,9 @@
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +48,12 @@ namespace SocialNetwork.API
             services.AddControllers(options =>
             {
                 options.Filters.Add(typeof(TaskCanceledExceptionFilter));
+
+                //Build policy, that will restricate API access to only Authorized user.  
+                var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                                .RequireAuthenticatedUser()
+                                .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
             })
             .AddFluentValidation(cfg =>
             {

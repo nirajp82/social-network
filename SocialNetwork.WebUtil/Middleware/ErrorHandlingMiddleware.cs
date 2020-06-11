@@ -31,33 +31,26 @@ namespace SocialNetwork.WebUtil
             {
                 await _next(httpContext);
             }
+            catch (CustomException cex)
+            {
+                object errors = cex.Errors;
+                await HandleException(cex, httpContext, errors, (int)cex.StatusCode);
+            }
             catch (Exception ex)
             {
-                await HandleExceptionAsync(httpContext, ex);
+                object errors = string.IsNullOrWhiteSpace(ex.Message) ? ex.Message : "Oops, something went wrong";
+                await HandleException(ex, httpContext, errors, (int)HttpStatusCode.InternalServerError);
             }
         }
         #endregion
 
 
         #region Private Methods
-        private async Task HandleExceptionAsync(HttpContext httpContext, Exception ex)
+        private async Task HandleException(Exception ex, HttpContext httpContext, object errors, int statusCode)
         {
-            object errors = null;
-            switch (ex)
-            {
-                case CustomException cex:
-                    errors = cex.Errors;
-                    httpContext.Response.StatusCode = (int)cex.StatusCode;
-                    break;
-                default:
-                    errors = string.IsNullOrWhiteSpace(ex.Message) ? ex.Message : "Oops, something went wrong";
-                    httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                    break;
-            }
-
             //Note: Please be careful when logging request body, it may contain sensitive information.
-            _logger.LogError(ex, $"Body:{await RequestUtil.GetBodyAsync(httpContext.Request)}");
-
+            _logger.LogError(ex, $"Reuest Body:{await RequestUtil.GetBodyAsync(httpContext.Request)}");
+            httpContext.Response.StatusCode = statusCode;
             httpContext.Response.ContentType = "";
             if (errors != null)
             {

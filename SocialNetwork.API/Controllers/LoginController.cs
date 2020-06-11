@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Nucleus.Engine.User;
 
 namespace SocialNetwork.API.Controllers
 {
+    [AllowAnonymous()]
     public class LoginController : BaseController
     {
         #region Queries Action Methods
