@@ -35,7 +35,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             }
         }
 
-        public class CommandHandler : IRequestHandler<Command, UserEntity>
+        public class Handler : IRequestHandler<Command, UserEntity>
         {
             #region Members
             private readonly ICryptoHelper _cryptoHelper;
@@ -45,7 +45,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
 
             #region Constructor
-            public CommandHandler(IJwtGenerator jwtGenerator, IUnitOfWork unitOfWork, UtilFactory utilFactory)
+            public Handler(IJwtGenerator jwtGenerator, IUnitOfWork unitOfWork, UtilFactory utilFactory)
             {
                 _jwtGenerator = jwtGenerator;
                 _cryptoHelper = utilFactory.CryptoHelper;

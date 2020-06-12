@@ -7,13 +7,27 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.APIEntity;
+using SocialNetwork.Nucleus;
 using SocialNetwork.Nucleus.Engine.User;
 
 namespace SocialNetwork.API.Controllers
 {
-    public class LoginController : BaseController
+    public class UserController : BaseController
     {
-        #region Queries Action Methods
+        #region Query Action Methods
+        [HttpGet]
+        [ProducesResponseType(typeof(UserEntity), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CurrentUser(CancellationToken cancellationToken)
+        {
+            var user = await Mediator.Send(new CurrentUser.Query(), cancellationToken);
+            return Ok(user);
+        }
+        #endregion
+
+
+        #region Command Action Methods
         [HttpPost(nameof(Login))]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
