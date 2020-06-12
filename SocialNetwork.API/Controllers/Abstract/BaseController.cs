@@ -23,6 +23,5 @@ namespace SocialNetwork.API.Controllers
         protected IMediator Mediator => _mediator ??
                     (_mediator = HttpContext.RequestServices.GetService<IMediator>());
         #endregion
-
     }
 }

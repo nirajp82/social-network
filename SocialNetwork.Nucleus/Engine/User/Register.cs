@@ -30,8 +30,8 @@ namespace SocialNetwork.Nucleus.Engine.User
                 RuleFor(c => c.FirstName).NotEmpty().MinimumLength(2).MaximumLength(24);
                 RuleFor(c => c.LastName).NotEmpty().MinimumLength(2).MaximumLength(24);
                 RuleFor(c => c.Email).NotEmpty().EmailAddress();
-                RuleFor(c => c.FirstName).NotEmpty().MinimumLength(2).MaximumLength(24);
-                RuleFor(c => c.FirstName).MinimumLength(6).MaximumLength(10);
+                RuleFor(c => c.UserName).NotEmpty().MinimumLength(6).MaximumLength(24);
+                RuleFor(c => c.Password).Password();
             }
         }
 
@@ -100,11 +100,11 @@ namespace SocialNetwork.Nucleus.Engine.User
             {
                 bool exits = await _unitOfWork.AppUserRepo.HasAnyAsync(e => e.Email == user.Email);
                 if (exits)
-                    throw new CustomException(HttpStatusCode.BadRequest, new { Email = "Duplicate Email" });
+                    throw new CustomException(HttpStatusCode.BadRequest, new { Email = "Email already exists!" });
 
                 exits = await _unitOfWork.IdentityUserRepo.HasAnyAsync(e => e.UserName == user.UserName);
                 if (exits)
-                    throw new CustomException(HttpStatusCode.BadRequest, new { Username = "Duplicate Username" });
+                    throw new CustomException(HttpStatusCode.BadRequest, new { Username = "Username already exists!" });
             }
             #endregion
         }

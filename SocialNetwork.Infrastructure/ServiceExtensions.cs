@@ -16,6 +16,7 @@ namespace SocialNetwork.Infrastructure
         public static void ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
+            services.AddScoped<IUserAccessor, UserAccessor>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>

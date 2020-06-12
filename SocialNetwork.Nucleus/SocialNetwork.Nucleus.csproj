@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Include="Engine\Interfaces\IJwtGenerator.cs" />
+    <Compile Include="Engine\Interfaces\IUserAccessor.cs" />
     <Compile Include="Engine\Interfaces\IValueEngine.cs" />
     <Compile Include="Engine\Implementation\ValueEngine.cs" />
   </ItemGroup>
