@@ -9,8 +9,11 @@ import HomePage from '../features/home/HomePage';
 import ActivityDashboard from '../features/activities/dashboard/ActivityDashboard';
 import ActivityDetails from '../features/activities/details/ActivityDetails';
 import ActivityForm from '../features/activities/forms/ActivityForm';
+import LoginForm from '../features/user/forms/LoginForm';
+
 import * as constants from '../utils/constants';
 import NotFound from './NotFound';
+
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
     return (
@@ -28,6 +31,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                             <Route key={location.key} exact
                                 path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
                                 component={ActivityForm} />
+                            <Route component={LoginForm} />
                             <Route component={NotFound} />
                         </Switch>
                     </Container>

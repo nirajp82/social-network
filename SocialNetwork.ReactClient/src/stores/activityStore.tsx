@@ -1,14 +1,17 @@
-﻿import { observable, action, computed, configure, runInAction } from 'mobx';
-import { createContext } from 'react';
+﻿import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
 
 import { IActivity } from '../models/IActivity';
-import activityService from '../api/activities';
+import activityService from '../api/activityService';
+import { rootStore } from './rootStore';
 
-// don't allow state modifications outside actions
-configure({ enforceActions: "always" })
+export default class activityStore {
+    rootStore: rootStore;
 
-class activityStore {
+    constructor(rootStore: rootStore) {
+        this.rootStore = rootStore;
+    }
+
     @observable activityRegistry = new Map<string, IActivity>();
     @observable isLoadingActivities = false;
     @observable isLoadingActivity = false;
@@ -153,4 +156,3 @@ class activityStore {
     };
 };
 
-export default createContext(new activityStore());

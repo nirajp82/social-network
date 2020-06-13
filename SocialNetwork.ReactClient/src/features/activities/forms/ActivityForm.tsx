@@ -5,7 +5,7 @@ import { Form as FinalForm, Field } from 'react-final-form';
 import { RouteComponentProps } from 'react-router-dom';
 import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan } from 'revalidate';
 
-import activityStore from '../../../stores/activityStore';
+import { rootStoreContext } from '../../../stores/rootStore';
 import { ActivityFormValues } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 import * as util from '../../../utils/util';
@@ -34,7 +34,8 @@ const validate = combineValidators({
 });
 
 const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
-    const activityStoreObj = useContext(activityStore);
+    const rootStoreObj = useContext(rootStoreContext);
+    const activityStoreObj = rootStoreObj.activityStore;
     const { loadActivity } = activityStoreObj;
     const [activity, setActivity] = useState(new ActivityFormValues());
 
@@ -161,4 +162,3 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
 };
 
 export default observer(ActivityForm);
-

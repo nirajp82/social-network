@@ -3,10 +3,11 @@ import { observer } from 'mobx-react-lite';
 import { Grid } from 'semantic-ui-react';
 
 import ActivityList from './ActivityList';
-import activityStore from '../../../stores/activityStore';
+import { rootStoreContext } from '../../../stores/rootStore';
 
 const ActivityDashboard: React.FC = () => {
-    const activityStoreObj = useContext(activityStore);
+    const rootStoreObj = useContext(rootStoreContext);
+    const activityStoreObj = rootStoreObj.activityStore;
 
     useEffect(() => {
         const fetch = async () => {

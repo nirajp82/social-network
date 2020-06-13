@@ -1,7 +1,8 @@
 ﻿import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from 'semantic-ui-react';
-import activityStore from '../../../stores/activityStore';
 import { observer } from 'mobx-react-lite';
+
+import { rootStoreContext } from '../../../stores/rootStore';
 import { IActivity } from '../../../models/IActivity';
 import { RouteComponentProps } from 'react-router-dom';
 import ProgressBar from '../../../layout/ProgressBar';
@@ -15,7 +16,9 @@ interface iRouteProps {
 };
 
 const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
-    const activityStoreObj = useContext(activityStore);
+    const rootStoreObj = useContext(rootStoreContext);
+    const activityStoreObj = rootStoreObj.activityStore;
+
     const [selectedActivity, setActivity] = useState<IActivity | undefined>(undefined);
     const { loadActivity } = activityStoreObj;
 

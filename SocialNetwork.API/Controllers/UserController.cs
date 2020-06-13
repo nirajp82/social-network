@@ -19,7 +19,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(typeof(UserEntity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CurrentUser(CancellationToken cancellationToken)
+        public async Task<IActionResult> Current(CancellationToken cancellationToken)
         {
             var user = await Mediator.Send(new CurrentUser.Query(), cancellationToken);
             return Ok(user);
@@ -29,13 +29,13 @@ namespace SocialNetwork.API.Controllers
 
         #region Command Action Methods
         [HttpPost(nameof(Login))]
-        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserEntity), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [AllowAnonymous()]
         public async Task<IActionResult> Login(Login.Command command, CancellationToken cancellationToken)
         {
-            var user = await Mediator.Send(command, cancellationToken);
+            UserEntity user = await Mediator.Send(command, cancellationToken);
             return Ok(user);
         }
 
@@ -46,7 +46,7 @@ namespace SocialNetwork.API.Controllers
         [AllowAnonymous()]
         public async Task<IActionResult> Register(Register.Command command, CancellationToken cancellationToken)
         {
-            var user = await Mediator.Send(command, cancellationToken);
+            UserEntity user = await Mediator.Send(command, cancellationToken);
             return Ok(user);
         }
         #endregion
