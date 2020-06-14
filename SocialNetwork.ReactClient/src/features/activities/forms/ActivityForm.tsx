@@ -20,7 +20,7 @@ interface IRouteProp {
     id: string;
 }
 
-const validate = combineValidators({
+const validationRules = combineValidators({
     title: isRequired({ message: 'The Event title is required' }),
     description: composeValidators(
         isRequired('Description'),
@@ -81,7 +81,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
             <Grid.Column width={10}>
                 <Segment clearing>
                     <FinalForm onSubmit={onFinalFormSubmit}
-                        validate={validate}
+                        validate={validationRules}
                         initialValues={activity}
                         render={(props) => (
                             <Form

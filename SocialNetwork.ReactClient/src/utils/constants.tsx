@@ -1,4 +1,6 @@
-﻿export const NAV_HOME = "/"; 
+﻿export const NAV_LOGIN = "/Login"; 
+export const NAV_REGISTER = "/Register"; 
+export const NAV_HOME = "/"; 
 export const NAV_ACTIVITY_DETAIL = "/activities"; 
 export const NAV_ACTIVITIES = "/activities"; 
 export const NAV_CREATE_ACTIVITY = "/createactivity"; 

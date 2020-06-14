@@ -1,10 +1,14 @@
-﻿import React from 'react';
-import { Container, Menu, Button } from 'semantic-ui-react';
-import { NavLink } from 'react-router-dom';
-import * as constants from '../../utils/constants';
+﻿import React, { useContext, Fragment } from 'react';
+import { Container, Menu, Button, Dropdown, Image } from 'semantic-ui-react';
+import { NavLink, Link } from 'react-router-dom';
 
+import * as constants from '../../utils/constants';
+import { rootStoreContext } from '../../stores/rootStore';
 
 const NavBar: React.FC = () => {
+    const rootStoreObj = useContext(rootStoreContext);
+    const userStore = rootStoreObj.userStore;
+
     return (
         <Menu fixed="top" inverted>
             <Container>
@@ -12,13 +16,30 @@ const NavBar: React.FC = () => {
                     <img src="/assets/logo.png" alt="logo" />
                     Social Network
                 </Menu.Item>
+                {userStore.isUserLoggedIn && userStore.user &&
+                    (<Fragment>
+                        <Menu.Item name='Activities' as={NavLink} to={`${constants.NAV_ACTIVITIES}`} />
 
-                <Menu.Item name='Activities' as={NavLink} to={`${constants.NAV_ACTIVITIES}`} exact />
+                        <Menu.Item>
+                            <Button as={NavLink} to={`${constants.NAV_CREATE_ACTIVITY}`}
+                                content="Create Activity" positive />
+                        </Menu.Item>
 
-                <Menu.Item>
-                    <Button as={NavLink} to={`${constants.NAV_CREATE_ACTIVITY}`}  exact
-                        content="Create Activity" positive />
-                </Menu.Item>                
+                        <Menu.Item position='right'>
+                            <Image avatar spaced='right' src={userStore.user?.Image || '/assets/user.png'} />
+                            <Dropdown pointing='top left' text={userStore.user?.DisplayName}>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item
+                                        as={Link}
+                                        to={`/profile/${userStore.user?.UserName}`}
+                                        text='My profile'
+                                        icon='user'
+                                    />
+                                    <Dropdown.Item text='Logout' icon='power' />
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Item>
+                    </Fragment>)}
             </Container>
         </Menu>
     )

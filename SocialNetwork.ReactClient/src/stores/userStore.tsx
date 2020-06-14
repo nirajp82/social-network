@@ -13,7 +13,7 @@ class userStore {
 
     @observable user: IUser | null = null;
 
-    @computed isUserLoggedIn = (): Boolean => {
+    @computed get isUserLoggedIn(): Boolean {
         return !!this.user;
     };
 
@@ -26,7 +26,8 @@ class userStore {
             const user = await userService.login(command);
             this.setUser(user);
         } catch (err) {
-            console.log(err);
+            //console.log(err);
+            throw err;
         }
     };
 

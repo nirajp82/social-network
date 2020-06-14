@@ -13,7 +13,7 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use((response) => response, (err) => {
     //const { response, config, data } = err;   
-    const { response } = err;    
+    const { response } = err;
     if (err.message === "Network Error" && !response) {
         toast.error('Network error server is down for maintenance, Please try after sometime');
         return;
@@ -32,7 +32,7 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
             throw err.message;
     }
     console.log(err);
-    throw err;
+    throw err.response;
 });
 
 const processResponse = (dbResponse: AxiosResponse) => {

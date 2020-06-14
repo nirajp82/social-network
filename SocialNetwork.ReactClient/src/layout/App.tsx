@@ -14,11 +14,12 @@ import LoginForm from '../features/user/forms/LoginForm';
 import * as constants from '../utils/constants';
 import NotFound from './NotFound';
 
-
 const App: React.FC<RouteComponentProps> = ({ location }) => {
     return (
         <React.Fragment>
             <ToastContainer position="bottom-right" />
+
+            {/*Root URL.*/}
             <Route path={constants.NAV_HOME} exact component={HomePage} />
 
             <Route path={'/(.+)'} render={() => (
@@ -28,10 +29,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                         <Switch>
                             <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
                             <Route path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
+                            {/*Key: To fully unmounted and remounted component on ID change.*/}
                             <Route key={location.key} exact
                                 path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
                                 component={ActivityForm} />
-                            <Route component={LoginForm} />
+                            <Route path={constants.NAV_LOGIN} component={LoginForm} />
                             <Route component={NotFound} />
                         </Switch>
                     </Container>
