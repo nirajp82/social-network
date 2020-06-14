@@ -15,6 +15,8 @@ namespace SocialNetwork.API
             services.ConfigureInfrastructureServices(configuration);
             services.ConfigureNucleusServices(configuration);
             services.ConfigureSwaggerService();
+
+            services.AddScoped<ValidateActivityExistsFilter>();
         }
 
         public static void AddCorsSupport(this IServiceCollection services,string policyName)

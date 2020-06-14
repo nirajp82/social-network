@@ -1,19 +1,19 @@
 ﻿export interface IUser {
-    DisplayName: string;
-    UserName: string;
-    Token: string;
-    Image: string;
+    displayName: string;
+    userName: string;
+    token: string;
+    image: string;
 };
 
 export interface IRegister {
-    FirstName: string;
-    LastName: string;
-    Email: string;
-    UserName: string;
-    Password: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    userName: string;
+    password: string;
 };
 
 export interface ILogin {
-    UserName: string;
-    Password: string;
-}
+    userName: string;
+    password: string;
+};

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, { useEffect, useContext } from 'react';
 import { Container } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { Route, withRouter, RouteComponentProps, Switch } from 'react-router-dom';
@@ -10,12 +10,33 @@ import ActivityDashboard from '../features/activities/dashboard/ActivityDashboar
 import ActivityDetails from '../features/activities/details/ActivityDetails';
 import ActivityForm from '../features/activities/forms/ActivityForm';
 import LoginForm from '../features/user/forms/LoginForm';
-
+import { rootStoreContext } from '../stores/rootStore';
 import * as constants from '../utils/constants';
 import NotFound from './NotFound';
+import ProgressBar from './ProgressBar';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
+    const rootStoreObj = useContext(rootStoreContext);
+    const commonStore = rootStoreObj.commonStore;
+    const { current } = rootStoreObj.userStore;
+
+    useEffect(() => {
+        if (commonStore.token) {
+            const loadUser = async () => {
+                await current().finally(() => commonStore.setAppLoaded());
+            };
+            loadUser();
+        }
+        else
+            commonStore.setAppLoaded();
+    }, [current, commonStore]);
+
+    if (!commonStore.appLoaded) {
+        return <ProgressBar message="Loading Applicaation..." />
+    }
+
     return (
+
         <React.Fragment>
             <ToastContainer position="bottom-right" />
 

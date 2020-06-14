@@ -3,6 +3,8 @@
 import { IUser, ILogin, IRegister } from '../models/IUser';
 import userService from '../api/userService';
 import { rootStore } from './rootStore';
+import * as constants from '../utils/constants';
+import createBrowserHistory from '../utils/createBrowserHistory';
 
 class userStore {
     rootStore: rootStore;
@@ -17,18 +19,8 @@ class userStore {
         return !!this.user;
     };
 
-    @action setUser = (user: IUser) => {
+    @action setUser = (user: IUser | null) => {
         this.user = user;
-    };
-
-    @action login = async (command: ILogin) => {
-        try {
-            const user = await userService.login(command);
-            this.setUser(user);
-        } catch (err) {
-            //console.log(err);
-            throw err;
-        }
     };
 
     @action register = async (command: IRegister) => {
@@ -41,6 +33,33 @@ class userStore {
             console.log(err);
         }
     };
+
+    @action login = async (command: ILogin) => {
+        try {
+            const user = await userService.login(command);
+            this.setUser(user);
+            this.rootStore.commonStore.setToken(user.token);
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    @action current = async () => {
+        try {
+            if (!this.user) {
+                const user = await userService.current();
+                this.setUser(user);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    @action logout = () => {
+        this.rootStore.commonStore.setToken(null);
+        this.setUser(null);
+        createBrowserHistory.push(constants.NAV_HOME);
+    };   
 };
 
 export default userStore;

@@ -26,16 +26,16 @@ const NavBar: React.FC = () => {
                         </Menu.Item>
 
                         <Menu.Item position='right'>
-                            <Image avatar spaced='right' src={userStore.user?.Image || '/assets/user.png'} />
-                            <Dropdown pointing='top left' text={userStore.user?.DisplayName}>
+                            <Image avatar spaced='right' src={userStore.user?.image || '/assets/user.png'} />
+                            <Dropdown pointing='top left' text={userStore.user?.displayName}>
                                 <Dropdown.Menu>
                                     <Dropdown.Item
                                         as={Link}
-                                        to={`/profile/${userStore.user?.UserName}`}
+                                        to={`/profile/${userStore.user?.userName}`}
                                         text='My profile'
                                         icon='user'
                                     />
-                                    <Dropdown.Item text='Logout' icon='power' />
+                                    <Dropdown.Item onClick={() => userStore.logout()} text='Logout' icon='power' />
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Item>

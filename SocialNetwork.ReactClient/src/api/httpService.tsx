@@ -3,12 +3,23 @@ import createBrowserHistory from '../utils/createBrowserHistory';
 import * as constants from '../utils/constants';
 import { toast } from 'react-toastify';
 
-const sleepTime = 10;
+const sleepTime = 1;
 
 const axiosInstance = axios.create({
     baseURL: "http://localhost/socialnetwork/api/",
     withCredentials: true,
     timeout: 30000
+});
+
+axiosInstance.interceptors.request.use((config) => {
+    //Add JWT Authorization Token to request if exists.
+    const token: string | null = window.localStorage.getItem(constants.AUTH_TOKEN_NAME);
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+}, error => {
+    return Promise.reject(error);
 });
 
 axiosInstance.interceptors.response.use((response) => response, (err) => {
@@ -23,7 +34,7 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
             toast.error('Bad request, Please check data');
             break;
         case 404:
-            createBrowserHistory.push(constants.NOT_FOUND);
+            createBrowserHistory.push(constants.NAV_NOT_FOUND);
             break;
         case 500:
             toast.error('Server Issue - Oops, something went wrong');
