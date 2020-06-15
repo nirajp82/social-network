@@ -23,22 +23,23 @@ class userStore {
         this.user = user;
     };
 
-    @action register = async (command: IRegister) => {
-        try {
-            if (!this.isUserLoggedIn) {
-                const user = await userService.register(command);
-                this.setUser(user);
-            }
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
     @action login = async (command: ILogin) => {
         try {
             const user = await userService.login(command);
             this.setUser(user);
             this.rootStore.commonStore.setToken(user.token);
+        } catch (err) {
+            throw err;
+        }
+    };
+
+    @action register = async (command: IRegister) => {
+        try {
+            if (!this.isUserLoggedIn) {
+                const user = await userService.register(command);
+                this.setUser(user);
+                this.rootStore.commonStore.setToken(user.token);
+            }
         } catch (err) {
             throw err;
         }
@@ -59,7 +60,7 @@ class userStore {
         this.rootStore.commonStore.setToken(null);
         this.setUser(null);
         createBrowserHistory.push(constants.NAV_HOME);
-    };   
+    };
 };
 
 export default userStore;

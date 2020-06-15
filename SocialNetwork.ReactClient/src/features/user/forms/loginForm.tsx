@@ -1,7 +1,6 @@
-﻿import React, { useContext, Fragment } from 'react';
+﻿import React, { Fragment, useContext,  useEffect } from 'react';
 import { Form, Button, Header } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
-import { observer } from 'mobx-react-lite';
 import { combineValidators, isRequired } from 'revalidate';
 import { FORM_ERROR } from 'final-form';
 
@@ -10,21 +9,32 @@ import TextInput from '../../../common/elements/TextInput';
 import { rootStoreContext } from '../../../stores/rootStore';
 import createBrowserHistory from '../../../utils/createBrowserHistory';
 import * as constants from '../../../utils/constants';
-import ModelContainer from '../../../common/modals/modalContainer';
-import { modalSize } from '../../../common/modals/modalContainer';
+import ModelContainer, { modalSize } from '../../../common/modals/modalContainer';
 import ErrorMessage from '../../../common/elements/ErrorMessage';
-
-const validationRules = combineValidators({
-    userName: isRequired('User name'),
-    password: isRequired('Password')
-});
 
 const LoginForm = () => {
     const rootStoreObj = useContext(rootStoreContext);
     const userStoreObj = rootStoreObj.userStore;
-    const onFormSubmit = async (command: ILogin) => {
+
+    const validationRules = combineValidators({
+        userName: isRequired('User name'),
+        password: isRequired('Password')
+    });
+
+    const onClose = () => {
+        createBrowserHistory.push(constants.NAV_HOME);
+    };
+
+    useEffect(() => {
+        // If user is already logged in, redirect user to home page.
+        if (userStoreObj.isUserLoggedIn) {
+            createBrowserHistory.push(constants.NAV_HOME);
+        }
+    }, [userStoreObj.isUserLoggedIn]);
+
+    const onLoginHandler = async (values: ILogin) => {
         try {
-            await userStoreObj.login(command);
+            await userStoreObj.login(values);
             createBrowserHistory.push(constants.NAV_ACTIVITIES);
         } catch (err) {
             //Return Form Error to React Final Form, It will populate the submitError prop
@@ -32,13 +42,9 @@ const LoginForm = () => {
         }
     };
 
-    const onClose = () => {
-        createBrowserHistory.push(constants.NAV_HOME);
-    };
-
     const getContent = () => {
         return (<FinalForm
-            onSubmit={onFormSubmit}
+            onSubmit={onLoginHandler}
             validate={validationRules}
             render={(props) => (
                 <Form>
@@ -69,8 +75,6 @@ const LoginForm = () => {
                         color="teal"
                         fluid
                     />
-
-
                     {/*
                                 *<pre>{JSON.stringify(props.form.getState(), null, 2)} </pre> 
                             */}
@@ -91,4 +95,4 @@ const LoginForm = () => {
 
 };
 
-export default observer(LoginForm);
+export default LoginForm;
