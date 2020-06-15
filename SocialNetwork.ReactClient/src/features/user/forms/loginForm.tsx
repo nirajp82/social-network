@@ -1,5 +1,5 @@
-﻿import React, { useContext, Fragment, useState } from 'react';
-import { Form, Button, Label, Header } from 'semantic-ui-react';
+﻿import React, { useContext, Fragment } from 'react';
+import { Form, Button, Header } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { observer } from 'mobx-react-lite';
 import { combineValidators, isRequired } from 'revalidate';
@@ -12,6 +12,7 @@ import createBrowserHistory from '../../../utils/createBrowserHistory';
 import * as constants from '../../../utils/constants';
 import ModelContainer from '../../../common/modals/modalContainer';
 import { modalSize } from '../../../common/modals/modalContainer';
+import ErrorMessage from '../../../common/elements/ErrorMessage';
 
 const validationRules = combineValidators({
     userName: isRequired('User name'),
@@ -19,7 +20,6 @@ const validationRules = combineValidators({
 });
 
 const LoginForm = () => {
-    const [open, setOpen] = useState(false);
     const rootStoreObj = useContext(rootStoreContext);
     const userStoreObj = rootStoreObj.userStore;
     const onFormSubmit = async (command: ILogin) => {
@@ -57,6 +57,10 @@ const LoginForm = () => {
                         component={TextInput}
                         placeholder='Password' />
 
+                    {props.submitError && !props.dirtySinceLastSubmit &&
+                        (<ErrorMessage error={props.submitError} text='Invalid user name or password' />)
+                    }
+
                     <Button
                         loading={props.submitting}
                         disabled={(props.invalid && !props.dirtySinceLastSubmit) || props.pristine}
@@ -66,12 +70,7 @@ const LoginForm = () => {
                         fluid
                     />
 
-                    {props.submitError && !props.dirtySinceLastSubmit &&
-                        <Fragment>
-                            <br />
-                            <Label color='red' basic content={props.submitError} />
-                        </Fragment>
-                    }
+
                     {/*
                                 *<pre>{JSON.stringify(props.form.getState(), null, 2)} </pre> 
                             */}
