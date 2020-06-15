@@ -9,10 +9,10 @@ import { rootStoreContext } from '../../../stores/rootStore';
 import { ActivityFormValues } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 import * as util from '../../../utils/util';
-import TextInput from '../../../common/form/TextInput';
-import TextAreaInput from '../../../common/form/TextAreaInput';
-import SelectInput from '../../../common/form/SelectInput';
-import DateInput from '../../../common/form/DateInput';
+import TextInput from '../../../common/elements/TextInput';
+import TextAreaInput from '../../../common/elements/TextAreaInput';
+import SelectInput from '../../../common/elements/SelectInput';
+import DateInput from '../../../common/elements/DateInput';
 import { categoryOptions } from '../../../common/options/categoryOptions';
 import createBrowserHistory from '../../../utils/createBrowserHistory';
 

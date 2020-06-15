@@ -1,16 +1,17 @@
-﻿import React, { useContext } from 'react';
-import { Form, Button, Label } from 'semantic-ui-react';
+﻿import React, { useContext, Fragment, useState } from 'react';
+import { Form, Button, Label, Header } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { observer } from 'mobx-react-lite';
 import { combineValidators, isRequired } from 'revalidate';
 import { FORM_ERROR } from 'final-form';
 
 import { ILogin } from '../../../models/IUser';
-import TextInput from '../../../common/form/TextInput';
+import TextInput from '../../../common/elements/TextInput';
 import { rootStoreContext } from '../../../stores/rootStore';
 import createBrowserHistory from '../../../utils/createBrowserHistory';
 import * as constants from '../../../utils/constants';
-
+import ModelContainer from '../../../common/modals/modalContainer';
+import { modalSize } from '../../../common/modals/modalContainer';
 
 const validationRules = combineValidators({
     userName: isRequired('User name'),
@@ -18,6 +19,7 @@ const validationRules = combineValidators({
 });
 
 const LoginForm = () => {
+    const [open, setOpen] = useState(false);
     const rootStoreObj = useContext(rootStoreContext);
     const userStoreObj = rootStoreObj.userStore;
     const onFormSubmit = async (command: ILogin) => {
@@ -26,16 +28,26 @@ const LoginForm = () => {
             createBrowserHistory.push(constants.NAV_ACTIVITIES);
         } catch (err) {
             //Return Form Error to React Final Form, It will populate the submitError prop
-            return { [FORM_ERROR]: err }
+            return { [FORM_ERROR]: err.statusText }
         }
     };
 
-    return (
-        <FinalForm
+    const onClose = () => {
+        createBrowserHistory.push(constants.NAV_HOME);
+    };
+
+    const getContent = () => {
+        return (<FinalForm
             onSubmit={onFormSubmit}
             validate={validationRules}
             render={(props) => (
-                <Form onSubmit={props.handleSubmit}>
+                <Form>
+                    <Header
+                        as="h2"
+                        content="Login to Social Network"
+                        color="teal"
+                        textAlign="center" />
+
                     <Field name="userName"
                         component={TextInput}
                         placeholder='User Name' />
@@ -45,22 +57,39 @@ const LoginForm = () => {
                         component={TextInput}
                         placeholder='Password' />
 
-                    {props.submitError && !props.dirtySinceLastSubmit &&
-                        <Label color='red' basic content={props.submitError} />}
-                    <br />
                     <Button
                         loading={props.submitting}
                         disabled={(props.invalid && !props.dirtySinceLastSubmit) || props.pristine}
-                        type="Submit"
+                        onClick={props.handleSubmit}
                         content="Login"
-                        positive />
-                        {/*
-                            *<pre>{JSON.stringify(props.form.getState(), null, 2)} </pre> 
-                        */}
+                        color="teal"
+                        fluid
+                    />
+
+                    {props.submitError && !props.dirtySinceLastSubmit &&
+                        <Fragment>
+                            <br />
+                            <Label color='red' basic content={props.submitError} />
+                        </Fragment>
+                    }
+                    {/*
+                                *<pre>{JSON.stringify(props.form.getState(), null, 2)} </pre> 
+                            */}
                 </Form>
             )}
-        />
+        />);
+    };
+
+    return (
+        <Fragment>
+            <ModelContainer
+                defaultOpen={true}
+                content={getContent()}
+                onClose={onClose}
+                size={modalSize.Tiny} />
+        </Fragment>
     );
+
 };
 
 export default observer(LoginForm);

@@ -40,10 +40,8 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
             toast.error('Server Issue - Oops, something went wrong');
             break;
         default:
-            throw err.message;
+            throw err.response;
     }
-    console.log(err);
-    throw err.response;
 });
 
 const processResponse = (dbResponse: AxiosResponse) => {
