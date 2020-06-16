@@ -69,14 +69,14 @@ namespace SocialNetwork.Nucleus.Engine.Activity
                 AppUser appUser = await _unitOfWork.AppUserRepo.FindFirstAsync(e =>
                                         e.IdentityUser.UserName == _userAccessor.GetCurrentUserName());
 
-                UserActivity userActivity = new UserActivity
+                UserActivity hostAttendee = new UserActivity
                 {
                     Activity = activity,
                     IsHost = true,
                     DateJoined = HelperFunc.GetCurrentDateTime(),
-                    AppUser = appUser
+                    AppUserId = appUser.Id
                 };
-                _unitOfWork.UserActivityRepo.Add(userActivity);
+                _unitOfWork.UserActivityRepo.Add(hostAttendee);
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)

@@ -13,7 +13,13 @@ namespace SocialNetwork.Nucleus.Helper
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
             Map<Value, ValueDTO>();
 
-            Map<Activity, ActivityDTO>();
+            Map<Activity, ActivityDTO>()
+                .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.UserActivities));
+
+            Map<UserActivity, AttendeeDTO>(false)
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"));
+
+            Map<AppUser, UserDTO>();
             Map<Create.Command, Activity>();
             Map<Edit.Command, Activity>();
         }

@@ -20,13 +20,18 @@ namespace SocialNetwork.EF.Repo
         #region Public Method
         public async Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken)
         {
-            IQueryable<Activity> result = base.GetAll();
+            IQueryable<Activity> result = base.Find(null)
+                                            .Include(a => a.UserActivities)
+                                            .ThenInclude(ua => ua.AppUser);
             return await result.ToListAsync(cancellationToken);
         }
 
         public async Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken)
         {
-            return await base.FindFirstAsync(e => e.Id == activityId, null, cancellationToken);
+            return await base.Find(e => e.Id == activityId, null)
+                            .Include(a => a.UserActivities)
+                            .ThenInclude(ua => ua.AppUser)
+                            .FirstOrDefaultAsync();
         }
 
         public async Task<bool> ExistsAsync(Guid activityId, CancellationToken cancellationToken)

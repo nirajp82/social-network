@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class List
-    {       
+    {
         public class Query : IRequest<IEnumerable<ActivityDTO>>
         {
         }
@@ -34,8 +34,9 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<IEnumerable<ActivityDTO>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var result = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
-                return _mapperHelper.MapList<DataModel.Activity, ActivityDTO>(result);
+                var dbResult = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
+                IEnumerable<ActivityDTO> reponse = _mapperHelper.MapList<DataModel.Activity, ActivityDTO>(dbResult);
+                return reponse;
             }
             #endregion
         }

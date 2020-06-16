@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SocialNetwork.DTO
 {
@@ -17,5 +18,7 @@ namespace SocialNetwork.DTO
         public string City { get; set; }
 
         public string Venue { get; set; }
+
+        public IEnumerable<AttendeeDTO> Attendees { get; set; }
     }
 }
