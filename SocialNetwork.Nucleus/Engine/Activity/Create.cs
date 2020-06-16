@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
+using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
-using SocialNetwork.Nucleus.Helper;
 using SocialNetwork.Util;
 using System;
 using System.Threading;
@@ -42,16 +42,18 @@ namespace SocialNetwork.Nucleus.Engine.Activity
         public class Handler : IRequestHandler<Command, Guid>
         {
             #region Members
-            private IUnitOfWork _unitOfWork { get; }
-            private IMapperHelper _mapperHelper { get; }
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IMapperHelper _mapperHelper;
+            private readonly IUserAccessor _userAccessor;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper, IUserAccessor userAccessor)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
+                _userAccessor = userAccessor;
             }
             #endregion
 
@@ -63,6 +65,18 @@ namespace SocialNetwork.Nucleus.Engine.Activity
                 //Generate new Id for new Entity
                 activity.Id = Guid.NewGuid();
                 _unitOfWork.ActivityRepo.Add(activity);
+
+                AppUser appUser = await _unitOfWork.AppUserRepo.FindFirstAsync(e =>
+                                        e.IdentityUser.UserName == _userAccessor.GetCurrentUserName());
+
+                UserActivity userActivity = new UserActivity
+                {
+                    Activity = activity,
+                    IsHost = true,
+                    DateJoined = HelperFunc.GetCurrentDateTime(),
+                    AppUser = appUser
+                };
+                _unitOfWork.UserActivityRepo.Add(userActivity);
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)

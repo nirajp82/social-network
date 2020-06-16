@@ -2,11 +2,12 @@
 
 namespace SocialNetwork.EF.Repo
 {
-    internal class AppUserRepo : RepositoryBase<AppUser>, IAppUserRepo
+    internal class UserActivityRepo : RepositoryBase<UserActivity>, IUserActivityRepo
     {
         #region Constructor
-        public AppUserRepo(ApplicationContext context) : base(context)
+        public UserActivityRepo(ApplicationContext context) : base(context)
         {
+
         }
         #endregion
 

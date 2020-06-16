@@ -17,6 +17,8 @@
     <Compile Remove="Migrations\20200609054842_Initial-Migration.Designer.cs" />
     <Compile Remove="Migrations\20200609055955_Initial-Migration.cs" />
     <Compile Remove="Migrations\20200609055955_Initial-Migration.Designer.cs" />
+    <Compile Remove="Migrations\20200609190420_Initial-Migration.cs" />
+    <Compile Remove="Migrations\20200609190420_Initial-Migration.Designer.cs" />
     <Compile Remove="Migrations\20200616033407_Added UserActivity.cs" />
     <Compile Remove="Migrations\20200616033407_Added UserActivity.Designer.cs" />
   </ItemGroup>

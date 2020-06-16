@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SocialNetwork.DTO
+﻿namespace SocialNetwork.DTO
 {
     public class UserDTO : BaseDTO
     {

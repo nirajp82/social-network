@@ -10,14 +10,14 @@ namespace SocialNetwork.EF.Repo.Infrastructure
         #region Public Method
         internal static void Seed(this ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Value>()
-            //     .HasData(new Value { Id = 1, Name = "Value 101" },
-            //              new Value { Id = 2, Name = "Value 201" },
-            //              new Value { Id = 3, Name = "Value 301" });
+            modelBuilder.Entity<Value>()
+                 .HasData(new Value { Id = 1, Name = "Value 101" },
+                          new Value { Id = 2, Name = "Value 201" },
+                          new Value { Id = 3, Name = "Value 301" });
 
-            //CreateActivities(modelBuilder);
+            CreateActivities(modelBuilder);
 
-            //CreateUser(modelBuilder);
+            CreateUser(modelBuilder);
         }
         #endregion
 
@@ -129,8 +129,6 @@ namespace SocialNetwork.EF.Repo.Infrastructure
 
         private static void CreateUser(ModelBuilder modelBuilder)
         {
-            //"Salt": "ywSeIEpKvoqze+9lvZaZ2g==" Password: "ZGM2ksCCUhC+7va1BBZ9bEw2H9tsCowdW9Pkflnp22U="
-            //"Salt": "khOLQmG0hV6zkQNh8AyPPw==" Password: "dRV51KAkm6d9QggTJd3gDL+BBAg99/7lI564TQKjKTU="
             IEnumerable<AppUser> users = new List<AppUser> { new AppUser
             {
                  FirstName = "John",
@@ -148,7 +146,14 @@ namespace SocialNetwork.EF.Repo.Infrastructure
                  FirstName = "Bruce",
                  LastName = "Lee",
                  Email = "Bruce.Lee@domain.com"
-            }};
+            },
+              new AppUser
+            {
+                 FirstName = "Nij",
+                 LastName = "Patel",
+                 Email = "NP@domain.com"
+            }
+            };
 
             foreach (var user in users)
             {
@@ -167,6 +172,12 @@ namespace SocialNetwork.EF.Repo.Infrastructure
         {
             ICollection<IdentityUser> iUsers = new List<IdentityUser>();
             int cnt = 0;
+            //"name": string: Salt: tycaGrI7zbrlLUa1rlq/Eg== ||-||    Password: k94BgmW7ByRA20JstnnZy/r4spmr5a43Wj7TOez6Ceg=
+            //"name": Password1: Salt: N0FmqILVE9Z91ztsTZ7NRg== ||-|| Password: SUiMgV5kVJ/bmuab8Xi9yWbaXX7jO0PFeO6Hqy17RDA=
+            //"name": Password5: Salt: pFfFVRnZmt1olR1hjM4lYw== ||-|| Password:  a4SsuUik1K+XEn2IM89DdiHARZt7oYmPw5o41JpN56s=
+            //"name": Password4: Salt: KdVKafeQ5feBPy4zt1LEXw== ||-|| Password: CZlymwlXYiLulGpgU43wF7ES7HitWgmJ84IdtswcZ5U=
+            //"name": Password3: Salt: JORlEODUsVR293KHwmy6nw== ||-|| Password: NrCsuLs5ti33FaJG5k+shKwXcf4eV4sVMu+m0/4/ziI=
+            //"name": Password2: Salt: HuxxwIHbjL1bIaglCISyCA== ||-|| Password: QdkRQBXe0nPjNzQ/SQ1EYaWWYlvmtX1b1UyeyaI9QII=
             foreach (var user in users)
             {
                 cnt++;
@@ -195,9 +206,18 @@ namespace SocialNetwork.EF.Repo.Infrastructure
                         Passoword = "5OekvvKMPp2M+O3Ts2/G912N9lCNqz412l1y8uHazZc="
                     };
                 }
+                else if (cnt == 4)
+                {
+                    iUser = new IdentityUser
+                    {
+                        UserName = "string",
+                        Salt = "tycaGrI7zbrlLUa1rlq/Eg==",
+                        Passoword = "k94BgmW7ByRA20JstnnZy/r4spmr5a43Wj7TOez6Ceg="
+                    };
+                }
 
                 iUser.Id = Guid.NewGuid();
-                iUser.UserName = user.Email;
+                iUser.UserName = iUser.UserName ?? user.Email;
                 iUser.AppUserId = user.Id;
                 SeedAuditFields(iUser);
 

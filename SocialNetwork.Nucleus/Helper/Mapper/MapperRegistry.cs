@@ -2,7 +2,6 @@
 using SocialNetwork.DTO;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
-using SocialNetwork.Nucleus.Engine.User;
 
 namespace SocialNetwork.Nucleus.Helper
 {

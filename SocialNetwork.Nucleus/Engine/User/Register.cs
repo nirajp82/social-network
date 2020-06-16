@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using SocialNetwork.DTO;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;

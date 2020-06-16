@@ -9,7 +9,8 @@ namespace SocialNetwork.EF.Repo
         IValueRepo ValueRepo { get; }
         IIdentityUserRepo IdentityUserRepo { get; }
         IAppUserRepo AppUserRepo { get; }
-        
+        IUserActivityRepo UserActivityRepo { get; }
+
         Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }
 }

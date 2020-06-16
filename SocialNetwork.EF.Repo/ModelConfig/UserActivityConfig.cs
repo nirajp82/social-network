@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SocialNetwork.DataModel;
-using System;
-using System.Linq.Expressions;
 
 namespace SocialNetwork.EF.Repo
 {
