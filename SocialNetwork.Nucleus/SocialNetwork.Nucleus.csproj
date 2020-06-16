@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SocialNetwork.APIEntity\SocialNetwork.APIEntity.csproj" />
     <ProjectReference Include="..\SocialNetwork.DataModel\SocialNetwork.DataModel.csproj" />
+    <ProjectReference Include="..\SocialNetwork.DTO\SocialNetwork.DTO.csproj" />
     <ProjectReference Include="..\SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj" />
     <ProjectReference Include="..\SocialNetwork.Util\SocialNetwork.Util.csproj" />
   </ItemGroup>

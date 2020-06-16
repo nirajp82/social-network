@@ -14,6 +14,7 @@ namespace SocialNetwork.Nucleus
         {
             services.ConfigureRepoServices(configuration);
             services.AddScoped<IValueEngine, ValueEngine>();
+            //TODO: Refactor
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(typeof(List).Assembly);
         }

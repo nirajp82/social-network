@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.DataModel
@@ -23,5 +24,7 @@ namespace SocialNetwork.DataModel
 
         [MaxLength(50)]
         public string Venue { get; set; }
+
+        public IEnumerable<UserActivity> UserActivities { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.APIEntity;
+using SocialNetwork.DTO;
 using SocialNetwork.Nucleus.Engine.Activity;
 using System;
 using System.Threading;
@@ -20,7 +20,7 @@ namespace SocialNetwork.API.Controllers
         /// Fetch list of all activities
         /// </summary>
         [HttpGet()]
-        [ProducesResponseType(typeof(IEnumerable<ActivityEntity>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ActivityDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -35,14 +35,14 @@ namespace SocialNetwork.API.Controllers
 
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(ActivityEntity), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ActivityDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
         public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
         {
-            ActivityEntity entity = await Mediator.Send(new Details.Query { Id = id }, cancellationToken);
+            ActivityDTO entity = await Mediator.Send(new Details.Query { Id = id }, cancellationToken);
             if (entity != null)
                 return Ok(entity);
             else

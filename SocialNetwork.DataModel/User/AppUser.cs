@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SocialNetwork.DataModel
@@ -19,5 +20,7 @@ namespace SocialNetwork.DataModel
         //public Guid IdentityUserId { get; set; }
 
         public IdentityUser IdentityUser { get; set; }
+
+        public IEnumerable<UserActivity> UserActivities { get; set; }
     }
 }

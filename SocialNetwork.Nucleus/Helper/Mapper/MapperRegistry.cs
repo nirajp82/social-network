@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SocialNetwork.APIEntity;
+using SocialNetwork.DTO;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Nucleus.Engine.User;
@@ -12,9 +12,9 @@ namespace SocialNetwork.Nucleus.Helper
         public MapperRegistry()
         {
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
-            Map<Value, ValueEntity>();
+            Map<Value, ValueDTO>();
 
-            Map<Activity, ActivityEntity>();
+            Map<Activity, ActivityDTO>();
             Map<Create.Command, Activity>();
             Map<Edit.Command, Activity>();
         }

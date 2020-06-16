@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using SocialNetwork.APIEntity;
+using SocialNetwork.DTO;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
@@ -14,7 +14,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 {
     public class Register
     {
-        public class Command : IRequest<UserEntity>
+        public class Command : IRequest<UserDTO>
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -35,7 +35,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, UserEntity>
+        public class Handler : IRequestHandler<Command, UserDTO>
         {
             #region Members
             private readonly ICryptoHelper _cryptoHelper;
@@ -54,7 +54,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             #endregion
 
             #region Public Methods
-            public async Task<UserEntity> Handle(Command user, CancellationToken cancellationToken)
+            public async Task<UserDTO> Handle(Command user, CancellationToken cancellationToken)
             {
                 await Validate(user);
 
@@ -65,7 +65,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
                 if (insertCnt > 0)
                 {
-                    return new UserEntity
+                    return new UserDTO
                     {
                         DisplayName = $"{user.LastName}, {user.FirstName}",
                         UserName = user.UserName,

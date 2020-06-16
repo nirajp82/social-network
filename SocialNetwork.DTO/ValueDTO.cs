@@ -1,6 +1,6 @@
-﻿namespace SocialNetwork.APIEntity
+﻿namespace SocialNetwork.DTO
 {
-    public class ValueEntity : BaseEntity
+    public class ValueDTO : BaseDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

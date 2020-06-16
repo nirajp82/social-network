@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SocialNetwork.APIEntity
+namespace SocialNetwork.DTO
 {
-    public class ActivityEntity : BaseEntity
+    public class ActivityDTO : BaseDTO
     {
         public Guid Id { get; set; }
 

@@ -15,6 +15,7 @@ namespace SocialNetwork.EF.Repo
         public DbSet<Activity> Activities { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<IdentityUser> IdentityUser { get; set; }
+        public DbSet<UserActivity> UserActivity { get; set; }
         #endregion
 
 
@@ -32,6 +33,7 @@ namespace SocialNetwork.EF.Repo
             modelBuilder.Seed();
 
             modelBuilder.ApplyConfiguration(new AppUserConfig());
+            modelBuilder.ApplyConfiguration(new UserActivityConfig());
 
             //Set string type to VARCHAR
             foreach (var property in modelBuilder.Model.GetEntityTypes()

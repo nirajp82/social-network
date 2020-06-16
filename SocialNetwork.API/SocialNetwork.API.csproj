@@ -13,7 +13,6 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocialNetwork.APIEntity\SocialNetwork.APIEntity.csproj" />
     <ProjectReference Include="..\SocialNetwork.Infrastructure\SocialNetwork.Infrastructure.csproj" />
     <ProjectReference Include="..\SocialNetwork.Nucleus\SocialNetwork.Nucleus.csproj" />
     <ProjectReference Include="..\SocialNetwork.WebUtil\SocialNetwork.WebUtil.csproj" />

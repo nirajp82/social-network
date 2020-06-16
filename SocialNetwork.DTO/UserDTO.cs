@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.APIEntity
+namespace SocialNetwork.DTO
 {
-    public class UserEntity : BaseEntity
+    public class UserDTO : BaseDTO
     {
         public string DisplayName { get; set; }
         public string UserName { get; set; }
