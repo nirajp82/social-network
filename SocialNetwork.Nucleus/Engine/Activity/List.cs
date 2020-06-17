@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System.Collections.Generic;
@@ -10,11 +10,11 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class List
     {
-        public class Query : IRequest<IEnumerable<ActivityDTO>>
+        public class Query : IRequest<IEnumerable<ActivityDto>>
         {
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<ActivityDTO>>
+        public class Handler : IRequestHandler<Query, IEnumerable<ActivityDto>>
         {
             #region Members
             private IUnitOfWork _unitOfWork { get; }
@@ -32,10 +32,10 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<IEnumerable<ActivityDTO>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<IEnumerable<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dbResult = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
-                IEnumerable<ActivityDTO> reponse = _mapperHelper.MapList<DataModel.Activity, ActivityDTO>(dbResult);
+                IEnumerable<ActivityDto> reponse = _mapperHelper.MapList<DataModel.Activity, ActivityDto>(dbResult);
                 return reponse;
             }
             #endregion

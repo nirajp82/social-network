@@ -5,7 +5,7 @@ using SocialNetwork.EF.Repo;
 using MediatR;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.DataModel;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 
 namespace SocialNetwork.Nucleus
 {
@@ -15,7 +15,7 @@ namespace SocialNetwork.Nucleus
         {
             services.ConfigureRepoServices(configuration);
             services.AddScoped<IValueEngine, ValueEngine>();
-            services.AddAutoMapper(typeof(List).Assembly, typeof(Activity).Assembly, typeof(ActivityDTO).Assembly);
+            services.AddAutoMapper(typeof(List).Assembly, typeof(Activity).Assembly, typeof(ActivityDto).Assembly);
             services.AddMediatR(typeof(List).Assembly);
         }
     }

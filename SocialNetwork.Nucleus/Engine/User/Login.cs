@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
@@ -12,7 +12,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 {
     public class Login
     {
-        public class Command : IRequest<UserDTO>
+        public class Command : IRequest<UserDto>
         {
             public string UserName { get; set; }
             public string Password { get; set; }
@@ -27,7 +27,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, UserDTO>
+        public class Handler : IRequestHandler<Command, UserDto>
         {
             #region Members
             private IJwtGenerator _jwtGenerator { get; }
@@ -47,7 +47,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
 
             #region Methods
-            public async Task<UserDTO> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 IdentityUser user = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
                 if (user == null)
@@ -55,7 +55,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
                 if (_cryptoHelper.GenerateHash(request.Password, user.Salt) == user.Passoword)
                 {
-                    return new UserDTO
+                    return new UserDto
                     {
                         UserName = request.UserName,
                         DisplayName = $"{user.AppUser.LastName}, {user.AppUser.FirstName}",

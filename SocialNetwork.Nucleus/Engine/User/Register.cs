@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
@@ -13,7 +13,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 {
     public class Register
     {
-        public class Command : IRequest<UserDTO>
+        public class Command : IRequest<UserDto>
         {
             public string FirstName { get; set; }
             public string LastName { get; set; }
@@ -34,7 +34,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             }
         }
 
-        public class Handler : IRequestHandler<Command, UserDTO>
+        public class Handler : IRequestHandler<Command, UserDto>
         {
             #region Members
             private readonly ICryptoHelper _cryptoHelper;
@@ -53,7 +53,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             #endregion
 
             #region Public Methods
-            public async Task<UserDTO> Handle(Command user, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(Command user, CancellationToken cancellationToken)
             {
                 await Validate(user);
 
@@ -64,7 +64,7 @@ namespace SocialNetwork.Nucleus.Engine.User
 
                 if (insertCnt > 0)
                 {
-                    return new UserDTO
+                    return new UserDto
                     {
                         DisplayName = $"{user.LastName}, {user.FirstName}",
                         UserName = user.UserName,

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using System.Threading;
@@ -9,9 +9,9 @@ namespace SocialNetwork.Nucleus
 {
     public class CurrentUser
     {
-        public class Query : IRequest<UserDTO> { }
+        public class Query : IRequest<UserDto> { }
 
-        public class Handler : IRequestHandler<Query, UserDTO>
+        public class Handler : IRequestHandler<Query, UserDto>
         {
             #region Members
             private readonly IJwtGenerator _jwtGenerator;
@@ -30,11 +30,11 @@ namespace SocialNetwork.Nucleus
             #endregion
 
             #region Public Methods
-            public async Task<UserDTO> Handle(Query query, CancellationToken cancellationToken)
+            public async Task<UserDto> Handle(Query query, CancellationToken cancellationToken)
             {
                 string userName = _userAccessor.GetCurrentUserName();
                 AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName);
-                return new UserDTO
+                return new UserDto
                 {
                     DisplayName = $"{user.LastName}, {user.FirstName}",
                     UserName = userName,

@@ -1,6 +1,6 @@
-﻿namespace SocialNetwork.DTO
+﻿namespace SocialNetwork.Dto
 {
-    public abstract class BaseDTO
+    public abstract class BaseDto
     {
     }
 }

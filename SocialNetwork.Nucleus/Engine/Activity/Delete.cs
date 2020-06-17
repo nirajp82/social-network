@@ -11,7 +11,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
     {
         public class Command : IRequest
         {
-            public Guid Id { get; set; }
+            public Guid ActivityId { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
@@ -34,7 +34,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                await _unitOfWork.ActivityRepo.DeleteAsync(request.Id, cancellationToken);
+                await _unitOfWork.ActivityRepo.DeleteAsync(request.ActivityId, cancellationToken);
 
                 int cnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (cnt > 0)

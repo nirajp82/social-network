@@ -13,7 +13,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
         public class Command : IRequest
         {
             [JsonIgnore]
-            public Guid Id { get; set; }
+            public Guid ActivityId { get; set; }
 
             public string Title { get; set; }
 
@@ -49,7 +49,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
                 //Get existing activity from database
-                DataModel.Activity dbActivity = await _unitOfWork.ActivityRepo.FindFirstAsync(request.Id, cancellationToken);
+                DataModel.Activity dbActivity = await _unitOfWork.ActivityRepo.FindFirstAsync(request.ActivityId, cancellationToken);
 
                 //Keep existing value as if user is not passing it from front end
                 request.Category ??= dbActivity.Category;

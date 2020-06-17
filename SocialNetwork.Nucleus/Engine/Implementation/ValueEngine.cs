@@ -1,4 +1,4 @@
-﻿using SocialNetwork.DTO;
+﻿using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
@@ -28,24 +28,24 @@ namespace SocialNetwork.Nucleus
 
 
         #region Public Methods
-        public async Task<IEnumerable<ValueDTO>> FindAllAsync()
+        public async Task<IEnumerable<ValueDto>> FindAllAsync()
         {
             IEnumerable<Value> result = await _unitOfWork.ValueRepo.FindAllAsync();
-            return _mapperHelper.MapList<Value, ValueDTO>(result);
+            return _mapperHelper.MapList<Value, ValueDto>(result);
         }       
 
-        public async Task<ValueDTO> AddAsync(ValueDTO entity)
+        public async Task<ValueDto> AddAsync(ValueDto entity)
         {
-            Value value = _mapperHelper.Map<ValueDTO, Value>(entity);
+            Value value = _mapperHelper.Map<ValueDto, Value>(entity);
             _unitOfWork.ValueRepo.Add(value);
             await _unitOfWork.SaveAsync();
-            return _mapperHelper.Map<Value, ValueDTO>(value);
+            return _mapperHelper.Map<Value, ValueDto>(value);
 
         }
 
-        public async Task UpdateAsync(ValueDTO entity)
+        public async Task UpdateAsync(ValueDto entity)
         {
-            Value value = _mapperHelper.Map<ValueDTO, Value>(entity);
+            Value value = _mapperHelper.Map<ValueDto, Value>(entity);
             _unitOfWork.ValueRepo.Update(value);
             await _unitOfWork.SaveAsync();
         }
@@ -56,10 +56,10 @@ namespace SocialNetwork.Nucleus
             await _unitOfWork.SaveAsync();
         }
 
-        public async Task<ValueDTO> FindFirstAsync(long valueId)
+        public async Task<ValueDto> FindFirstAsync(long valueId)
         {
             Value value = await _unitOfWork.ValueRepo.FindFirstAsync(valueId);
-            return _mapperHelper.Map<Value, ValueDTO>(value);
+            return _mapperHelper.Map<Value, ValueDto>(value);
         }
         #endregion
 

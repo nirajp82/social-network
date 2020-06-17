@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
 
@@ -11,15 +11,15 @@ namespace SocialNetwork.Nucleus.Helper
         public MapperRegistry()
         {
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
-            Map<Value, ValueDTO>();
+            Map<Value, ValueDto>();
 
-            Map<Activity, ActivityDTO>()
+            Map<Activity, ActivityDto>()
                 .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.UserActivities));
 
-            Map<UserActivity, AttendeeDTO>(false)
+            Map<UserActivity, AttendeeDto>(false)
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"));
 
-            Map<AppUser, UserDTO>();
+            Map<AppUser, UserDto>();
             Map<Create.Command, Activity>();
             Map<Edit.Command, Activity>();
         }

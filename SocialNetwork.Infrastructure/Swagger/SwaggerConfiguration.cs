@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using System;
 
-namespace SocialNetwork.API
+namespace SocialNetwork.Infrastructure
 {
     public static class SwaggerConfiguration
     {

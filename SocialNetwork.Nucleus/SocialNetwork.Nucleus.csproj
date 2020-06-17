@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SocialNetwork.DataModel\SocialNetwork.DataModel.csproj" />
-    <ProjectReference Include="..\SocialNetwork.DTO\SocialNetwork.DTO.csproj" />
+    <ProjectReference Include="..\SocialNetwork.Dto\SocialNetwork.Dto.csproj" />
     <ProjectReference Include="..\SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj" />
     <ProjectReference Include="..\SocialNetwork.Util\SocialNetwork.Util.csproj" />
   </ItemGroup>

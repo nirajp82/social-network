@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.Nucleus;
 
 namespace SocialNetwork.API.Controllers
@@ -33,7 +33,7 @@ namespace SocialNetwork.API.Controllers
         /// Fetch list of all Values
         /// </summary>
         [HttpGet()]
-        [ProducesResponseType(typeof(IEnumerable<ValueDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ValueDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get()
@@ -47,12 +47,12 @@ namespace SocialNetwork.API.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ValueDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ValueDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
-            ValueDTO entity = await _valueEngine.FindFirstAsync(id);
+            ValueDto entity = await _valueEngine.FindFirstAsync(id);
             if (entity != null)
                 return Ok(entity);
             else
@@ -61,12 +61,12 @@ namespace SocialNetwork.API.Controllers
 
         // POST api/values
         [HttpPost]
-        [ProducesResponseType(typeof(ValueDTO), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValueDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] string value)
         {
-            ValueDTO entity = await _valueEngine.AddAsync(new ValueDTO { Name = value });
+            ValueDto entity = await _valueEngine.AddAsync(new ValueDto { Name = value });
             return CreatedAtAction(nameof(Get), new { id = entity.Id }, entity);
         }
 
@@ -77,7 +77,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Put(int id, [FromBody] string value)
         {
-            await _valueEngine.UpdateAsync(new ValueDTO { Name = value, Id = id });
+            await _valueEngine.UpdateAsync(new ValueDto { Name = value, Id = id });
             return NoContent();
         }
 

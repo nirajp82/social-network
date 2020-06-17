@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SocialNetwork.DTO
+namespace SocialNetwork.Dto
 {
-    public class ActivityDTO : BaseDTO
+    public class ActivityDto : BaseDto
     {
         public Guid Id { get; set; }
 
@@ -19,6 +19,6 @@ namespace SocialNetwork.DTO
 
         public string Venue { get; set; }
 
-        public IEnumerable<AttendeeDTO> Attendees { get; set; }
+        public IEnumerable<AttendeeDto> Attendees { get; set; }
     }
 }

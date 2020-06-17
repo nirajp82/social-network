@@ -1,6 +1,6 @@
-﻿namespace SocialNetwork.DTO
+﻿namespace SocialNetwork.Dto
 {
-    public class UserDTO : BaseDTO
+    public class UserDto : BaseDto
     {
         public string DisplayName { get; set; }
         public string UserName { get; set; }

@@ -3,13 +3,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using SocialNetwork.DTO;
+using SocialNetwork.Dto;
 using SocialNetwork.Nucleus.Engine.Activity;
 using System;
 using System.Threading;
 using SocialNetwork.WebUtil;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using SocialNetwork.Infrastructure;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -20,7 +21,7 @@ namespace SocialNetwork.API.Controllers
         /// Fetch list of all activities
         /// </summary>
         [HttpGet()]
-        [ProducesResponseType(typeof(IEnumerable<ActivityDTO>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<ActivityDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -34,15 +35,15 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(ActivityDTO), StatusCodes.Status200OK)]
+        [HttpGet("{activityId:guid}")]
+        [ProducesResponseType(typeof(ActivityDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        public async Task<IActionResult> Get(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(Guid activityId, CancellationToken cancellationToken)
         {
-            ActivityDTO entity = await Mediator.Send(new Details.Query { Id = id }, cancellationToken);
+            ActivityDto entity = await Mediator.Send(new Details.Query { ActivityId = activityId }, cancellationToken);
             if (entity != null)
                 return Ok(entity);
             else
@@ -64,37 +65,39 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{activityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Edit.Command request,
+        public async Task<IActionResult> Put(Guid activityId, [FromBody] Edit.Command request,
             CancellationToken cancellationToken)
         {
-            request.Id = id;
+            request.ActivityId = activityId;
             await Mediator.Send(request, cancellationToken);
             return NoContent();
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{activityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid activityId, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new Delete.Command { Id = id }, cancellationToken);
+            await Mediator.Send(new Delete.Command { ActivityId = activityId }, cancellationToken);
             return NoContent();
         }
 
-        [HttpPost("{activityId}/attend")]
+        [HttpPost("{activityId:guid}/attend")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
+        [ServiceFilter(typeof(ValidateAttendanceFilter))]
         public async Task<IActionResult> Attend(Guid activityId, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Attend.Command { ActivityId = activityId }, cancellationToken);
@@ -102,11 +105,13 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpPost("{activityId}/unattend")]
+        [HttpPost("{activityId:guid}/unattend")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
+        [ServiceFilter(typeof(ValidateUnAttendanceFilter))]
         public async Task<IActionResult> Unattend(Guid activityId, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Unattend.Command { ActivityId = activityId }, cancellationToken);

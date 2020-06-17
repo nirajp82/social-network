@@ -3,7 +3,6 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -36,7 +35,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await Validate(request, cancellationToken);
+                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
 
                 UserActivity hostAttendee = new UserActivity
                 {
@@ -56,19 +55,20 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #endregion
 
             #region Private Method
-            private async Task<AppUser> Validate(Command request, CancellationToken cancellationToken)
-            {
-                bool activityExists = await _unitOfWork.ActivityRepo.ExistsAsync(request.ActivityId, cancellationToken);
-                if (!activityExists)
-                    throw new CustomException(HttpStatusCode.NotFound, new { Activity = "Could not found activity!" });
+            //TODO: Validate
+            //private async Task<AppUser> Validate(Command request, CancellationToken cancellationToken)
+            //{
+            //    bool activityExists = await _unitOfWork.ActivityRepo.ExistsAsync(request.ActivityId, cancellationToken);
+            //    if (!activityExists)
+            //        throw new CustomException(HttpStatusCode.NotFound, new { Activity = "Could not found activity!" });
 
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-                bool isUserAttending = await _unitOfWork.UserActivityRepo.ExistsAsync(request.ActivityId, appUser.Id, cancellationToken);
-                if (isUserAttending)
-                    throw new CustomException(HttpStatusCode.BadRequest, new { Activity = "User is already attending this activity!" });
+            //    AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
+            //    bool isUserAttending = await _unitOfWork.UserActivityRepo.ExistsAsync(request.ActivityId, appUser.Id, cancellationToken);
+            //    if (isUserAttending)
+            //        throw new CustomException(HttpStatusCode.BadRequest, new { Activity = "User is already attending this activity!" });
 
-                return appUser;
-            }
+            //    return appUser;
+            //}
             #endregion
         }
     }

@@ -1,4 +1,4 @@
-﻿using SocialNetwork.DTO;
+﻿using SocialNetwork.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,14 +6,14 @@ namespace SocialNetwork.Nucleus
 {
     public interface IValueEngine
     {
-        Task<IEnumerable<ValueDTO>> FindAllAsync();
+        Task<IEnumerable<ValueDto>> FindAllAsync();
 
-        Task<ValueDTO> AddAsync(ValueDTO entity);
+        Task<ValueDto> AddAsync(ValueDto entity);
 
-        Task UpdateAsync(ValueDTO entity);
+        Task UpdateAsync(ValueDto entity);
 
         Task DeleteAsync(long valueId);
 
-        Task<ValueDTO> FindFirstAsync(long valueId);
+        Task<ValueDto> FindFirstAsync(long valueId);
     }
 }

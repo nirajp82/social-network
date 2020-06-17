@@ -12,6 +12,8 @@ using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Util;
 using SocialNetwork.WebUtil;
 using System.Net;
+using SocialNetwork.Infrastructure;
+using SocialNetwork.Nucleus;
 
 namespace SocialNetwork.API
 {
@@ -35,8 +37,8 @@ namespace SocialNetwork.API
         #region Public Methods
         public void ConfigureServices(IServiceCollection services)
         {
-            services.ConfigureAppServices(_configuration);
-            services.AddCorsSupport(_CORS_POLICY_NAME);
+            ConfigureAppServices(services);
+            AddCorsSupport(services);
 
             services.AddControllers(options =>
             {
@@ -47,7 +49,7 @@ namespace SocialNetwork.API
             {
                 cfg.RegisterValidatorsFromAssemblyContaining<Create>();
             });
-        }       
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,7 +60,7 @@ namespace SocialNetwork.API
 
             app.UseCors(_CORS_POLICY_NAME);
 
-            app.ConfigureCommonMiddleware();
+            app.ConfigureSwaggerMiddleware();
 
             app.UseHttpsRedirection();
 
@@ -74,13 +76,38 @@ namespace SocialNetwork.API
         #endregion
 
         #region Private Methods
-        private static void ConfigureAuthorizationPolicy(MvcOptions options)
+        private void ConfigureAuthorizationPolicy(MvcOptions options)
         {
             //Build policy, that will restricate API access to only Authorized user.  
             var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
                             .RequireAuthenticatedUser()
                             .Build();
             options.Filters.Add(new AuthorizeFilter(policy));
+        }
+
+        private void ConfigureAppServices(IServiceCollection services)
+        {
+            services.ConfigureUtilServices();
+            services.ConfigureInfrastructureServices(_configuration);
+            services.ConfigureNucleusServices(_configuration);
+        }
+
+        private void AddCorsSupport(IServiceCollection services)
+        {
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            AppConfigHelper appConfigHelper = serviceProvider.GetService<AppConfigHelper>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_CORS_POLICY_NAME, corsOptions =>
+                {
+                    corsOptions
+                        .WithOrigins(appConfigHelper.GetValue<string>("Cors:AllowedHost"))
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
+            });
         }
         #endregion
     }

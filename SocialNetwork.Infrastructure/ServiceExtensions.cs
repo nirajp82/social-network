@@ -8,15 +8,18 @@ namespace SocialNetwork.Infrastructure
 {
     public static class ServiceExtensions
     {
-        #region Member
-        #endregion
-
-
         #region Extension Method
         public static void ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            
+            //Action Filters
+            services.AddScoped<ValidateActivityExistsFilter>();
+            services.AddScoped<ValidateAttendanceFilter>();
+            services.AddScoped<ValidateUnAttendanceFilter>();
+            
+            services.ConfigureSwaggerService();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
