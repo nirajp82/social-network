@@ -31,7 +31,7 @@ namespace SocialNetwork.Infrastructure
         {
             if (context.ActionArguments["activityId"] is Guid activityId)
             {
-                var response = await _mediator.Send(new AttendanceRequirement.Command { ActivityId = activityId });
+                var response = await _mediator.Send(new UnAttendanceRequirement.Command { ActivityId = activityId });
                 if (response.Key)
                 {
                     await next();
