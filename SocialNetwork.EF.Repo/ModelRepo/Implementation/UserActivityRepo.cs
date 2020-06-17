@@ -1,4 +1,7 @@
 ﻿using SocialNetwork.DataModel;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
 {
@@ -13,6 +16,15 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Method
+        public async Task<bool> ExistsAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default)
+        {
+            return await base.HasAnyAsync(ua => ua.AppUserId == appUserId && ua.ActivityId == activityId, cancellationToken);
+        }
+
+        public async Task<UserActivity> FindFirstAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default)
+        {
+            return await base.FindFirstAsync(ua => ua.AppUserId == appUserId && ua.ActivityId == activityId, null, cancellationToken);
+        }
         #endregion
     }
 }

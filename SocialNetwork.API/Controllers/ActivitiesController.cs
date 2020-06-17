@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace SocialNetwork.API.Controllers
 {
     public class ActivitiesController : BaseController
-    {               
+    {
         #region Queries Action Methods
         /// <summary>
         /// Fetch list of all activities
@@ -87,6 +87,29 @@ namespace SocialNetwork.API.Controllers
         public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Delete.Command { Id = id }, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPost("{activityId}/attend")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Attend(Guid activityId, CancellationToken cancellationToken)
+        {
+            await Mediator.Send(new Attend.Command { ActivityId = activityId }, cancellationToken);
+            return NoContent();
+        }
+
+
+        [HttpPost("{activityId}/unattend")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Unattend(Guid activityId, CancellationToken cancellationToken)
+        {
+            await Mediator.Send(new Unattend.Command { ActivityId = activityId }, cancellationToken);
             return NoContent();
         }
         #endregion

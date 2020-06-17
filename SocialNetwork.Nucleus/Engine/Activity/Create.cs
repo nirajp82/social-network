@@ -66,8 +66,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
                 activity.Id = Guid.NewGuid();
                 _unitOfWork.ActivityRepo.Add(activity);
 
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindFirstAsync(e =>
-                                        e.IdentityUser.UserName == _userAccessor.GetCurrentUserName());
+                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
 
                 UserActivity hostAttendee = new UserActivity
                 {

@@ -16,6 +16,8 @@ namespace SocialNetwork.EF.Repo
            IEnumerable<string> includes = null,
            CancellationToken cancellationToken = default);
 
+        Task<AppUser> FindByUserName(string userName, CancellationToken cancellationToken = default);
+
         void Add(AppUser user);
     }
 }

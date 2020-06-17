@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace SocialNetwork.EF.Repo
 {
@@ -25,8 +26,12 @@ namespace SocialNetwork.EF.Repo
                    optionBuilder = optionBuilder.UseLoggerFactory(loggerFactory)
                     .EnableSensitiveDataLogging();  //tie-up DbContext with LoggerFactory object
 #endif
-                   optionBuilder                    
-                        .UseSqlServer(configuration.GetConnectionString("SocialNetwork"), options => options.EnableRetryOnFailure());
+                   //connection resiliency
+                   optionBuilder.UseSqlServer
+                        (
+                            configuration.GetConnectionString("SocialNetwork"),
+                            options => options.EnableRetryOnFailure(5, TimeSpan.FromSeconds(30), null)
+                        );
                });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

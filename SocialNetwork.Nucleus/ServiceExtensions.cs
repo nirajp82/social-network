@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.EF.Repo;
-using System;
 using MediatR;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.DataModel;

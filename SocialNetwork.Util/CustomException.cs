@@ -10,6 +10,7 @@ namespace SocialNetwork.Util
         public object Errors { get; }
         #endregion
 
+
         #region Constructor
         public CustomException(HttpStatusCode statusCode, object errors = default)
         {
