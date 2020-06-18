@@ -25,6 +25,11 @@ namespace SocialNetwork.EF.Repo
         {
             return await base.FindFirstAsync(ua => ua.AppUserId == appUserId && ua.ActivityId == activityId, null, cancellationToken);
         }
+
+        public async Task<bool> IsHostAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default)
+        {
+            return await base.HasAnyAsync(ua => ua.AppUserId == appUserId && ua.ActivityId == activityId && ua.IsHost, cancellationToken);
+        }
         #endregion
     }
 }

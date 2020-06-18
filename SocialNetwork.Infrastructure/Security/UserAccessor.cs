@@ -7,7 +7,11 @@ namespace SocialNetwork.Infrastructure
 {
     internal class UserAccessor : IUserAccessor
     {
-        private readonly IHttpContextAccessor _contextAccessor;
+        #region Members
+        private readonly IHttpContextAccessor _contextAccessor; 
+        #endregion
+
+
         #region Constructor
         public UserAccessor(IHttpContextAccessor contextAccessor)
         {

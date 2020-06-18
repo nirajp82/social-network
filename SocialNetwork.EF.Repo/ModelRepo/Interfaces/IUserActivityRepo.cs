@@ -11,6 +11,8 @@ namespace SocialNetwork.EF.Repo
 
         Task<bool> ExistsAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default);
 
+        Task<bool> IsHostAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default);
+
         Task<UserActivity> FindFirstAsync(Guid activityId, Guid appUserId, CancellationToken cancellationToken = default);
 
         void Delete(UserActivity entity);

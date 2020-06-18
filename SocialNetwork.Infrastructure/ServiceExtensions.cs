@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -33,6 +34,16 @@ namespace SocialNetwork.Infrastructure
                         ValidateIssuer = false
                     };
                 });
+
+            services.AddAuthorization(opt => 
+            {
+                opt.AddPolicy("IsActivityHost", policy => 
+                {
+                    policy.Requirements.Add(new IsHostRequirement());
+                });
+            });
+
+            services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
         }
         #endregion
     }
