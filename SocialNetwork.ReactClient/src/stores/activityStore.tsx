@@ -1,10 +1,11 @@
 ﻿import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
-import { toast } from 'react-toastify';
+import { isUserGoing, isUserHost, createAttendee, removeAttendee } from '../features/activities/util';
 
 export default class activityStore {
     rootStore: rootStore;
@@ -14,12 +15,12 @@ export default class activityStore {
     }
 
     @observable activityRegistry = new Map<string, IActivity>();
+    @observable selectedActivity: IActivity | undefined;
     @observable isLoadingActivities = false;
     @observable isLoadingActivity = false;
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
-    //@observable selectedActivity: IActivity | undefined;
 
     getActivity = (id: string): IActivity | undefined => {
         return this.activityRegistry.get(id);
@@ -45,8 +46,17 @@ export default class activityStore {
         this.isDeleting = value;
     };
 
+    @action setSelectedActivity = (activity: IActivity) => {
+        this.selectedActivity = activity;
+    };
+
     @action setActivity = (activity: IActivity) => {
         activity.date = new Date(activity.date);
+        const user = this.getCurrentUser();
+        if (user) {
+            activity.isCurrentUserGoing = isUserGoing(activity, user);
+            activity.isCurrentUserHost = isUserHost(activity, user);
+        }
         this.activityRegistry.set(activity.id, activity);
     };
 
@@ -56,7 +66,7 @@ export default class activityStore {
             const activities = await activityService.list();
             activities.forEach((activity) => {
                 this.setActivity(activity);
-            })
+            });
             this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
@@ -69,13 +79,16 @@ export default class activityStore {
             return;
 
         let activity = this.getActivity(id);
-        if (activity)
+        if (activity) {
+            this.setSelectedActivity(activity);
             return activity;
+        }
 
         this.setIsLoadingActivity(true);
         try {
             activity = await activityService.details(id);
             this.setActivity(activity!);
+            this.setSelectedActivity(activity);
             this.setIsLoadingActivity(false);
             return activity;
         } catch (error) {
@@ -89,6 +102,10 @@ export default class activityStore {
 
         try {
             activity.id = await activityService.create(activity);
+            runInAction(() => {
+                activity.attendees = activity.attendees || [];
+                activity.attendees.push(createAttendee(this.getCurrentUser()!, true));
+            });
             this.setActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
@@ -133,18 +150,27 @@ export default class activityStore {
         }
     };
 
-    @action attend = async (id: string) => {
+    @action attend = async (activity: IActivity) => {
         try {
-            await activityService.attend(id);
+            await activityService.attend(activity.id);
+            runInAction(() => {
+                activity.attendees = activity.attendees || [];
+                activity.attendees.push(createAttendee(this.getCurrentUser()!, false));
+            });
+            this.setActivity(activity);
         } catch (error) {
             console.error(error);
             toast.error('Problem signin up to activity, Please try again later!');
         }
     };
 
-    @action unattend = async (id: string) => {
+    @action unattend = async (activity: IActivity) => {
         try {
-            await activityService.unattend(id);
+            await activityService.unattend(activity.id);
+            runInAction(() => {
+                activity.attendees = removeAttendee(activity, this.getCurrentUser()!);
+            });
+            this.setActivity(activity);
         } catch (error) {
             console.error(error);
             toast.error('Problem cancelling attendance, Please try again later!');
@@ -172,6 +198,10 @@ export default class activityStore {
             accumulator[date] = accumulator[date] ? [...accumulator[date], currentValue] : [currentValue];
             return accumulator;
         }, initialValue));
+    };
+
+    getCurrentUser = () => {
+        return this.rootStore.userStore.getCurrentUserInstance();
     };
 };
 

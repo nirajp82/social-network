@@ -1,4 +1,4 @@
-﻿import { observable, action, computed } from 'mobx';
+﻿import { observable, action, computed, toJS } from 'mobx';
 
 import { IUser, ILogin, IRegister } from '../models/IUser';
 import userService from '../api/userService';
@@ -51,9 +51,14 @@ class userStore {
                 const user = await userService.current();
                 this.setUser(user);
             }
+            return this.user;
         } catch (err) {
             console.log(err);
         }
+    };
+
+    getCurrentUserInstance = () => {
+        return toJS(this.user);
     };
 
     @action logout = () => {

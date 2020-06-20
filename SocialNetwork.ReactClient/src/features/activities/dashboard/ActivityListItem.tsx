@@ -1,20 +1,18 @@
 ﻿import React from 'react';
-import { Item, Button, Segment, Icon,  Label } from 'semantic-ui-react';
+import { Item, Button, Segment, Icon, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 import { IActivity } from '../../../models/IActivity';
 import ActivityListItemAttendee from './ActivityListItemAttendee';
 import * as constants from '../../../utils/constants';
+import { getHostName } from '../util';
 
 interface IProps {
     activity: IActivity;
 };
 
 const ActivityListItem: React.FC<IProps> = ({ activity }) => {
-
-    const host = 'TODO:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa';
-
     return (
         <Segment.Group>
             <Segment>
@@ -25,17 +23,16 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                     <Item.Content>
                         <Item.Header as='a'>{activity.title}</Item.Header>
                         <Item.Description>
-                            Hosted By {host}
+                            Hosted By {getHostName(activity)}
                             {
                                 activity.isCurrentUserHost &&
                                 <Item.Description>
                                     <Label basic
                                         color='orange'
                                         content='You are hosting this activity'
-                                      />
+                                    />
                                 </Item.Description>
                             }
-
                             {
                                 !activity.isCurrentUserHost && activity.isCurrentUserGoing &&
                                 <Item.Description>

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { IActivity } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 import { rootStoreContext } from '../../../stores/rootStore';
+import { getHostName } from '../util';
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -29,7 +30,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
     const attendActivity = async () => {
         setLoading(true);
         try {
-            await rootStoreObject.activityStore.attend(activity?.id!);
+            await rootStoreObject.activityStore.attend(activity!);
         } finally {
             setLoading(false);
         }
@@ -38,7 +39,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
     const unAttendActivity = async () => {
         setLoading(true);
         try {
-            await rootStoreObject.activityStore.unattend(activity?.id!);
+            await rootStoreObject.activityStore.unattend(activity!);
         } finally {
             setLoading(false);
         }
@@ -55,7 +56,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                             <Item.Content>
                                 <Header size="huge" content={activity?.title} style={{ color: 'white' }}></Header>
                                 <p>{moment(activity?.date).format('dddd Do MMM')}</p>
-                                <p>Hosted By <strong> Shree Raj</strong> </p>
+                                <p>Hosted By <strong> {getHostName(activity!)}</strong> </p>
                             </Item.Content>
                         </Item>
                     </Item.Group>

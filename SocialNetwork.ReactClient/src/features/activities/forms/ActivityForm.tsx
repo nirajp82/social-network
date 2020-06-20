@@ -42,7 +42,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
     useEffect(() => {
         if (props.match.params.id) {
             loadActivity(props.match.params.id)
-                .then(activity => {
+                .then((activity) => {
                     setActivity(new ActivityFormValues(activity));
                 })
         }

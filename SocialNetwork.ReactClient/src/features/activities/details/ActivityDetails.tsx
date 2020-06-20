@@ -1,9 +1,8 @@
-﻿import React, { useContext, useEffect, useState } from 'react';
+﻿import React, { useContext, useEffect } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
 import { rootStoreContext } from '../../../stores/rootStore';
-import { IActivity } from '../../../models/IActivity';
 import { RouteComponentProps } from 'react-router-dom';
 import ProgressBar from '../../../layout/ProgressBar';
 import ActivityDetailChat from './ActivityDetailChat';
@@ -19,14 +18,12 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     const rootStoreObj = useContext(rootStoreContext);
     const activityStoreObj = rootStoreObj.activityStore;
 
-    const [selectedActivity, setActivity] = useState<IActivity | undefined>(undefined);
-    const { loadActivity } = activityStoreObj;
+    const { loadActivity, selectedActivity } = activityStoreObj;
 
     useEffect(() => {
         if (props.match.params.id && props.match.params.id.length > 0) {
             const load = async () => {
-                const response = await loadActivity(props.match.params.id);
-                setActivity(response);
+                await loadActivity(props.match.params.id);
             };
             load();
         }

@@ -3,6 +3,7 @@ import { Segment, List, Image, Item, Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { IAttendee } from '../../../models/IActivity';
 import { NAV_USER_PROFILE } from '../../../utils/constants';
+import { observer } from 'mobx-react-lite';
 
 interface IProps {
     attendees: IAttendee[]
@@ -25,7 +26,7 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
                     {
                         attendees?.map((attendee: IAttendee) => {
                             return (
-                                <Item style={{ position: 'relative' }}>
+                                <Item key={attendee.appUserId} style={{ position: 'relative' }}>
                                     {attendee.isHost &&
                                         (<Label
                                             style={{ position: 'absolute' }}
@@ -53,4 +54,4 @@ const ActivityDetailedSidebar: React.FC<IProps> = ({ attendees }) => {
     );
 };
 
-export default ActivityDetailedSidebar;
+export default observer(ActivityDetailedSidebar);

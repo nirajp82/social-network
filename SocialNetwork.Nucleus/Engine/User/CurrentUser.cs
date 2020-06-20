@@ -36,9 +36,11 @@ namespace SocialNetwork.Nucleus
                 AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName);
                 return new UserDto
                 {
-                    DisplayName = $"{user.LastName}, {user.FirstName}",
+                    AppUserId = user.Id,
                     UserName = userName,
-                    Token = _jwtGenerator.CreateToken(userName)
+                    DisplayName = $"{user.LastName}, {user.FirstName}",
+                    Token = _jwtGenerator.CreateToken(userName),
+                    Image = null
                 };
             }
             #endregion
