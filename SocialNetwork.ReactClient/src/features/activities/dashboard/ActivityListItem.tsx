@@ -1,9 +1,10 @@
-﻿import React, { Fragment } from 'react';
-import { Item, Button, Segment, Icon, Image } from 'semantic-ui-react';
+﻿import React from 'react';
+import { Item, Button, Segment, Icon,  Label } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { IActivity, IAttendee } from '../../../models/IActivity';
+import { IActivity } from '../../../models/IActivity';
+import ActivityListItemAttendee from './ActivityListItemAttendee';
 import * as constants from '../../../utils/constants';
 
 interface IProps {
@@ -11,17 +12,8 @@ interface IProps {
 };
 
 const ActivityListItem: React.FC<IProps> = ({ activity }) => {
-    const getAttendees = (activity: IActivity) => {
-        return activity.attendees?.map((attendee: IAttendee) => {
-            let path = attendee.image || '/assets/user.png';
-            return (
-                <Fragment key={attendee.appUserId}>
-                    <Image src={path} size='mini' centered circular verticalAlign='bottom' />
-                    <span>{attendee.displayName}</span>
-                </Fragment>
-            );
-        });
-    };
+
+    const host = 'TODO:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa';
 
     return (
         <Segment.Group>
@@ -33,7 +25,26 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                     <Item.Content>
                         <Item.Header as='a'>{activity.title}</Item.Header>
                         <Item.Description>
-                            Hosted By Almighty Shree Raj
+                            Hosted By {host}
+                            {
+                                activity.isCurrentUserHost &&
+                                <Item.Description>
+                                    <Label basic
+                                        color='orange'
+                                        content='You are hosting this activity'
+                                      />
+                                </Item.Description>
+                            }
+
+                            {
+                                !activity.isCurrentUserHost && activity.isCurrentUserGoing &&
+                                <Item.Description>
+                                    <Label basic
+                                        color='green'
+                                        content='You are going to this activity'
+                                    />
+                                </Item.Description>
+                            }
                         </Item.Description>
                     </Item.Content>
                 </Item.Group>
@@ -43,7 +54,7 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                 <Icon name="marker" />{activity.venue}, {activity.city}
             </Segment>
             <Segment secondary>
-                {getAttendees(activity)}
+                <ActivityListItemAttendee attendees={activity.attendees} />
             </Segment>
             <Segment clearing>
                 <span>{activity.description}</span>

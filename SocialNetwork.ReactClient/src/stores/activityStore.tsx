@@ -4,6 +4,7 @@ import moment from 'moment';
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
+import { toast } from 'react-toastify';
 
 export default class activityStore {
     rootStore: rootStore;
@@ -137,6 +138,7 @@ export default class activityStore {
             await activityService.attend(id);
         } catch (error) {
             console.error(error);
+            toast.error('Problem signin up to activity, Please try again later!');
         }
     };
 
@@ -145,6 +147,7 @@ export default class activityStore {
             await activityService.unattend(id);
         } catch (error) {
             console.error(error);
+            toast.error('Problem cancelling attendance, Please try again later!');
         }
     };
 
