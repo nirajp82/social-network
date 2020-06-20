@@ -23,22 +23,22 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     const { loadActivity } = activityStoreObj;
 
     useEffect(() => {
-        let isComponentMounted = true;
+        //let isComponentMounted = true;
         if (props.match.params.id && props.match.params.id.length > 0) {
             const load = async () => {
                 const response = await loadActivity(props.match.params.id);
-                //await loadActivity(props.match.params.id);
-                if (isComponentMounted)
-                    setActivity(response);
+                ////await loadActivity(props.match.params.id);
+                //if (isComponentMounted)
+                setActivity(response);
             };
             load();
         }
-        //To fix following warning: 
-        //Can't perform a React state update on an unmounted component. 
-        //This is a no - op, but it indicates a memory leak in application
-        return () => {
-            isComponentMounted = false;
-        }
+        ////To fix following warning: 
+        ////Can't perform a React state update on an unmounted component. 
+        ////This is a no - op, but it indicates a memory leak in application
+        //return () => {
+        //    isComponentMounted = false;
+        //}
     }, [loadActivity, props.match.params.id]);
 
     if (activityStoreObj.isLoadingActivity)

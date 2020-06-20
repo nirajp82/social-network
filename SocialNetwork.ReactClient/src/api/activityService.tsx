@@ -19,6 +19,12 @@ const activityService = {
     },
     delete: (id: string) => {
         return httpService.delete(`/activities/${id}`);
+    },
+    attend: (id: string) => {
+        return httpService.post(`/activities/${id}/attend`, {});
+    },
+    unattend: (id: string) => {
+        return httpService.post(`/activities/${id}/unattend`, {});
     }
 };
 

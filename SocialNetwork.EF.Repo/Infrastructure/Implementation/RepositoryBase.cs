@@ -35,7 +35,7 @@ namespace SocialNetwork.EF.Repo
         {
             _context.Set<TEntity>().Attach(entity);
             _context.Entry<TEntity>(entity).State = EntityState.Modified;
-            //_context.Set<T>().Update(entity);
+            //_context.Set<TEntity>().Update(entity);
         }
 
 

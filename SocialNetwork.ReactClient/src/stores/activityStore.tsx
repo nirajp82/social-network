@@ -132,6 +132,22 @@ export default class activityStore {
         }
     };
 
+    @action attend = async (id: string) => {
+        try {
+            await activityService.attend(id);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    @action unattend = async (id: string) => {
+        try {
+            await activityService.unattend(id);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     @computed get activityByDate(): [string, IActivity[]][] {
         const sortedArray = Array.from(this.activityRegistry.values()).sort(
             (a, b): number => {

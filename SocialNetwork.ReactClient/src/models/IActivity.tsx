@@ -6,7 +6,15 @@
     date: Date;
     city: string;
     venue: string;
-}
+    attendees: IAttendee[]
+};
+
+export interface IAttendee {
+    appUserId: string,
+    displayName: string,
+    image: string,
+    isHost: boolean
+};
 
 //following "extends Partial<IActivity>" line will inherit all the properties from IActivity and make all them optional 
 export interface IActivityFormValues extends Partial<IActivity> {

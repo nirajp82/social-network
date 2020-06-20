@@ -1,9 +1,9 @@
-﻿import React from 'react';
-import { Item, Button, Segment, Icon } from 'semantic-ui-react';
+﻿import React, { Fragment } from 'react';
+import { Item, Button, Segment, Icon, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
-import { IActivity } from '../../../models/IActivity';
+import { IActivity, IAttendee } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 
 interface IProps {
@@ -11,6 +11,18 @@ interface IProps {
 };
 
 const ActivityListItem: React.FC<IProps> = ({ activity }) => {
+    const getAttendees = (activity: IActivity) => {
+        return activity.attendees?.map((attendee: IAttendee) => {
+            let path = attendee.image || '/assets/user.png';
+            return (
+                <Fragment key={attendee.appUserId}>
+                    <Image src={path} size='mini' centered circular verticalAlign='bottom' />
+                    <span>{attendee.displayName}</span>
+                </Fragment>
+            );
+        });
+    };
+
     return (
         <Segment.Group>
             <Segment>
@@ -31,7 +43,7 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                 <Icon name="marker" />{activity.venue}, {activity.city}
             </Segment>
             <Segment secondary>
-                Name of Sundarsath
+                {getAttendees(activity)}
             </Segment>
             <Segment clearing>
                 <span>{activity.description}</span>

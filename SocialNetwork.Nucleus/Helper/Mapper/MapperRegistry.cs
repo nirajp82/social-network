@@ -21,7 +21,8 @@ namespace SocialNetwork.Nucleus.Helper
 
             Map<AppUser, UserDto>();
             Map<Create.Command, Activity>();
-            Map<Edit.Command, Activity>();
+            Map<Edit.Command, Activity>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ActivityId));
         }
         #endregion
 
