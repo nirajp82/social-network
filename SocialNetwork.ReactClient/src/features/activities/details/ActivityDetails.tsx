@@ -1,4 +1,4 @@
-﻿import React, { useContext, useEffect } from 'react';
+﻿import React, { useContext, useEffect, useState } from 'react';
 import { Grid } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
@@ -9,6 +9,7 @@ import ActivityDetailChat from './ActivityDetailChat';
 import ActivityDetailHeader from './ActivityDetailHeader';
 import ActivityDetailInfo from './ActivityDetailInfo';
 import ActivityDetailSidebar from './ActivityDetailedSidebar';
+import { IActivity } from '../../../models/IActivity';
 
 interface iRouteProps {
     id: string;
@@ -17,13 +18,14 @@ interface iRouteProps {
 const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     const rootStoreObj = useContext(rootStoreContext);
     const activityStoreObj = rootStoreObj.activityStore;
-
-    const { loadActivity, selectedActivity } = activityStoreObj;
+    const [selectedActivity, setSelectedActivity] = useState<IActivity | null>(null);
+    const { loadActivity } = activityStoreObj;
 
     useEffect(() => {
         if (props.match.params.id && props.match.params.id.length > 0) {
             const load = async () => {
-                await loadActivity(props.match.params.id);
+                const activity = await loadActivity(props.match.params.id);
+                setSelectedActivity(activity!);
             };
             load();
         }
@@ -35,8 +37,8 @@ const ActivityDetails: React.FC<RouteComponentProps<iRouteProps>> = (props) => {
     return (
         <Grid>
             <Grid.Column width={10}>
-                <ActivityDetailHeader activity={selectedActivity} />
-                <ActivityDetailInfo activity={selectedActivity} />
+                <ActivityDetailHeader activity={selectedActivity!} />
+                <ActivityDetailInfo activity={selectedActivity!} />
                 <ActivityDetailChat />
             </Grid.Column>
             <Grid.Column width={6}>

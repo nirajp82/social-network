@@ -15,7 +15,6 @@ export default class activityStore {
     }
 
     @observable activityRegistry = new Map<string, IActivity>();
-    @observable selectedActivity: IActivity | undefined;
     @observable isLoadingActivities = false;
     @observable isLoadingActivity = false;
     @observable showForm = false;
@@ -44,10 +43,6 @@ export default class activityStore {
 
     @action setIsDeleting = (value: boolean) => {
         this.isDeleting = value;
-    };
-
-    @action setSelectedActivity = (activity: IActivity) => {
-        this.selectedActivity = activity;
     };
 
     @action setActivity = (activity: IActivity) => {
@@ -80,7 +75,6 @@ export default class activityStore {
 
         let activity = this.getActivity(id);
         if (activity) {
-            this.setSelectedActivity(activity);
             return activity;
         }
 
@@ -88,7 +82,6 @@ export default class activityStore {
         try {
             activity = await activityService.details(id);
             this.setActivity(activity!);
-            this.setSelectedActivity(activity);
             this.setIsLoadingActivity(false);
             return activity;
         } catch (error) {
