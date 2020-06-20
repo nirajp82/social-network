@@ -21,6 +21,8 @@
     <Compile Remove="Migrations\20200609190420_Initial-Migration.Designer.cs" />
     <Compile Remove="Migrations\20200616033407_Added UserActivity.cs" />
     <Compile Remove="Migrations\20200616033407_Added UserActivity.Designer.cs" />
+    <Compile Remove="Migrations\20200616223545_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200616223545_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
