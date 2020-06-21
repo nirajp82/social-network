@@ -95,7 +95,7 @@ namespace SocialNetwork.API
         private void AddCorsSupport(IServiceCollection services)
         {
             ServiceProvider serviceProvider = services.BuildServiceProvider();
-            AppConfigHelper appConfigHelper = serviceProvider.GetService<AppConfigHelper>();
+            Util.AppConfigHelper appConfigHelper = serviceProvider.GetService<Util.AppConfigHelper>();
 
             services.AddCors(options =>
             {

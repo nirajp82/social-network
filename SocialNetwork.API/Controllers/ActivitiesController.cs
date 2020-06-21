@@ -68,10 +68,11 @@ namespace SocialNetwork.API.Controllers
         [HttpPut("{activityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        [Authorize(Policy = "IsActivityHost")]
+        [Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
         public async Task<IActionResult> Put(Guid activityId, [FromBody] Edit.Command request,
             CancellationToken cancellationToken)
         {
@@ -83,10 +84,11 @@ namespace SocialNetwork.API.Controllers
         [HttpDelete("{activityId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        [Authorize(Policy = "IsActivityHost")]
+        [Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
         public async Task<IActionResult> Delete(Guid activityId, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Delete.Command { ActivityId = activityId }, cancellationToken);
@@ -96,6 +98,7 @@ namespace SocialNetwork.API.Controllers
         [HttpPost("{activityId:guid}/attend")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
@@ -110,6 +113,7 @@ namespace SocialNetwork.API.Controllers
         [HttpPost("{activityId:guid}/unattend")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]

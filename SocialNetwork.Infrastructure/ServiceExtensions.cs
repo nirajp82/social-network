@@ -12,16 +12,19 @@ namespace SocialNetwork.Infrastructure
         #region Extension Method
         public static void ConfigureInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
+            //Services Registration
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
-            
+            services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+            services.AddSingleton<InfrastructureConfigSettings>();
+            services.ConfigureSwaggerService();
+
             //Action Filters
             services.AddScoped<ValidateActivityExistsFilter>();
             services.AddScoped<ValidateAttendanceFilter>();
             services.AddScoped<ValidateUnAttendanceFilter>();
-            
-            services.ConfigureSwaggerService();
 
+            //Authentication
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(opt =>
                 {
@@ -35,14 +38,14 @@ namespace SocialNetwork.Infrastructure
                     };
                 });
 
-            services.AddAuthorization(opt => 
+            //Host Authorization
+            services.AddAuthorization(opt =>
             {
-                opt.AddPolicy("IsActivityHost", policy => 
+                opt.AddPolicy(InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME, policy =>
                 {
                     policy.Requirements.Add(new IsHostRequirement());
                 });
             });
-
             services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
         }
         #endregion
