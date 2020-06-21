@@ -14,7 +14,7 @@ namespace SocialNetwork.EF.Repo
             //using following two one to many relationship, configure Many to Many relationship
             //One to Many Relationship
             builder.HasOne(ua => ua.AppUser)
-                 .WithMany(u => u.UserActivities)
+                 .WithMany(u => u.Activities)
                  .HasForeignKey(ua => ua.AppUserId);
             //One to Many Relationship
             builder.HasOne(ua => ua.Activity)

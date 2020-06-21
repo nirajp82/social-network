@@ -54,6 +54,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             }
             #endregion
 
+
             #region Private Method
             //TODO: Validate
             //private async Task<AppUser> Validate(Command request, CancellationToken cancellationToken)

@@ -5,6 +5,7 @@ using SocialNetwork.Dto;
 using SocialNetwork.Nucleus;
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Infrastructure
@@ -25,25 +26,27 @@ namespace SocialNetwork.Infrastructure
 
 
         #region Public Methods
-        public async Task<PhotoUploadResult> AddPhotoAsync(IFormFile formFile)
+        public async Task<PhotoDto> AddPhotoAsync(IFormFile formFile, CancellationToken cancellationToken)
         {
-            PhotoUploadResult result = new PhotoUploadResult
+            Guid id = Guid.NewGuid();
+            PhotoDto result = new PhotoDto
             {
-                PublicId = Guid.NewGuid().ToString(),//$"{Guid.NewGuid()}.{Path.GetExtension(formFile.FileName)}"
+                Id = id,
+                CloudName = $"{id}{Path.GetExtension(formFile.FileName)}"
             };
-            CloudBlockBlob blob = GetBlockBlobReference(result.PublicId);
+            CloudBlockBlob blob = GetBlockBlobReference(result.CloudName.ToString());
 
             using (Stream fs = formFile.OpenReadStream())
-                await blob.UploadFromStreamAsync(fs);
+                await blob.UploadFromStreamAsync(fs, cancellationToken);
 
-            result.Url = GetUri(result.PublicId);
+            result.Url = GetUri(blob.Name);
             return result;
         }
 
-        public async Task DeletePhotoAsync(string publicId)
+        public async Task DeletePhotoAsync(string publicId, CancellationToken cancellationToken)
         {
             CloudBlockBlob blob = GetBlockBlobReference(publicId);
-            await blob.DeleteAsync();
+            await blob.DeleteAsync(cancellationToken);
         }
         #endregion
 

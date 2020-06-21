@@ -18,6 +18,8 @@ namespace SocialNetwork.EF.Repo
 
         Task<AppUser> FindByUserName(string userName, CancellationToken cancellationToken = default);
 
+        Task<AppUser> GetUserProfile(Guid appUserId, CancellationToken cancellationToken = default);
+
         void Add(AppUser user);
     }
 }

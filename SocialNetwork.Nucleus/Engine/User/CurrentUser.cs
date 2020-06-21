@@ -29,6 +29,7 @@ namespace SocialNetwork.Nucleus
             }
             #endregion
 
+
             #region Public Methods
             public async Task<UserDto> Handle(Query query, CancellationToken cancellationToken)
             {

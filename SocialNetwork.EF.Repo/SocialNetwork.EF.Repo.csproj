@@ -23,6 +23,18 @@
     <Compile Remove="Migrations\20200616033407_Added UserActivity.Designer.cs" />
     <Compile Remove="Migrations\20200616223545_InitialMigration.cs" />
     <Compile Remove="Migrations\20200616223545_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200621212847_User-Photo.cs" />
+    <Compile Remove="Migrations\20200621212847_User-Photo.Designer.cs" />
+    <Compile Remove="Migrations\20200621214649_Initial.cs" />
+    <Compile Remove="Migrations\20200621214649_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200621215014_Initial.cs" />
+    <Compile Remove="Migrations\20200621215014_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20200621215530_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200621215530_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200621215610_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200621215610_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200621215804_InitialMigration.cs" />
+    <Compile Remove="Migrations\20200621215804_InitialMigration.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

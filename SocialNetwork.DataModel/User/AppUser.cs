@@ -17,10 +17,13 @@ namespace SocialNetwork.DataModel
         [MaxLength(24)]
         public string Email { get; set; }
 
-        //public Guid IdentityUserId { get; set; }
+        [MaxLength(240)]
+        public string Bio { get; set; }
 
         public IdentityUser IdentityUser { get; set; }
 
-        public IEnumerable<UserActivity> UserActivities { get; set; }
+        public IEnumerable<UserActivity> Activities { get; set; }
+
+        public IEnumerable<Photo> Photos { get; set; }
     }
 }

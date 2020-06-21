@@ -1,4 +1,6 @@
 ﻿using SocialNetwork.DataModel;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +20,11 @@ namespace SocialNetwork.EF.Repo
         public async Task<AppUser> FindByUserName(string userName, CancellationToken cancellationToken = default)
         {
             return await FindFirstAsync(e => e.IdentityUser.UserName == userName, null, cancellationToken);
+        }
+
+        public async Task<AppUser> GetUserProfile(Guid appUserId, CancellationToken cancellationToken = default)
+        {
+            return await FindFirstAsync(e => e.Id == appUserId, new List<string> { nameof(AppUser.IdentityUser), nameof(AppUser.Photos) });
         }
         #endregion
     }

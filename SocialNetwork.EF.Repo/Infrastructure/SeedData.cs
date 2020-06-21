@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SocialNetwork.EF.Repo.Infrastructure
 {
-    internal static class ModelBuilderExtensions
+    internal static class SeedData
     {
         #region Public Method
         internal static void Seed(this ModelBuilder modelBuilder)
