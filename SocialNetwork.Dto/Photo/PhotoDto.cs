@@ -6,6 +6,6 @@ namespace SocialNetwork.Dto
     {
         public Guid Id { get; set; }
         public string Url { get; set; }
-        public string CloudName { get; set; }        
+        public string CloudFileName { get; set; }        
     }
 }

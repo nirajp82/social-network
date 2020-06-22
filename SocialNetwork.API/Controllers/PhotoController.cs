@@ -34,19 +34,19 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        [HttpDelete("{activityId:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        [Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
-        public async Task<IActionResult> Delete(Guid activityId, CancellationToken cancellationToken)
-        {
-            await Mediator.Send(new Delete.Command { ActivityId = activityId }, cancellationToken);
-            return NoContent();
-        }
+        //[HttpDelete("{cloudFileName:string}")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
+        //[ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //[ServiceFilter(typeof(ValidateActivityExistsFilter))]
+        //[Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
+        //public async Task<IActionResult> Delete(string cloudFileName, CancellationToken cancellationToken)
+        //{
+        //    await Mediator.Send(new Delete.Command { CloudFileName = cloudFileName }, cancellationToken);
+        //    return NoContent();
+        //}
         #endregion
     }
 }

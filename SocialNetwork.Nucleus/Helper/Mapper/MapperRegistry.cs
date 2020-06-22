@@ -3,7 +3,6 @@ using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Nucleus.Engine.Photo;
-using SocialNetwork.Dto.Profile;
 using System.Linq;
 
 namespace SocialNetwork.Nucleus.Helper
@@ -35,8 +34,9 @@ namespace SocialNetwork.Nucleus.Helper
 
             Map<AppUser, ProfileDto>(false)
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.LastName}, {src.FirstName}"))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(p => p.IsMainPhoto)))
-                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser.UserName));
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""))
+                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Select(p => p.CloudFileName) : null))
+                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Where(p => p.IsMainPhoto).Select(p => p.CloudFileName).FirstOrDefault() : null));
 
             Map<Photo, PhotoDto>(false);
         }

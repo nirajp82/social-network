@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SocialNetwork.Dto.Profile
+namespace SocialNetwork.Dto
 {
     public class ProfileDto
     {
@@ -13,6 +13,6 @@ namespace SocialNetwork.Dto.Profile
         //public bool IsFollowed { get; set; }
         //public int FollowersCount { get; set; }
         //public int FollowingCount { get; set; }
-        public ICollection<PhotoDto> Photos { get; set; }
+        public IEnumerable<string> Photos { get; set; }
     }
 }

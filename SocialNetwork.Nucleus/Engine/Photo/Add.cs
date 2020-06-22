@@ -55,6 +55,7 @@ namespace SocialNetwork.Nucleus.Engine.Photo
                 photo.Id = photoUploadResult.Id;
                 photo.UploadedDate = DateTime.Now;
                 photo.AppUserId = user.Id;
+                photo.CloudFileName = photoUploadResult.CloudFileName;
                 _unitOfWork.PhotoRepo.Add(photo);
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)

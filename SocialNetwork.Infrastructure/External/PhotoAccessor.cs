@@ -4,6 +4,7 @@ using Microsoft.Azure.Storage.Blob;
 using SocialNetwork.Dto;
 using SocialNetwork.Nucleus;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,37 +33,58 @@ namespace SocialNetwork.Infrastructure
             PhotoDto result = new PhotoDto
             {
                 Id = id,
-                CloudName = $"{id}{Path.GetExtension(formFile.FileName)}"
+                CloudFileName = $"{id}{Path.GetExtension(formFile.FileName)}"
             };
-            CloudBlockBlob blob = GetBlockBlobReference(result.CloudName.ToString());
+            CloudBlockBlob blob = GetBlockBlobReference(result.CloudFileName.ToString());
 
             using (Stream fs = formFile.OpenReadStream())
                 await blob.UploadFromStreamAsync(fs, cancellationToken);
 
-            result.Url = GetUri(blob.Name);
+            result.Url = PreparePhotoUrl(blob.Name);
             return result;
         }
 
-        public async Task DeletePhotoAsync(string publicId, CancellationToken cancellationToken)
+        public async Task DeletePhotoAsync(string cloudFileName, CancellationToken cancellationToken)
         {
-            CloudBlockBlob blob = GetBlockBlobReference(publicId);
+            CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
             await blob.DeleteAsync(cancellationToken);
+        }
+
+        public IEnumerable<string> PreparePhotosUrl(IEnumerable<string> photosCloudName)
+        {
+            ICollection<string> urlList = new List<string>();
+            SharedAccessBlobPolicy policy = CreateSharedAccessPolicy();
+            foreach (var cloudFileName in photosCloudName)
+            {
+                if (!string.IsNullOrWhiteSpace(cloudFileName))
+                {
+                    CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
+                    string signature = blob.GetSharedAccessSignature(policy);
+                    string url = $"{_infrastructureConfig.UserImageContainerPath}/{cloudFileName}{signature}";
+                    urlList.Add(url);
+                }
+            }
+            return urlList;
+        }
+
+        public string PreparePhotoUrl(string cloudFileName)
+        {
+            if (!string.IsNullOrWhiteSpace(cloudFileName))
+            {
+                CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
+                string signature = blob.GetSharedAccessSignature(CreateSharedAccessPolicy());
+                return $"{_infrastructureConfig.UserImageContainerPath}/{cloudFileName}{signature}";
+            }
+            return cloudFileName;
         }
         #endregion
 
 
         #region Private Methods
-        private string GetUri(string publicId)
-        {
-            CloudBlockBlob blob = GetBlockBlobReference(publicId);
-            string signature = blob.GetSharedAccessSignature(CreateSharedAccessPolicy());
-            return $"{_infrastructureConfig.UserImageContainerPath}/{publicId}{signature}";
-        }
-
-        private CloudBlockBlob GetBlockBlobReference(string publicId)
+        private CloudBlockBlob GetBlockBlobReference(string cloudFileName)
         {
             CloudBlobContainer container = GetBlobContainerReference();
-            CloudBlockBlob blob = container.GetBlockBlobReference(publicId);
+            CloudBlockBlob blob = container.GetBlockBlobReference(cloudFileName);
             return blob;
         }
 
