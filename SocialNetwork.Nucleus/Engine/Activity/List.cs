@@ -3,6 +3,7 @@ using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,12 +20,14 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Members
             private IUnitOfWork _unitOfWork { get; }
             private IMapperHelper _mapperHelper { get; }
+            private readonly IPhotoAccessor _photoAccessor;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IPhotoAccessor photoAccessor, IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
+                _photoAccessor = photoAccessor;
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
             }
@@ -36,6 +39,15 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             {
                 var dbResult = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
                 IEnumerable<ActivityDto> reponse = _mapperHelper.MapList<DataModel.Activity, ActivityDto>(dbResult);
+                //foreach (var activity in reponse)
+                //{
+                //    foreach (var attendee in activity.Attendees)
+                //    {
+                //        string mainPhotoName = dbResult?.FirstOrDefault(a => a.Id == activity.Id)
+                //                                .UserActivities?.FirstOrDefault()?.AppUser?.MainPhoto?.CloudFileName;
+                //        attendee.MainPhoto = _photoAccessor.PreparePhotoUrl(mainPhotoName);
+                //    }
+                //}
                 return reponse;
             }
             #endregion

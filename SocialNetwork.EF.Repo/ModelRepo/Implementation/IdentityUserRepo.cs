@@ -1,5 +1,7 @@
-﻿using SocialNetwork.DataModel;
+﻿using Microsoft.EntityFrameworkCore;
+using SocialNetwork.DataModel;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,9 +19,10 @@ namespace SocialNetwork.EF.Repo
         #region Public Method
         public async Task<IdentityUser> FindFirstAsync(string userName, CancellationToken cancellationToken)
         {
-            return await FindFirstAsync(e => e.UserName == userName,
-                            new List<string> { nameof(IdentityUser.AppUser) },
-                            cancellationToken);
+            return await base.Find(e => e.UserName == userName)
+                        .Include(i => i.AppUser)
+                        .ThenInclude(u => u.Photos)//.Where(p => p.IsMainPhoto))
+                        .FirstOrDefaultAsync(cancellationToken);
         }
         #endregion
     }

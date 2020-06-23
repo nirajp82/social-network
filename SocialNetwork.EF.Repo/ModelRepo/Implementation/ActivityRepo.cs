@@ -22,7 +22,8 @@ namespace SocialNetwork.EF.Repo
         {
             IQueryable<Activity> result = base.Find(null)
                                             .Include(a => a.UserActivities)
-                                            .ThenInclude(ua => ua.AppUser);
+                                            .ThenInclude(ua => ua.AppUser)
+                                            .ThenInclude(ua => ua.Photos);
             return await result.ToListAsync(cancellationToken);
         }
 

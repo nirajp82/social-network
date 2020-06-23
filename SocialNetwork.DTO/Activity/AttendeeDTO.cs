@@ -6,7 +6,7 @@ namespace SocialNetwork.Dto
     {
         public Guid AppUserId { get; set; }
         public string DisplayName { get; set; }
-        public string Image { get; set; }
+        public string MainPhoto { get; set; }
         public bool IsHost { get; set; }
     }
 }

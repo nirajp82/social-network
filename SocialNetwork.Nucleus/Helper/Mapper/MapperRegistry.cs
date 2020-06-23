@@ -4,8 +4,9 @@ using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Nucleus.Engine.Photo;
 using System.Linq;
+using System;
 
-namespace SocialNetwork.Nucleus.Helper
+namespace SocialNetwork.Nucleus
 {
     internal class MapperRegistry : Profile
     {
@@ -19,7 +20,8 @@ namespace SocialNetwork.Nucleus.Helper
                 .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.UserActivities));
 
             Map<UserActivity, AttendeeDto>(false)
-                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"));
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"))
+                .ForMember(dest => dest.MainPhoto, opt => opt.MapFrom<PhotoPropertyUrlResolver>());
 
             Map<AppUser, UserDto>();
             Map<Create.Command, Activity>();
@@ -29,14 +31,13 @@ namespace SocialNetwork.Nucleus.Helper
             Map<Add.Command, Photo>()
                 .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
                 .ForMember(dest => dest.ActualFileName, opt => opt.MapFrom(src => src.File.FileName))
-                .ForMember(dest => dest.IsMainPhoto, opt => opt.MapFrom(src => src.IsMainPhoto))
                 .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
 
             Map<AppUser, ProfileDto>(false)
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.LastName}, {src.FirstName}"))
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""))
                 .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Select(p => p.CloudFileName) : null))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Where(p => p.IsMainPhoto).Select(p => p.CloudFileName).FirstOrDefault() : null));
+                .ForMember(dest => dest.MainPhoto, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Where(p => p.IsMainPhoto).Select(p => p.CloudFileName).FirstOrDefault() : null));
 
             Map<Photo, PhotoDto>(false);
         }
@@ -50,6 +51,23 @@ namespace SocialNetwork.Nucleus.Helper
                 return CreateMap<dest, source>().ReverseMap();
 
             return CreateMap<source, dest>();
+        }
+        #endregion
+
+        #region Property Resolver
+        private class PhotoPropertyUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>
+        {
+            private readonly IPhotoAccessor _photoAccessor;
+
+            public PhotoPropertyUrlResolver(IPhotoAccessor photoAccessor)
+            {
+                _photoAccessor = photoAccessor;
+            }
+
+            public string Resolve(UserActivity source, AttendeeDto destination, string destMember, ResolutionContext context)
+            {
+                return _photoAccessor.PreparePhotoUrl(source?.AppUser?.MainPhoto?.CloudFileName);
+            }
         }
         #endregion
     }

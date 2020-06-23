@@ -5,8 +5,6 @@ using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,8 +14,6 @@ namespace SocialNetwork.Nucleus.Engine.Photo
     {
         public class Command : IRequest<string>
         {
-            public bool IsMainPhoto { get; set; }
-
             public IFormFile File { get; set; }
         }
 
@@ -50,18 +46,23 @@ namespace SocialNetwork.Nucleus.Engine.Photo
                 string userName = _userAccessor.GetCurrentUserName();
 
                 AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName);
-
-                DataModel.Photo photo = _mapperHelper.Map<Command, DataModel.Photo>(request);
-                photo.Id = photoUploadResult.Id;
-                photo.UploadedDate = DateTime.Now;
-                photo.AppUserId = user.Id;
-                photo.CloudFileName = photoUploadResult.CloudFileName;
+                DataModel.Photo photo = CreatePhotoModel(request, photoUploadResult, user);
                 _unitOfWork.PhotoRepo.Add(photo);
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)
                     return photoUploadResult.Url;
 
                 throw new Exception("Problem saving uploaded file entry into database.");
+            }
+
+            private DataModel.Photo CreatePhotoModel(Command request, PhotoDto photoUploadResult, AppUser user)
+            {
+                DataModel.Photo photo = _mapperHelper.Map<Command, DataModel.Photo>(request);
+                photo.Id = photoUploadResult.Id;
+                photo.UploadedDate = DateTime.Now;
+                photo.AppUserId = user.Id;
+                photo.CloudFileName = photoUploadResult.CloudFileName;
+                return photo;
             }
             #endregion
         }

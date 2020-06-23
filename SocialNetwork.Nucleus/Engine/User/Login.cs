@@ -7,6 +7,7 @@ using SocialNetwork.Util;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace SocialNetwork.Nucleus.Engine.User
 {
@@ -30,15 +31,18 @@ namespace SocialNetwork.Nucleus.Engine.User
         public class Handler : IRequestHandler<Command, UserDto>
         {
             #region Members
-            private IJwtGenerator _jwtGenerator { get; }
-            private IUnitOfWork _unitOfWork { get; }
-            private ICryptoHelper _cryptoHelper { get; }
+            private readonly IJwtGenerator _jwtGenerator;
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly ICryptoHelper _cryptoHelper;
+            private readonly IPhotoAccessor _photoAccessor;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IJwtGenerator jwtGenerator, UtilFactory utilFactory)
+            public Handler(IUnitOfWork unitOfWork, IPhotoAccessor photoAccessor,
+                IJwtGenerator jwtGenerator, UtilFactory utilFactory)
             {
+                _photoAccessor = photoAccessor;
                 _unitOfWork = unitOfWork;
                 _jwtGenerator = jwtGenerator;
                 _cryptoHelper = utilFactory.CryptoHelper;
@@ -57,9 +61,11 @@ namespace SocialNetwork.Nucleus.Engine.User
                 {
                     return new UserDto
                     {
+                        AppUserId = user.AppUserId,
                         UserName = request.UserName,
-                        DisplayName = $"{user.AppUser.LastName}, {user.AppUser.FirstName}",
-                        Token = _jwtGenerator.CreateToken(request.UserName)
+                        DisplayName = user.AppUser.DisplayName,
+                        Token = _jwtGenerator.CreateToken(request.UserName),
+                        Image = _photoAccessor.PreparePhotoUrl(user.AppUser.MainPhoto?.CloudFileName)
                     };
                 }
                 throw new CustomException(HttpStatusCode.Unauthorized);

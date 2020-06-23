@@ -52,12 +52,13 @@ namespace SocialNetwork.Nucleus.Engine.User
             }
             #endregion
 
-            #region Public Methods
-            public async Task<UserDto> Handle(Command user, CancellationToken cancellationToken)
-            {
-                await Validate(user);
 
-                AppUser appUser = CreateAppUser(user);
+            #region Public Methods
+            public async Task<UserDto> Handle(Command command, CancellationToken cancellationToken)
+            {
+                await Validate(command);
+
+                AppUser appUser = CreateAppUser(command);
                 _unitOfWork.AppUserRepo.Add(appUser);
 
                 int insertCnt = await _unitOfWork.SaveAsync();
@@ -66,14 +67,16 @@ namespace SocialNetwork.Nucleus.Engine.User
                 {
                     return new UserDto
                     {
-                        DisplayName = $"{user.LastName}, {user.FirstName}",
-                        UserName = user.UserName,
-                        Token = _jwtGenerator.CreateToken(user.UserName)
+                        AppUserId = appUser.Id,
+                        DisplayName = appUser.DisplayName,
+                        UserName = command.UserName,
+                        Token = _jwtGenerator.CreateToken(command.UserName),
+                        Image = null
                     };
                 }
 
                 throw new Exception("Problem saving changes to database");
-            }           
+            }
             #endregion
 
             #region Private Methods

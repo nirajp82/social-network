@@ -44,7 +44,7 @@ namespace SocialNetwork.Nucleus.Engine.User
                 AppUser appUser = await _unitOfWork.AppUserRepo.GetUserProfile(request.AppUserId);
                 ProfileDto profile = _mapperHelper.Map<AppUser, ProfileDto>(appUser);
                 profile.Photos = _photoAccessor.PreparePhotosUrl(profile.Photos);
-                profile.Image = _photoAccessor.PreparePhotoUrl(profile.Image);
+                profile.MainPhoto = _photoAccessor.PreparePhotoUrl(profile.MainPhoto);
                 return profile;
             }
             #endregion

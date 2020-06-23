@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Dto;
-using SocialNetwork.Nucleus.Engine.Activity;
 using System;
 using System.Threading;
 using SocialNetwork.WebUtil;
@@ -34,19 +33,29 @@ namespace SocialNetwork.API.Controllers
         }
 
 
-        //[HttpDelete("{cloudFileName:string}")]
-        //[ProducesResponseType(StatusCodes.Status204NoContent)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status403Forbidden)]
-        //[ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        //[Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
-        //public async Task<IActionResult> Delete(string cloudFileName, CancellationToken cancellationToken)
-        //{
-        //    await Mediator.Send(new Delete.Command { CloudFileName = cloudFileName }, cancellationToken);
-        //    return NoContent();
-        //}
+        [HttpPost("{photoId:guid}/setmain")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SetMain(Guid photoId, CancellationToken cancellationToken)
+        {
+            await Mediator.Send(new SetMain.Command { PhotoId = photoId }, cancellationToken);
+            return NoContent();
+        }
+
+
+        [HttpDelete("{photoId:guid}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete(Guid photoId, CancellationToken cancellationToken)
+        {
+            await Mediator.Send(new Delete.Command { PhotoId = photoId }, cancellationToken);
+            return NoContent();
+        }
         #endregion
     }
 }
