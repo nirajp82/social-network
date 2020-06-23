@@ -7,7 +7,6 @@ import moment from 'moment';
 import { IActivity } from '../../../models/IActivity';
 import * as constants from '../../../utils/constants';
 import { rootStoreContext } from '../../../stores/rootStore';
-import { getHostName } from '../util';
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -56,7 +55,12 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                             <Item.Content>
                                 <Header size="huge" content={activity?.title} style={{ color: 'white' }}></Header>
                                 <p>{moment(activity?.date).format('dddd Do MMM')}</p>
-                                <p>Hosted By <strong> {getHostName(activity!)}</strong> </p>
+                                <p>
+                                    <Link to={`${constants.NAV_USER_PROFILE}/${activity?.host?.appUserId}`}>
+                                        Hosted By
+                                        <strong> {activity?.host?.displayName}</strong>
+                                    </Link>
+                                </p>
                             </Item.Content>
                         </Item>
                     </Item.Group>

@@ -6,7 +6,6 @@ import moment from 'moment';
 import { IActivity } from '../../../models/IActivity';
 import ActivityListItemAttendee from './ActivityListItemAttendee';
 import * as constants from '../../../utils/constants';
-import { getHostName } from '../util';
 
 interface IProps {
     activity: IActivity;
@@ -18,12 +17,20 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image size="tiny" circular src='/assets/user.png' />
+                        <Item.Image size="tiny" circular src={activity.host?.image || '/assets/user.png'} />
                     </Item>
                     <Item.Content>
-                        <Item.Header as='a'>{activity.title}</Item.Header>
+                        <Item.Header>
+                            <Link to={`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`}>
+                                {activity.title}
+                            </Link>
+                        </Item.Header>
+
                         <Item.Description>
-                            Hosted By {getHostName(activity)}
+                            Hosted By
+                            <Link to={`${constants.NAV_USER_PROFILE}/${activity.host?.appUserId}`}>
+                                &nbsp;{activity.host?.displayName}
+                            </Link>
                             {
                                 activity.isCurrentUserHost &&
                                 <Item.Description>

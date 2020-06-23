@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
-import { isUserGoing, isUserHost, createAttendee, removeAttendee } from '../features/activities/util';
+import { isUserGoing, isUserHost, getHost, createAttendee, removeAttendee } from '../features/activities/util';
 
 export default class activityStore {
     rootStore: rootStore;
@@ -51,6 +51,7 @@ export default class activityStore {
         if (user) {
             activity.isCurrentUserGoing = isUserGoing(activity, user);
             activity.isCurrentUserHost = isUserHost(activity, user);
+            activity.host = getHost(activity);
         }
         this.activityRegistry.set(activity.id, activity);
     };

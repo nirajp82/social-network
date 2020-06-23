@@ -6,6 +6,7 @@
     date: Date;
     city: string;
     venue: string;
+    host: IAttendee | null;
     isCurrentUserGoing: boolean;
     isCurrentUserHost: boolean;
     attendees: IAttendee[]

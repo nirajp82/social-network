@@ -5,6 +5,7 @@ using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Nucleus.Engine.Photo;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace SocialNetwork.Nucleus
 {
@@ -20,7 +21,7 @@ namespace SocialNetwork.Nucleus
                 .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.UserActivities));
 
             Map<UserActivity, AttendeeDto>(false)
-                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"))
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.AppUser.DisplayName))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom<PhotoPropertyUrlResolver>());
 
             Map<AppUser, UserDto>();
@@ -34,7 +35,6 @@ namespace SocialNetwork.Nucleus
                 .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
 
             Map<AppUser, ProfileDto>(false)
-                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.LastName}, {src.FirstName}"))
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""))
                 .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Select(p => p.CloudFileName) : null))
                 .ForMember(dest => dest.MainPhoto, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Where(p => p.IsMainPhoto).Select(p => p.CloudFileName).FirstOrDefault() : null));
@@ -53,6 +53,7 @@ namespace SocialNetwork.Nucleus
             return CreateMap<source, dest>();
         }
         #endregion
+
 
         #region Property Resolver
         private class PhotoPropertyUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>
