@@ -21,7 +21,7 @@ namespace SocialNetwork.Nucleus
 
             Map<UserActivity, AttendeeDto>(false)
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => $"{src.AppUser.LastName}, {src.AppUser.FirstName}"))
-                .ForMember(dest => dest.MainPhoto, opt => opt.MapFrom<PhotoPropertyUrlResolver>());
+                .ForMember(dest => dest.Image, opt => opt.MapFrom<PhotoPropertyUrlResolver>());
 
             Map<AppUser, UserDto>();
             Map<Create.Command, Activity>();
