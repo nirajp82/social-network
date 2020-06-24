@@ -46,19 +46,20 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
 
     return (
         <Segment.Group>
-            <Segment basic attached="top" style={{ padding: '0' }}>
-                <Image src={`/assets/categoryImages/${activity?.category}.jpg`}
+            <Segment basic attached='top' style={{ padding: '0' }}>
+                <Image
+                    src={`/assets/categoryImages/${activity?.category}.jpg`}
                     fluid style={activityImageStyle} />
-                <Segment basic style={activityImageTextStyle}>
+                <Segment style={activityImageTextStyle} basic>
                     <Item.Group>
                         <Item>
                             <Item.Content>
-                                <Header size="huge" content={activity?.title} style={{ color: 'white' }}></Header>
+                                <Header size='huge' content={activity?.title} style={{ color: 'white' }} />
                                 <p>{moment(activity?.date).format('dddd Do MMM')}</p>
                                 <p>
-                                    <Link to={`${constants.NAV_USER_PROFILE}/${activity?.host?.appUserId}`}>
-                                        Hosted By
-                                        <strong> {activity?.host?.displayName}</strong>
+                                    Hosted by{' '}
+                                    <Link to={`/profile/${activity?.host?.appUserId}`}>
+                                        <strong>{activity?.host?.displayName}</strong>
                                     </Link>
                                 </p>
                             </Item.Content>
@@ -66,7 +67,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                     </Item.Group>
                 </Segment>
             </Segment>
-            <Segment clearing attached="bottom">
+            <Segment clearing attached="bottom">                
                 {
                     !activity?.isCurrentUserHost && !activity?.isCurrentUserGoing &&
                     <Button loading={loading} onClick={attendActivity} color='teal'>Join Activity</Button>

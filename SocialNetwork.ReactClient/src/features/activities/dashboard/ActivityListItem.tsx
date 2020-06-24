@@ -17,40 +17,40 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image size="tiny" circular src={activity.host?.image || '/assets/user.png'} />
-                    </Item>
-                    <Item.Content>
-                        <Item.Header>
-                            <Link to={`${constants.NAV_ACTIVITY_DETAIL}/${activity.id}`}>
+                        <Item.Image
+                            size='tiny'
+                            circular
+                            src={activity.host?.image || '/assets/user.png'}
+                            style={{ marginBottom: 3 }}
+                        />
+                        <Item.Content>
+                            <Item.Header as={Link} to={`/activities/${activity.id}`}>
                                 {activity.title}
-                            </Link>
-                        </Item.Header>
-
-                        <Item.Description>
-                            Hosted By
-                            <Link to={`${constants.NAV_USER_PROFILE}/${activity.host?.appUserId}`}>
-                                &nbsp;{activity.host?.displayName}
-                            </Link>
-                            {
-                                activity.isCurrentUserHost &&
+                            </Item.Header>
+                            <Item.Description>
+                                Hosted by
+                                <Link to={`/profile/${activity.host?.appUserId}`}> {activity.host?.displayName}</Link>
+                            </Item.Description>
+                            {activity.isCurrentUserHost && (
                                 <Item.Description>
-                                    <Label basic
+                                    <Label
+                                        basic
                                         color='orange'
                                         content='You are hosting this activity'
                                     />
                                 </Item.Description>
-                            }
-                            {
-                                !activity.isCurrentUserHost && activity.isCurrentUserGoing &&
+                            )}
+                            {activity.isCurrentUserGoing && !activity.isCurrentUserHost && (
                                 <Item.Description>
-                                    <Label basic
+                                    <Label
+                                        basic
                                         color='green'
                                         content='You are going to this activity'
                                     />
                                 </Item.Description>
-                            }
-                        </Item.Description>
-                    </Item.Content>
+                            )}
+                        </Item.Content>
+                    </Item>
                 </Item.Group>
             </Segment>
             <Segment>
