@@ -75,6 +75,7 @@ namespace SocialNetwork.API
         }
         #endregion
 
+
         #region Private Methods
         private void ConfigureAuthorizationPolicy(MvcOptions options)
         {
