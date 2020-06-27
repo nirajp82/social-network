@@ -50,37 +50,39 @@ namespace SocialNetwork.Infrastructure
             await blob.DeleteAsync(cancellationToken);
         }
 
-        public IEnumerable<string> PreparePhotosUrl(IEnumerable<string> photosCloudName)
+        public void PreparePhotosUrl(IEnumerable<PhotoDto> photos)
         {
-            ICollection<string> urlList = new List<string>();
             SharedAccessBlobPolicy policy = CreateSharedAccessPolicy();
-            foreach (var cloudFileName in photosCloudName)
-            {
-                if (!string.IsNullOrWhiteSpace(cloudFileName))
-                {
-                    CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
-                    string signature = blob.GetSharedAccessSignature(policy);
-                    string url = $"{_infrastructureConfig.UserImageContainerPath}/{cloudFileName}{signature}";
-                    urlList.Add(url);
-                }
-            }
-            return urlList;
+            foreach (var photo in photos)
+                photo.Url = PrepareCloudUrl(photo.CloudFileName, policy);
+        }
+
+        public void PreparePhotoUrl(PhotoDto photo)
+        {
+            SharedAccessBlobPolicy policy = CreateSharedAccessPolicy();
+            photo.Url = PrepareCloudUrl(photo?.CloudFileName, policy);
         }
 
         public string PreparePhotoUrl(string cloudFileName)
         {
-            if (!string.IsNullOrWhiteSpace(cloudFileName))
-            {
-                CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
-                string signature = blob.GetSharedAccessSignature(CreateSharedAccessPolicy());
-                return $"{_infrastructureConfig.UserImageContainerPath}/{cloudFileName}{signature}";
-            }
-            return cloudFileName;
+            SharedAccessBlobPolicy policy = CreateSharedAccessPolicy();
+            return PrepareCloudUrl(cloudFileName, policy);
         }
         #endregion
 
 
         #region Private Methods
+        private string PrepareCloudUrl(string cloudFileName, SharedAccessBlobPolicy policy)
+        {
+            if (!string.IsNullOrWhiteSpace(cloudFileName))
+            {
+                CloudBlockBlob blob = GetBlockBlobReference(cloudFileName);
+                string signature = blob.GetSharedAccessSignature(policy);
+                return $"{_infrastructureConfig.UserImageContainerPath}/{cloudFileName}{signature}";
+            }
+            return string.Empty;
+        }
+
         private CloudBlockBlob GetBlockBlobReference(string cloudFileName)
         {
             CloudBlobContainer container = GetBlobContainerReference();

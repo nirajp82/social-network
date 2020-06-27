@@ -12,12 +12,12 @@ namespace SocialNetwork.Nucleus.Engine.Photo
 {
     public class Add
     {
-        public class Command : IRequest<string>
+        public class Command : IRequest<PhotoDto>
         {
             public IFormFile File { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, string>
+        public class Handler : IRequestHandler<Command, PhotoDto>
         {
             #region Members
             private readonly IPhotoAccessor _photoAccessor;
@@ -40,7 +40,7 @@ namespace SocialNetwork.Nucleus.Engine.Photo
 
 
             #region Methods
-            public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<PhotoDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 PhotoDto photoUploadResult = await _photoAccessor.AddPhotoAsync(request.File, cancellationToken);
                 string userName = _userAccessor.GetCurrentUserName();
@@ -50,8 +50,10 @@ namespace SocialNetwork.Nucleus.Engine.Photo
                 _unitOfWork.PhotoRepo.Add(photo);
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)
-                    return photoUploadResult.Url;
-
+                {
+                    photoUploadResult.Id = photo.Id;
+                    return photoUploadResult;
+                }
                 throw new Exception("Problem saving uploaded file entry into database.");
             }
 

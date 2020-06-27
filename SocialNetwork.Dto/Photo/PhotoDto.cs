@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace SocialNetwork.Dto
 {
@@ -6,6 +7,7 @@ namespace SocialNetwork.Dto
     {
         public Guid Id { get; set; }
         public string Url { get; set; }
+        [JsonIgnore]
         public string CloudFileName { get; set; }        
     }
 }

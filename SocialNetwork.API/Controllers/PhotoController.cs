@@ -22,13 +22,13 @@ namespace SocialNetwork.API.Controllers
 
         #region Command Action Methods
         [HttpPost]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PhotoDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromForm] Add.Command request, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(request, cancellationToken);
+            PhotoDto result = await Mediator.Send(request, cancellationToken);
             return Ok(result);
         }
 

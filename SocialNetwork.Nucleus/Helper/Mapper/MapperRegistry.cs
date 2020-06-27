@@ -35,9 +35,7 @@ namespace SocialNetwork.Nucleus
                 .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
 
             Map<AppUser, ProfileDto>(false)
-                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""))
-                .ForMember(dest => dest.Photos, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Select(p => p.CloudFileName) : null))
-                .ForMember(dest => dest.MainPhoto, opt => opt.MapFrom(src => src.Photos != null ? src.Photos.Where(p => p.IsMainPhoto).Select(p => p.CloudFileName).FirstOrDefault() : null));
+                .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""));
 
             Map<Photo, PhotoDto>(false);
         }

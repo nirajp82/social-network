@@ -19,6 +19,7 @@ const ProfileContent: React.FC<IProps> = ({ profile }) => {
     return (
         <Tab menu={{ fluid: true, vertical: true }}
             menuPosition='right'
+            activeIndex='1'
             panes={panes(profile)} />
     );
 };

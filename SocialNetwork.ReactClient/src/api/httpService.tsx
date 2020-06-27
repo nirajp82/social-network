@@ -67,6 +67,12 @@ const httpService = {
     delete: async (url: string) => {
         const dbResponse: AxiosResponse = await axiosInstance.delete(url).then(addDelay(sleepTime));
         return processResponse(dbResponse);
+    },
+    postForm: async (url: string, formData: FormData) => {
+        const dbResponse: AxiosResponse = await axiosInstance.post(url, formData, {
+            headers: { 'Content-type': 'multipart/form-data' }
+        });
+        return processResponse(dbResponse);
     }
 };
 

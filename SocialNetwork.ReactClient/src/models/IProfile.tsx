@@ -1,10 +1,15 @@
 ﻿export interface IProfile {
     displayName: string,
     username: string,
-    mainPhoto: string,
+    mainPhoto: IPhoto | null,
     bio: string,
     // IsFollowed:string
     followersCount: string,
     followingCount: string
-    photos: string[],
+    photos: IPhoto[],
+}
+
+export interface IPhoto {
+    id: string;
+    url: string;
 }
