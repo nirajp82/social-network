@@ -3,9 +3,6 @@ using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.Nucleus.Engine.Photo;
-using System.Linq;
-using System;
-using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace SocialNetwork.Nucleus
 {
@@ -37,6 +34,7 @@ namespace SocialNetwork.Nucleus
             Map<AppUser, ProfileDto>(false)
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""));
 
+            Map<Engine.User.Edit.Command, AppUser>(false);
             Map<Photo, PhotoDto>(false);
         }
         #endregion

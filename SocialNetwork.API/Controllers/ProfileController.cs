@@ -34,5 +34,19 @@ namespace SocialNetwork.API.Controllers
                 return BadRequest();
         }
         #endregion
+
+        #region Command Action Methods
+        [HttpPut()]
+        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Put([FromBody] Edit.Command request, CancellationToken cancellationToken)
+        {
+            string displayName = await Mediator.Send(request, cancellationToken);
+            return Ok(displayName);
+        }
+        #endregion
     }
 }

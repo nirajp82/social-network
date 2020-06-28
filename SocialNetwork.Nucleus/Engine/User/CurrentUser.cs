@@ -4,10 +4,7 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using System.Threading;
 using System.Threading.Tasks;
-using SocialNetwork.Nucleus.Engine.Activity;
 using System.Collections.Generic;
-using System.Linq;
-using SocialNetwork.Nucleus.Engine;
 
 namespace SocialNetwork.Nucleus
 {

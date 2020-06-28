@@ -31,8 +31,8 @@ namespace SocialNetwork.Nucleus.Engine.Activity
         public class Handler : IRequestHandler<Command>
         {
             #region Members
-            private IUnitOfWork _unitOfWork { get; }
-            private IMapperHelper _mapperHelper { get; }
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IMapperHelper _mapperHelper;
             #endregion
 
 

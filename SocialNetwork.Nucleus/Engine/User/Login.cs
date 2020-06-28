@@ -7,7 +7,6 @@ using SocialNetwork.Util;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace SocialNetwork.Nucleus.Engine.User
 {

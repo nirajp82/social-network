@@ -20,8 +20,11 @@ namespace SocialNetwork.EF.Repo
             //This is safe from concurrent access issues in most ASP.NET Core applications because there is only one thread 
             //executing each client request at a given time, and because each request gets a separate dependency injection scope
             //(and therefore a separate DbContext instance).
-            services.AddDbContextPool<ApplicationContext>(optionBuilder =>
-               {
+            //services.AddDbContextPool<ApplicationContext>(optionBuilder =>
+
+            //Using DBContext as, injecting service in to ApplicationContext Constructor.
+            services.AddDbContext<ApplicationContext>(optionBuilder =>
+            {
 #if DEBUG
                    optionBuilder = optionBuilder.UseLoggerFactory(loggerFactory)
                     .EnableSensitiveDataLogging();  //tie-up DbContext with LoggerFactory object

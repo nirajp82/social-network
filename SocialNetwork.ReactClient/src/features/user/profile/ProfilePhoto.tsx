@@ -7,8 +7,11 @@ import PhotoUpload from '../../../common/upload/PhotoUpload';
 
 const ProfilePhoto = () => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { userProfile, isUserViewingOwnProfile, uploadPhoto } = rootStoreObj.profileStore;
-    const [addPhotoMode, setAddPhotoMode] = useState(true);
+    const { userProfile, isUserViewingOwnProfile, uploadPhoto, setMainPhoto, deletePhoto } = rootStoreObj.profileStore;
+    const [addPhotoMode, setAddPhotoMode] = useState(false);
+    const [isSettingMainPhoto, setIsSettingMainPhoto] = useState(false);
+    const [isDeletingPhoto, setIsDeletingPhoto] = useState(false);
+    const [target, setTarget] = useState('');
 
     //useEffect(() => {
     //    setAddPhotoMode(profileStoreObj.isUserViewingOwnProfile);
@@ -18,6 +21,25 @@ const ProfilePhoto = () => {
         setAddPhotoMode(!addPhotoMode);
     };
 
+    const onPhotoUploadHandler = async (photo: Blob) => {
+        await uploadPhoto(photo);
+        setAddPhotoMode(false);
+    };
+
+    const onSetMainPhotoHandler = async (e: React.SyntheticEvent<HTMLButtonElement>, photoId: string) => {
+        setTarget(e.currentTarget.name)
+        setIsSettingMainPhoto(true);
+        await setMainPhoto(photoId);
+        setIsSettingMainPhoto(false);
+    };
+
+    const onDeletePhotoHandler = async (e: React.SyntheticEvent<HTMLButtonElement>, photoId: string) => {
+        setTarget(e.currentTarget.name)
+        setIsDeletingPhoto(true);
+        await deletePhoto(photoId);
+        setIsDeletingPhoto(false);
+    };
+
     return (
         <Tab.Pane>
             <Grid>
@@ -25,12 +47,13 @@ const ProfilePhoto = () => {
                     <Header floated='left' icon='image' content='Photos' />
                     {
                         isUserViewingOwnProfile &&
-                        <Button onClick={() => onAddPhoto()} floated='right' basic content={addPhotoMode ? 'Cancel' : 'Add Photo'} />
+                        <Button onClick={() => onAddPhoto()} floated='right'
+                            basic content={addPhotoMode ? 'Cancel' : 'Add Photo'} />
                     }
                 </Grid.Column>
                 <Grid.Column width={16}>
                     {addPhotoMode ?
-                        (<div><PhotoUpload uploadPhoto={uploadPhoto} /></div>) :
+                        (<div><PhotoUpload uploadPhoto={onPhotoUploadHandler} /></div>) :
                         (<Card.Group itemsPerRow={5}>
                             {
                                 userProfile && userProfile.photos &&
@@ -42,8 +65,19 @@ const ProfilePhoto = () => {
                                             </Card.Content>
                                             <Card.Content extra style={{ padding: 0 }}>
                                                 <Button.Group fluid widths={2}>
-                                                    <Button basic positive content='Main' />
-                                                    <Button basic negative icon='trash' />
+                                                    <Button
+                                                        name={photo.id}
+                                                        onClick={(e) => onSetMainPhotoHandler(e, photo.id)}
+                                                        loading={isSettingMainPhoto && target === photo.id}
+                                                        disabled={userProfile.mainPhoto?.id === photo.id}
+                                                        basic positive content='Main' />
+
+                                                    <Button
+                                                        name={photo.id}
+                                                        onClick={(e) => onDeletePhotoHandler(e, photo.id)}
+                                                        loading={isDeletingPhoto && target === photo.id}
+                                                        disabled={userProfile.mainPhoto?.id === photo.id}
+                                                        basic negative icon='trash' />
                                                 </Button.Group>
                                             </Card.Content>
                                         </Card>

@@ -1,5 +1,5 @@
 ﻿import { rootStore } from './rootStore';
-import { action, computed, runInAction } from 'mobx';
+import { action, computed, runInAction, observable } from 'mobx';
 
 import profileService from '../api/profileService';
 import photoService from '../api/photoService';
@@ -8,8 +8,7 @@ import { toast } from 'react-toastify';
 
 export default class profileStore {
     _rootStore: rootStore;
-    isLoadingProfile: boolean = true;
-    userProfile: IProfile | null = null;
+    @observable userProfile: IProfile | null = null;
 
     constructor(rootStore: rootStore) {
         this._rootStore = rootStore;
@@ -19,24 +18,17 @@ export default class profileStore {
         return !!(this._rootStore.userStore.user?.userName === this.userProfile?.username);
     };
 
-    @action setLoadingProfile = (isLoading: boolean) => {
-        this.isLoadingProfile = isLoading;
-    };
-
     @action setUserProfile = (userProfile: IProfile) => {
         this.userProfile = userProfile;
     };
 
     @action getUserProfile = async (appUserId: string) => {
         try {
-            this.setLoadingProfile(true);
             const profile = await profileService.get(appUserId);
             this.setUserProfile(profile);
-            this.setLoadingProfile(false);
-            return profile;
         } catch (error) {
             console.error(error);
-            this.setLoadingProfile(false);
+            toast.error('Error loading user profile');
         }
     };
 
@@ -53,22 +45,30 @@ export default class profileStore {
         }
     };
 
-    @action setMain = async (photoId: string): Promise<void> => {
+    @action setMainPhoto = async (photoId: string): Promise<void> => {
         try {
             await photoService.setMain(photoId);
-            //@runInAction(() => {
-            //    this.userProfile?.mainPhoto = 
-            //});
+            runInAction(() => {
+                if (this.userProfile) {
+                    this.userProfile.mainPhoto = this.userProfile?.photos?.filter((p) => p.id === photoId)[0];
+                    this._rootStore.userStore.setMainPhoto(this.userProfile.mainPhoto);
+                }
+            });
         } catch (error) {
             console.error(error);
+            toast.error('Problem setting photo as main');
         }
     };
 
     @action deletePhoto = async (photoId: string): Promise<void> => {
         try {
             await photoService.delete(photoId);
+            runInAction(() => {
+                this.userProfile!.photos = this.userProfile!.photos!.filter((p) => p.id !== photoId);
+            });
         } catch (error) {
             console.error(error);
+            toast.error('Problem deleting photo');
         }
     }
 };

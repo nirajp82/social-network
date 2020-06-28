@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Engine\Implementation\SessionUser.cs" />
     <Compile Include="Engine\Interfaces\IJwtGenerator.cs" />
     <Compile Include="Engine\Interfaces\IPhotoAccessor.cs" />
     <Compile Include="Engine\Interfaces\IUserAccessor.cs" />
@@ -32,10 +33,6 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.2" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Engine\Profile\" />
   </ItemGroup>
 
 </Project>

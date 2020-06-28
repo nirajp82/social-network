@@ -61,7 +61,7 @@ namespace SocialNetwork.Nucleus.Engine.User
                 AppUser appUser = CreateAppUser(command);
                 _unitOfWork.AppUserRepo.Add(appUser);
 
-                int insertCnt = await _unitOfWork.SaveAsync();
+                int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
 
                 if (insertCnt > 0)
                 {

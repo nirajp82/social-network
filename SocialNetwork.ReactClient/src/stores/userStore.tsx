@@ -5,6 +5,7 @@ import userService from '../api/userService';
 import { rootStore } from './rootStore';
 import * as constants from '../utils/constants';
 import createBrowserHistory from '../utils/createBrowserHistory';
+import { IPhoto } from '../models/IProfile';
 
 class userStore {
     rootStore: rootStore;
@@ -57,14 +58,19 @@ class userStore {
         }
     };
 
-    getCurrentUserInstance = () => {
-        return toJS(this.user);
-    };
+    @action setMainPhoto(mainPhoto: IPhoto) {
+        if (this.user)
+            this.user.image = mainPhoto.url;
+    }
 
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
         this.setUser(null);
         createBrowserHistory.push(constants.NAV_HOME);
+    };
+
+    getCurrentUserInstance = () => {
+        return toJS(this.user);
     };
 };
 

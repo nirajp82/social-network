@@ -4,6 +4,7 @@ import { NavLink, Link } from 'react-router-dom';
 
 import * as constants from '../../utils/constants';
 import { rootStoreContext } from '../../stores/rootStore';
+import { observer } from 'mobx-react-lite';
 
 const NavBar: React.FC = () => {
     const rootStoreObj = useContext(rootStoreContext);
@@ -45,4 +46,4 @@ const NavBar: React.FC = () => {
     )
 };
 
-export default NavBar;
+export default observer(NavBar);

@@ -1,11 +1,11 @@
-﻿import React, { useEffect, useContext, Fragment } from 'react';
+﻿import React, { useEffect, useContext, Fragment, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { IProfile } from '../../../models/IProfile';
 import { rootStoreContext } from '../../../stores/rootStore';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileContent from './ProfileContent';
 import ProgressBar from '../../../layout/ProgressBar';
+import { observer } from 'mobx-react-lite';
 
 interface iRouteProps {
     appUserId: string
@@ -16,13 +16,14 @@ interface iProps extends RouteComponentProps<iRouteProps> {
 
 const UserProfile: React.FC<iProps> = (props) => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { getUserProfile, isLoadingProfile } = rootStoreObj.profileStore;
-    const [profile, setProfile] = React.useState<IProfile | null>(null);
+    const { getUserProfile } = rootStoreObj.profileStore;
+    const [isLoadingProfile, setIsLoadingProfile] = useState(false);
 
     useEffect(() => {
         const load = async () => {
-            const userProfile = await getUserProfile(props.match.params.appUserId);
-            setProfile(userProfile!);
+            setIsLoadingProfile(true);
+            await getUserProfile(props.match.params.appUserId);
+            setIsLoadingProfile(false);
         }
         load();
     }, [getUserProfile, props.match.params.appUserId]);
@@ -33,10 +34,10 @@ const UserProfile: React.FC<iProps> = (props) => {
 
     return (
         <Fragment>
-            <ProfileHeader profile={profile} />
-            <ProfileContent profile={profile!} />
+            <ProfileHeader />
+            <ProfileContent />
         </Fragment>
     );
 };
 
-export default UserProfile;
+export default observer(UserProfile);

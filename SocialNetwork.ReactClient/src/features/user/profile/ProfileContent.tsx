@@ -1,13 +1,9 @@
 ﻿import React from 'react';
-import { IProfile } from '../../../models/IProfile';
 import { Tab } from 'semantic-ui-react';
 import ProfilePhoto from './ProfilePhoto';
+import { observer } from 'mobx-react-lite';
 
-interface IProps {
-    profile: IProfile
-};
-
-const panes = (profile: IProfile) => [
+const panes = () => [
     { menuItem: 'About', render: () => <Tab.Pane>About</Tab.Pane> },
     { menuItem: 'Photos', render: () => <ProfilePhoto /> },
     { menuItem: 'Activities', render: () => <Tab.Pane>Activities</Tab.Pane> },
@@ -15,13 +11,13 @@ const panes = (profile: IProfile) => [
     { menuItem: 'Following', render: () => <Tab.Pane>Following</Tab.Pane> },
 ];
 
-const ProfileContent: React.FC<IProps> = ({ profile }) => {
+const ProfileContent = () => {
     return (
         <Tab menu={{ fluid: true, vertical: true }}
             menuPosition='right'
             activeIndex='1'
-            panes={panes(profile)} />
+            panes={panes()} />
     );
 };
 
-export default ProfileContent;
+export default observer(ProfileContent);

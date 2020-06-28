@@ -60,7 +60,8 @@ namespace SocialNetwork.Infrastructure
         public void PreparePhotoUrl(PhotoDto photo)
         {
             SharedAccessBlobPolicy policy = CreateSharedAccessPolicy();
-            photo.Url = PrepareCloudUrl(photo?.CloudFileName, policy);
+            if (photo != null)
+                photo.Url = PrepareCloudUrl(photo.CloudFileName, policy);
         }
 
         public string PreparePhotoUrl(string cloudFileName)

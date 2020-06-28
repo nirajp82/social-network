@@ -21,5 +21,7 @@ namespace SocialNetwork.EF.Repo
         Task<AppUser> GetUserProfile(Guid appUserId, CancellationToken cancellationToken = default);
 
         void Add(AppUser user);
+
+        void Update(AppUser user);
     }
 }

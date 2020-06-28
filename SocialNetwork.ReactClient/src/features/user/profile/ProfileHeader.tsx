@@ -1,28 +1,30 @@
-﻿import React from 'react';
+﻿import React, { useContext } from 'react';
 import { Segment, Item, Header, Button, Grid, Statistic, Divider, Reveal } from 'semantic-ui-react';
-import { IProfile } from '../../../models/IProfile';
+import { observer } from 'mobx-react-lite';
+import { rootStoreContext } from '../../../stores/rootStore';
 
-interface IProps {
-    profile: IProfile | null
-};
-const ProfileHeader: React.FC<IProps> = ({ profile }) => {
+
+const ProfileHeader = () => {
+    const rootStoreObj = useContext(rootStoreContext);
+    const { userProfile } = rootStoreObj.profileStore;
+
     return (
         <Segment>
             <Grid>
                 <Grid.Column width={12}>
                     <Item.Group>
                         <Item>
-                            <Item.Image avatar size='small' src={profile?.mainPhoto?.url || '/assets/user.png'} />
+                            <Item.Image avatar size='small' src={userProfile?.mainPhoto?.url || '/assets/user.png'} />
                             <Item.Content verticalAlign='middle'>
-                                <Header as='h1'>{profile?.displayName}</Header>
+                                <Header as='h1'>{userProfile?.displayName}</Header>
                             </Item.Content>
                         </Item>
                     </Item.Group>
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <Statistic.Group widths={2}>
-                        <Statistic label='Followers' value={profile?.followersCount} />
-                        <Statistic label='Following' value={profile?.followingCount} />
+                        <Statistic label='Followers' value={userProfile?.followersCount} />
+                        <Statistic label='Following' value={userProfile?.followingCount} />
                     </Statistic.Group>
                     <Divider />
                     <Reveal animated='move'>
@@ -39,4 +41,4 @@ const ProfileHeader: React.FC<IProps> = ({ profile }) => {
     );
 };
 
-export default ProfileHeader;
+export default observer(ProfileHeader);

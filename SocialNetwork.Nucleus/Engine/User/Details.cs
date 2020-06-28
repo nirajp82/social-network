@@ -22,18 +22,16 @@ namespace SocialNetwork.Nucleus.Engine.User
             private readonly IPhotoAccessor _photoAccessor;
             private readonly IUnitOfWork _unitOfWork;
             private readonly IMapperHelper _mapperHelper;
-            private readonly IUserAccessor _userAccessor;
             #endregion
 
 
             #region Constructor
             public Handler(IPhotoAccessor photoAccessor, IUnitOfWork unitOfWork,
-                IMapperHelper mapperHelper, IUserAccessor userAccessor)
+                IMapperHelper mapperHelper)
             {
                 _photoAccessor = photoAccessor;
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
-                _userAccessor = userAccessor;
             }
             #endregion
 
