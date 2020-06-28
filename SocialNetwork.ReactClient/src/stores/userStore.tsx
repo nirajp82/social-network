@@ -63,6 +63,11 @@ class userStore {
             this.user.image = mainPhoto.url;
     }
 
+    @action setDisplayName(displayName: string) {
+        if (this.user)
+            this.user.displayName = displayName;
+    }
+
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
         this.setUser(null);

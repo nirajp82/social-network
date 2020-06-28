@@ -34,7 +34,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     }, [current, commonStore]);
 
     if (!commonStore.appLoaded) {
-        return <ProgressBar message="Loading Applicaation..." />
+        return <ProgressBar message="Loading Application..." />
     }
 
     return (

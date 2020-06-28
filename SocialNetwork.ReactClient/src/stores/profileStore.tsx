@@ -1,10 +1,10 @@
 ﻿import { rootStore } from './rootStore';
 import { action, computed, runInAction, observable } from 'mobx';
+import { toast } from 'react-toastify';
 
 import profileService from '../api/profileService';
 import photoService from '../api/photoService';
 import { IProfile, IPhoto } from '../models/IProfile';
-import { toast } from 'react-toastify';
 
 export default class profileStore {
     _rootStore: rootStore;
@@ -71,5 +71,18 @@ export default class profileStore {
             toast.error('Problem deleting photo');
         }
     }
+
+    @action updateProfile = async (aboutProfile: IProfile) => {
+        try {
+            const displayName = await profileService.update(aboutProfile);
+            runInAction(() => {
+                this.userProfile!.displayName = displayName;
+                this._rootStore.userStore.setDisplayName(displayName);
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem updating user profile');
+        }
+    };
 };
 

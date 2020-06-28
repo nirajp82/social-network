@@ -146,6 +146,7 @@ const ActivityForm: React.FC<RouteComponentProps<IRouteProp>> = (props) => {
                                     loading={activityStoreObj.isSaving}
                                     disabled={activityStoreObj.isLoadingActivity || props.invalid || props.pristine}
                                     positive content="Submit" />
+
                                 <Button
                                     onClick={onCancelClickHandler}
                                     floated="right"

@@ -1,11 +1,21 @@
-﻿export interface IProfile {
+﻿//export interface IAboutProfile {
+//    firstName: string;
+//    lastName: string;
+//    email: string;
+//    bio: string;
+//};
+
+export interface IProfile {
     displayName: string,
-    username: string,
-    mainPhoto: IPhoto | null,
+    firstName: string,
+    lastName: string,
+    email: string,
     bio: string,
+    username: string,
     // IsFollowed:string
-    followersCount: string,
-    followingCount: string
+    followersCount: number,
+    followingCount: number,
+    mainPhoto: IPhoto | null,
     photos: IPhoto[],
 }
 
