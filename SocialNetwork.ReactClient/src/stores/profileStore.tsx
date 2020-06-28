@@ -75,9 +75,10 @@ export default class profileStore {
     @action updateProfile = async (aboutProfile: IProfile) => {
         try {
             const displayName = await profileService.update(aboutProfile);
-            runInAction(() => {
-                this.userProfile!.displayName = displayName;
+            runInAction(() => {                
                 this._rootStore.userStore.setDisplayName(displayName);
+                this.userProfile = { ...this.userProfile, ...aboutProfile };
+                this.userProfile!.displayName = displayName;
             });
         } catch (error) {
             console.error(error);
