@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using SocialNetwork.EF.Repo.ModelRepo.Implementation;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.EF.Repo
@@ -12,6 +13,7 @@ namespace SocialNetwork.EF.Repo
         private IIdentityUserRepo _identityUserRepo { get; set; }
         private IUserActivityRepo _userActivityRepo { get; set; }
         private IPhotoRepo _photoRepo { get; set; }
+        private ICommentRepo _commentRepo { get; set; }
 
         private ApplicationContext _context { get; }
         #endregion
@@ -25,6 +27,7 @@ namespace SocialNetwork.EF.Repo
         public IIdentityUserRepo IdentityUserRepo => _identityUserRepo ?? (_identityUserRepo = new IdentityUserRepo(_context));
         public IUserActivityRepo UserActivityRepo => _userActivityRepo ?? (_userActivityRepo = new UserActivityRepo(_context));
         public IPhotoRepo PhotoRepo => _photoRepo ?? (_photoRepo = new PhotoRepo(_context));
+        public ICommentRepo CommentRepo => _commentRepo ?? (_commentRepo = new CommentRepo(_context));
         #endregion
 
 

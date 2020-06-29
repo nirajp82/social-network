@@ -37,6 +37,7 @@ namespace SocialNetwork.EF.Repo
             modelBuilder.Seed();
 
             modelBuilder.ApplyConfiguration(new AppUserConfig());
+            modelBuilder.ApplyConfiguration(new CommentConfig());
             modelBuilder.ApplyConfiguration(new UserActivityConfig());
             modelBuilder.ApplyConfiguration(new PhotoConfig());
 

@@ -26,5 +26,7 @@ namespace SocialNetwork.DataModel
         public string Venue { get; set; }
 
         public IEnumerable<UserActivity> UserActivities { get; set; }
+
+        public IEnumerable<Comment> Comments { get; set; }
     }
 }

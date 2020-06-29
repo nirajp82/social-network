@@ -61,7 +61,7 @@ namespace SocialNetwork.API.Controllers
 
         // POST api/values
         [HttpPost]
-        [ProducesResponseType(typeof(ValueDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(CommentDto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Post([FromBody] string value)

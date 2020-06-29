@@ -35,6 +35,12 @@
     <Compile Remove="Migrations\20200621215610_InitialMigration.Designer.cs" />
     <Compile Remove="Migrations\20200621215804_InitialMigration.cs" />
     <Compile Remove="Migrations\20200621215804_InitialMigration.Designer.cs" />
+    <Compile Remove="Migrations\20200629221648_Created-Comment.cs" />
+    <Compile Remove="Migrations\20200629221648_Created-Comment.Designer.cs" />
+    <Compile Remove="Migrations\20200629221816_Created-Comment.cs" />
+    <Compile Remove="Migrations\20200629221816_Created-Comment.Designer.cs" />
+    <Compile Remove="Migrations\20200629221922_Created-Comment.cs" />
+    <Compile Remove="Migrations\20200629221922_Created-Comment.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

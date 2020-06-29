@@ -26,6 +26,8 @@ namespace SocialNetwork.DataModel
 
         public IEnumerable<UserActivity> Activities { get; set; }
 
+        public IEnumerable<Comment> Comments { get; set; }
+
         public IEnumerable<Photo> Photos { get; set; }
 
         [NotMapped]
