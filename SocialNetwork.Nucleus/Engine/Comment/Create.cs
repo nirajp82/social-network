@@ -7,6 +7,7 @@ using SocialNetwork.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,7 +18,10 @@ namespace SocialNetwork.Nucleus.Engine.Comment
         public class Command : IRequest<CommentDto>
         {
             public string Body { get; set; }
+            
+            [JsonIgnore]
             public string UserName { get; set; }
+            
             public Guid ActivityId { get; set; }
         }
 
@@ -54,8 +58,6 @@ namespace SocialNetwork.Nucleus.Engine.Comment
                 DataModel.Comment comment = new DataModel.Comment
                 {
                     ActivityId = activity.Id,
-                    Activity = activity,
-                    Author = user.AppUser,
                     AuthorId = user.AppUser.Id,
                     Body = request.Body,
                     Id = Guid.NewGuid(),
@@ -66,6 +68,9 @@ namespace SocialNetwork.Nucleus.Engine.Comment
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)
                 {
+                    comment.Activity = activity;
+                    comment.Author = user.AppUser;
+
                     CommentDto commentDto = _mapperHelper.Map<DataModel.Comment, CommentDto>(comment);
                     commentDto.UserImage = _photoAccessor.PreparePhotoUrl(commentDto.UserImage);
                     return commentDto;

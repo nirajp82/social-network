@@ -20,8 +20,9 @@ namespace SocialNetwork.API
     public class Startup
     {
         #region Members
-        private IConfiguration _configuration { get; }
+        private readonly IConfiguration _configuration;
         private const string _CORS_POLICY_NAME = "SocialNetworkCorsPolicy";
+        private const string _CORS_ALLOWED_HOST_KEY = "Cors:AllowedHost";
         #endregion
 
 
@@ -38,7 +39,6 @@ namespace SocialNetwork.API
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureAppServices(services);
-            AddCorsSupport(services);
 
             services.AddControllers(options =>
             {
@@ -71,26 +71,20 @@ namespace SocialNetwork.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>(InfrastrctureConstants.CHAT_HUB);
             });
         }
         #endregion
 
 
         #region Private Methods
-        private void ConfigureAuthorizationPolicy(MvcOptions options)
-        {
-            //Build policy, that will restricate API access to only Authorized user.  
-            var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
-                            .RequireAuthenticatedUser()
-                            .Build();
-            options.Filters.Add(new AuthorizeFilter(policy));
-        }
-
         private void ConfigureAppServices(IServiceCollection services)
         {
             services.ConfigureUtilServices();
             services.ConfigureInfrastructureServices(_configuration);
             services.ConfigureNucleusServices(_configuration);
+            AddCorsSupport(services);
+            services.AddSignalR();
         }
 
         private void AddCorsSupport(IServiceCollection services)
@@ -103,12 +97,21 @@ namespace SocialNetwork.API
                 options.AddPolicy(_CORS_POLICY_NAME, corsOptions =>
                 {
                     corsOptions
-                        .WithOrigins(appConfigHelper.GetValue<string>("Cors:AllowedHost"))
+                        .WithOrigins(appConfigHelper.GetValue<string>(_CORS_ALLOWED_HOST_KEY))
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();
                 });
             });
+        }
+
+        private void ConfigureAuthorizationPolicy(MvcOptions options)
+        {
+            //Build policy, that will restricate API access to only Authorized user.  
+            var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                            .RequireAuthenticatedUser()
+                            .Build();
+            options.Filters.Add(new AuthorizeFilter(policy));
         }
         #endregion
     }

@@ -9,8 +9,18 @@
     host: IAttendee | null;
     isCurrentUserGoing: boolean;
     isCurrentUserHost: boolean;
-    attendees: IAttendee[]
+    attendees: IAttendee[];
+    comments: IComment[];
 };
+
+export interface IComment {
+    id: string;
+    body: string;
+    createdAt: Date;
+    userId: string;
+    userDisplayName: string;
+    userImage: string;
+}
 
 export interface IAttendee {
     appUserId: string,

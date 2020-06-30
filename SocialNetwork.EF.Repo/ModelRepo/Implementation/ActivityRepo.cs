@@ -30,6 +30,8 @@ namespace SocialNetwork.EF.Repo
         public async Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken)
         {
             return await base.Find(e => e.Id == activityId, null)
+                            .Include(a => a.Comments)
+                            .ThenInclude(ua => ua.Author)
                             .Include(a => a.UserActivities)
                             .ThenInclude(ua => ua.AppUser)
                             .FirstOrDefaultAsync();

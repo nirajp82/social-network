@@ -40,7 +40,7 @@ namespace SocialNetwork.Nucleus
             Map<Comment, CommentDto>()
                 .ForMember(dest => dest.UserDisplayName, opt => opt.MapFrom(src => src.Author.DisplayName))
                 .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.Author.MainPhoto.CloudFileName))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Author.IdentityUser.UserName));
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Author.Id));
         }
         #endregion
 

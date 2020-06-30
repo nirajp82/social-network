@@ -33,6 +33,9 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
         case 400:
             toast.error('Bad request, Please check data');
             break;
+        case 401:
+            createBrowserHistory.push(constants.NAV_HOME);
+            break;
         case 404:
             createBrowserHistory.push(constants.NAV_NOT_FOUND);
             break;

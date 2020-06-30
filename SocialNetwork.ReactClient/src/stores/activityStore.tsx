@@ -1,6 +1,7 @@
 ﻿import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
 import { IActivity } from '../models/IActivity';
 import activityService from '../api/activityService';
@@ -21,6 +22,43 @@ export default class activityStore {
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
+    @observable.ref hubConnection: HubConnection | null = null;
+
+    @action createHubConnection = () => {
+        //Build Hub Connection
+        this.hubConnection = new HubConnectionBuilder()
+            .withUrl('http://localhost/socialnetwork/chat', {
+                //Send token as part as QueryString.
+                accessTokenFactory: () => this.rootStore.commonStore.token!
+            })
+            .configureLogging(LogLevel.Information)
+            .build();
+
+        //Start Hub Connection.
+        this.hubConnection.start()
+            .then(() => this.hubConnection?.state!)
+            .catch(error => console.error("Error establishing a connection", error));
+
+        //Event Handlers on Receiving message from server.
+        this.hubConnection.on('ReceiveComment', comment => {
+            runInAction(() => {
+                this.selectedActivity?.comments.push(comment)
+            });
+        });
+    };
+
+    @action stopHubConnection = () => {
+        this.hubConnection!.stop();
+    };
+
+    @action addComment = async (comment: any) => {
+        comment.activityId = this.selectedActivity!.id;
+        try {
+            await this.hubConnection!.invoke("SendComment", comment);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     getActivity = (id: string): IActivity | undefined => {
         return this.activityRegistry.get(id);
@@ -57,6 +95,7 @@ export default class activityStore {
             activity.isCurrentUserGoing = isUserGoing(activity, user);
             activity.isCurrentUserHost = isUserHost(activity, user);
             activity.host = getHost(activity);
+            activity.comments = activity.comments ?? [];
         }
         this.activityRegistry.set(activity.id, activity);
     };

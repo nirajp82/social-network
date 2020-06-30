@@ -18,16 +18,18 @@ namespace SocialNetwork.Nucleus.Engine.Activity
         public class DetailsHandler : IRequestHandler<Query, ActivityDto>
         {
             #region Members
-            private IUnitOfWork _unitOfWork { get; }
-            private IMapperHelper _mapperHelper { get; }
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IMapperHelper _mapperHelper;
+            private readonly IPhotoAccessor _photoAccessor;
             #endregion
 
 
             #region Constuctor
-            public DetailsHandler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public DetailsHandler(IUnitOfWork unitOfWork, IPhotoAccessor photoAccessor, IMapperHelper mapperHelper)
             {
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
+                _photoAccessor = photoAccessor;
             }
             #endregion
 
@@ -35,8 +37,13 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<ActivityDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                DataModel.Activity result = await _unitOfWork.ActivityRepo.FindFirstAsync(request.ActivityId, cancellationToken);
-                return _mapperHelper.Map<DataModel.Activity, ActivityDto>(result);
+                DataModel.Activity dbResult = await _unitOfWork.ActivityRepo.FindFirstAsync(request.ActivityId, cancellationToken);
+                var response = _mapperHelper.Map<DataModel.Activity, ActivityDto>(dbResult);
+                foreach (var item in response.Comments)
+                {
+                    item.UserImage = _photoAccessor.PreparePhotoUrl(item.UserImage);
+                }
+                return response;
             }
             #endregion
         }

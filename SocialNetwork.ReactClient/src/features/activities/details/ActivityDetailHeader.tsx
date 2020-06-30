@@ -58,7 +58,7 @@ const ActivityDetailHeader: React.FC<{ activity: IActivity | undefined }> = ({ a
                                 <p>{moment(activity?.date).format('dddd Do MMM')}</p>
                                 <p>
                                     Hosted by{' '}
-                                    <Link to={`/profile/${activity?.host?.appUserId}`}>
+                                    <Link to={`/${constants.NAV_USER_PROFILE}/${activity?.host?.appUserId}`}>
                                         <strong>{activity?.host?.displayName}</strong>
                                     </Link>
                                 </p>

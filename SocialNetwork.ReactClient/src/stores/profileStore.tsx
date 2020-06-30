@@ -7,15 +7,15 @@ import photoService from '../api/photoService';
 import { IProfile, IPhoto } from '../models/IProfile';
 
 export default class profileStore {
-    _rootStore: rootStore;
+    rootStore: rootStore;
     @observable userProfile: IProfile | null = null;
 
     constructor(rootStore: rootStore) {
-        this._rootStore = rootStore;
+        this.rootStore = rootStore;
     }
 
     @computed get isUserViewingOwnProfile(): boolean {
-        return !!(this._rootStore.userStore.user?.userName === this.userProfile?.username);
+        return !!(this.rootStore.userStore.user?.userName === this.userProfile?.username);
     };
 
     @action setUserProfile = (userProfile: IProfile) => {
@@ -51,7 +51,7 @@ export default class profileStore {
             runInAction(() => {
                 if (this.userProfile) {
                     this.userProfile.mainPhoto = this.userProfile?.photos?.filter((p) => p.id === photoId)[0];
-                    this._rootStore.userStore.setMainPhoto(this.userProfile.mainPhoto);
+                    this.rootStore.userStore.setMainPhoto(this.userProfile.mainPhoto);
                 }
             });
         } catch (error) {
@@ -76,7 +76,7 @@ export default class profileStore {
         try {
             const displayName = await profileService.update(aboutProfile);
             runInAction(() => {                
-                this._rootStore.userStore.setDisplayName(displayName);
+                this.rootStore.userStore.setDisplayName(displayName);
                 this.userProfile = { ...this.userProfile, ...aboutProfile };
                 this.userProfile!.displayName = displayName;
             });

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Nucleus;
+using System.Threading.Tasks;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -35,6 +36,21 @@ namespace SocialNetwork.Infrastructure
                         //TODO: Customize this options.
                         ValidateAudience = false,
                         ValidateIssuer = false
+                    };
+
+                    opt.Events = new JwtBearerEvents
+                    {
+                       OnMessageReceived = (context) =>
+                       {
+                           //Set Access Token for Chat Request.
+                           var accessToken = context.Request.Query[InfrastrctureConstants.ACCESS_TOKEN];
+                           var path = context.HttpContext.Request.Path;
+                           if (!string.IsNullOrWhiteSpace(accessToken) && path.StartsWithSegments(InfrastrctureConstants.CHAT_HUB))
+                           {
+                               context.Token = accessToken;
+                           }
+                           return Task.CompletedTask;
+                       }
                     };
                 });
 
