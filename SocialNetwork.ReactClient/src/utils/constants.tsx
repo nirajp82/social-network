@@ -1,4 +1,6 @@
-﻿export const NAV_LOGIN = "/Login"; 
+﻿export const BASE_SERVICE_URL = "http://localhost/socialnetwork"; 
+
+export const NAV_LOGIN = "/Login"; 
 export const NAV_REGISTER = "/Register"; 
 
 export const NAV_HOME = "/"; 

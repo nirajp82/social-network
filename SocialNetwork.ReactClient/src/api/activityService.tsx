@@ -7,7 +7,7 @@ const activityService = {
     list: (): Promise<IActivity[]> => {
         return httpService.get("/activities");
     },
-    details: (id: string) : Promise<IActivity> => {
+    details: (id: string): Promise<IActivity> => {
         return httpService.get(`/activities/${id}`);
     },
     create: (activity: IActivity): Promise<string> => {
@@ -25,6 +25,9 @@ const activityService = {
     },
     unattend: (id: string) => {
         return httpService.post(`/activities/${id}/unattend`, {});
+    },
+    getComments: (id: string) => {
+        return httpService.get(`/activities/${id}/comments`);
     }
 };
 

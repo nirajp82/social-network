@@ -20,7 +20,5 @@ namespace SocialNetwork.Dto
         public string Venue { get; set; }
 
         public IEnumerable<AttendeeDto> Attendees { get; set; }
-
-        public IEnumerable<CommentDto> Comments { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace SocialNetwork.EF.Repo
     public interface ICommentRepo
     {
         void Add(Comment entity);
+        Task<IEnumerable<Comment>> FindAsync(Guid activityId, CancellationToken cancellationToken);
     }
 }

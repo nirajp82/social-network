@@ -5,21 +5,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Engine\Interfaces\**" />
-    <Compile Remove="Engine\Implementation\**" />
-    <EmbeddedResource Remove="Engine\Interfaces\**" />
-    <EmbeddedResource Remove="Engine\Implementation\**" />
-    <None Remove="Engine\Interfaces\**" />
-    <None Remove="Engine\Implementation\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Implementation\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Implementation\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Implementation\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Engine\Implementation\SessionUser.cs" />
-    <Compile Include="Engine\Interfaces\IJwtGenerator.cs" />
-    <Compile Include="Engine\Interfaces\IPhotoAccessor.cs" />
-    <Compile Include="Engine\Interfaces\IUserAccessor.cs" />
-    <Compile Include="Engine\Interfaces\IValueEngine.cs" />
-    <Compile Include="Engine\Implementation\ValueEngine.cs" />
+    <Compile Include="Implementation\SessionUser.cs" />
+    <Compile Include="Implementation\ValueEngine.cs" />
+    <Compile Include="Interfaces\IJwtGenerator.cs" />
+    <Compile Include="Interfaces\IPhotoAccessor.cs" />
+    <Compile Include="Interfaces\IUserAccessor.cs" />
+    <Compile Include="Interfaces\IValueEngine.cs" />
   </ItemGroup>
 
   <ItemGroup>

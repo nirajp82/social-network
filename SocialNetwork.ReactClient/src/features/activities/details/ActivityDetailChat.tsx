@@ -1,18 +1,22 @@
-﻿import React, { Fragment, useContext, useEffect } from 'react';
+﻿import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { Segment, Header, Comment, Button, Form } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import moment from 'moment';
+import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
 
 import { rootStoreContext } from '../../../stores/rootStore';
 import { IComment } from '../../../models/IActivity';
-import { Link } from 'react-router-dom';
 import * as constants from '../../../utils/constants';
 import TextAreaInput from '../../../common/elements/TextAreaInput';
-import { observer } from 'mobx-react-lite';
+import Spinner from '../../../layout/Spinner';
+
 
 const ActivityDetailChat: React.FC = () => {
     const rootStoreObject = useContext(rootStoreContext);
-    const { createHubConnection, stopHubConnection, addComment, selectedActivity } = rootStoreObject.activityStore;
+    const { createHubConnection, stopHubConnection, addComment, selectedActivity, getComments } = rootStoreObject.activityStore;
+    const [isLoadingComments, setIsLoadingComments] = useState(false);
+
 
     useEffect(() => {
         createHubConnection();
@@ -20,6 +24,19 @@ const ActivityDetailChat: React.FC = () => {
             return stopHubConnection();
         };
     }, [createHubConnection, stopHubConnection]);
+
+    useEffect(() => {
+        const load = async () => {
+            setIsLoadingComments(true);
+            await getComments();
+            setIsLoadingComments(false);
+        };
+        if (selectedActivity)
+            load();
+    }, [getComments, selectedActivity]);
+
+    if (isLoadingComments)
+        return <Spinner message="Loading Comment" />
 
     return (
         <Fragment>
@@ -40,7 +57,7 @@ const ActivityDetailChat: React.FC = () => {
                                 <Comment key={comment.id}>
                                     <Comment.Avatar src={comment.userImage || '/assets/user.png'} />
                                     <Comment.Content>
-                                        <Comment.Author as='Link' to={`/${constants.NAV_USER_PROFILE}/${comment?.userId}`}>
+                                        <Comment.Author as={Link} to={`${constants.NAV_USER_PROFILE}/${comment?.userId}`}>
                                             {comment.userDisplayName}
                                         </Comment.Author>
                                         <Comment.Metadata>
@@ -73,7 +90,6 @@ const ActivityDetailChat: React.FC = () => {
                             </Form>
                         )}
                     />
-
                 </Comment.Group>
             </Segment>
         </Fragment>

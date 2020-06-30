@@ -39,10 +39,6 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             {
                 DataModel.Activity dbResult = await _unitOfWork.ActivityRepo.FindFirstAsync(request.ActivityId, cancellationToken);
                 var response = _mapperHelper.Map<DataModel.Activity, ActivityDto>(dbResult);
-                foreach (var item in response.Comments)
-                {
-                    item.UserImage = _photoAccessor.PreparePhotoUrl(item.UserImage);
-                }
                 return response;
             }
             #endregion

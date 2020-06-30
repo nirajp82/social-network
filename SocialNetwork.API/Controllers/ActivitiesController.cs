@@ -11,6 +11,7 @@ using SocialNetwork.WebUtil;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SocialNetwork.Infrastructure;
+using SocialNetwork.DataModel;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -48,6 +49,18 @@ namespace SocialNetwork.API.Controllers
                 return Ok(entity);
             else
                 return NotFound();
+        }
+
+        [HttpGet("{activityId:guid}/comments")]
+        [ProducesResponseType(typeof(IEnumerable<CommentDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(ValidateActivityExistsFilter))]
+        public async Task<IActionResult> Comments(Guid activityId, CancellationToken cancellationToken)
+        {
+            IEnumerable<CommentDto> entity = await Mediator.Send(new Nucleus.Comment.List.Command { ActivityId = activityId }, cancellationToken);
+            return Ok(entity);
         }
         #endregion
 

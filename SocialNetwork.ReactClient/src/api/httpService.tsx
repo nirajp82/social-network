@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 const sleepTime = 1;
 
 const axiosInstance = axios.create({
-    baseURL: "http://localhost/socialnetwork/api/",
+    baseURL: `${constants.BASE_SERVICE_URL}/api/`,
     withCredentials: true,
     timeout: 30000
 });

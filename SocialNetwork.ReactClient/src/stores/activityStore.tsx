@@ -7,6 +7,7 @@ import { IActivity } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
 import { isUserGoing, isUserHost, getHost, createAttendee, removeAttendee } from '../features/activities/util';
+import * as constants from '../utils/constants';
 
 export default class activityStore {
     rootStore: rootStore;
@@ -27,7 +28,7 @@ export default class activityStore {
     @action createHubConnection = () => {
         //Build Hub Connection
         this.hubConnection = new HubConnectionBuilder()
-            .withUrl('http://localhost/socialnetwork/chat', {
+            .withUrl(`${constants.BASE_SERVICE_URL}/chat`, {
                 //Send token as part as QueryString.
                 accessTokenFactory: () => this.rootStore.commonStore.token!
             })
@@ -37,7 +38,7 @@ export default class activityStore {
         //Start Hub Connection.
         this.hubConnection.start()
             .then(() => this.hubConnection?.state!)
-            .catch(error => console.error("Error establishing a connection", error));
+            .catch(error => console.log("Error establishing a connection: ", error));
 
         //Event Handlers on Receiving message from server.
         this.hubConnection.on('ReceiveComment', comment => {
@@ -95,7 +96,6 @@ export default class activityStore {
             activity.isCurrentUserGoing = isUserGoing(activity, user);
             activity.isCurrentUserHost = isUserHost(activity, user);
             activity.host = getHost(activity);
-            activity.comments = activity.comments ?? [];
         }
         this.activityRegistry.set(activity.id, activity);
     };
@@ -214,6 +214,22 @@ export default class activityStore {
         } catch (error) {
             console.error(error);
             toast.error('Problem cancelling attendance, Please try again later!');
+        }
+    };
+
+    @action getComments = async () => {
+        try {
+            if (this.selectedActivity && this.selectedActivity.comments)
+                return;
+
+            const comments = await activityService.getComments(this.selectedActivity!.id);
+            runInAction(() => {
+                if (this.selectedActivity)
+                    this.selectedActivity.comments = comments || [];
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem fetching comments, Please try again later!');
         }
     };
 

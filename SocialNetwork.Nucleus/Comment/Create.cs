@@ -72,7 +72,7 @@ namespace SocialNetwork.Nucleus.Engine.Comment
                     comment.Author = user.AppUser;
 
                     CommentDto commentDto = _mapperHelper.Map<DataModel.Comment, CommentDto>(comment);
-                    commentDto.UserImage = _photoAccessor.PreparePhotoUrl(commentDto.UserImage);
+                    commentDto.UserImage = _photoAccessor.PreparePhotoUrl(commentDto.MainPhotoCloudFileName);
                     return commentDto;
                 }
 

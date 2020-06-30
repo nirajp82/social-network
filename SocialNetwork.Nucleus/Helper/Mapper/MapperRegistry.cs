@@ -37,9 +37,9 @@ namespace SocialNetwork.Nucleus
             Map<Engine.User.Edit.Command, AppUser>(false);
             Map<Photo, PhotoDto>(false);
 
-            Map<Comment, CommentDto>()
+            Map<DataModel.Comment, CommentDto>()
                 .ForMember(dest => dest.UserDisplayName, opt => opt.MapFrom(src => src.Author.DisplayName))
-                .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.Author.MainPhoto.CloudFileName))
+                .ForMember(dest => dest.MainPhotoCloudFileName, opt => opt.MapFrom(src => src.Author.MainPhoto.CloudFileName))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Author.Id));
         }
         #endregion
