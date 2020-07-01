@@ -30,6 +30,9 @@ namespace SocialNetwork.DataModel
 
         public IEnumerable<Photo> Photos { get; set; }
 
+        public IEnumerable<UserFollower> Followers { get; set; }
+        public IEnumerable<UserFollower> Followings { get; set; }
+
         [NotMapped]
         public string DisplayName => $"{FirstName} {LastName}";
 

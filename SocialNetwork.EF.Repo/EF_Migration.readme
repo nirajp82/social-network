@@ -6,4 +6,6 @@
 	  Update-Database -Migration:0
 	  Remove-Migration
 
+6: To make a SQL script of all our migration
+	Script-Migration
 

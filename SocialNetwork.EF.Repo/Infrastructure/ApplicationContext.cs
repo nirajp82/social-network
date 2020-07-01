@@ -13,12 +13,13 @@ namespace SocialNetwork.EF.Repo
         #region Members
         private readonly ISessionUser _sessionUser;
 
-        public DbSet<Value> Values { get; set; }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
         public DbSet<IdentityUser> IdentityUser { get; set; }
-        public DbSet<UserActivity> UserActivity { get; set; }
         public DbSet<Photo> Photo { get; set; }
+        public DbSet<UserActivity> UserActivity { get; set; }
+        public DbSet<UserFollower> UserFollower { get; set; }
+        public DbSet<Value> Values { get; set; }
         #endregion
 
 
@@ -39,6 +40,7 @@ namespace SocialNetwork.EF.Repo
             modelBuilder.ApplyConfiguration(new AppUserConfig());
             modelBuilder.ApplyConfiguration(new CommentConfig());
             modelBuilder.ApplyConfiguration(new UserActivityConfig());
+            modelBuilder.ApplyConfiguration(new UserFollowerConfig());
             modelBuilder.ApplyConfiguration(new PhotoConfig());
 
             //Set string type to VARCHAR

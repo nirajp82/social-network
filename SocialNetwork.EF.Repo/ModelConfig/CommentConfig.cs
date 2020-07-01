@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SocialNetwork.EF.Repo
 {
-    public class CommentConfig : IEntityTypeConfiguration<Comment>
+    internal class CommentConfig : IEntityTypeConfiguration<Comment>
     {
         public void Configure(EntityTypeBuilder<Comment> builder)
         {
