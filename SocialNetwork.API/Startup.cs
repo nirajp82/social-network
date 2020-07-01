@@ -71,7 +71,7 @@ namespace SocialNetwork.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<ChatHub>(InfrastrctureConstants.CHAT_HUB);
+                endpoints.MapHub<ActivityChatHub>(InfrastrctureConstants.ACTIVITY_CHAT_HUB);
             });
         }
         #endregion

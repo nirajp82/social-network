@@ -14,16 +14,21 @@ import Spinner from '../../../layout/Spinner';
 
 const ActivityDetailChat: React.FC = () => {
     const rootStoreObject = useContext(rootStoreContext);
-    const { createHubConnection, stopHubConnection, addComment, selectedActivity, getComments } = rootStoreObject.activityStore;
+    const { addComment, selectedActivity, getComments } = rootStoreObject.activityStore;
+    const { createHubConnection, stopHubConnection } = rootStoreObject.activityHubStore;
     const [isLoadingComments, setIsLoadingComments] = useState(false);
 
 
     useEffect(() => {
-        createHubConnection();
-        return () => {
-            return stopHubConnection();
-        };
-    }, [createHubConnection, stopHubConnection]);
+        if (selectedActivity) {
+            createHubConnection(selectedActivity.id);
+
+            //Stop hub connection on component unmount
+            return () => {
+                return stopHubConnection(selectedActivity.id);
+            };
+        }
+    }, [createHubConnection, stopHubConnection, selectedActivity]);
 
     useEffect(() => {
         const load = async () => {

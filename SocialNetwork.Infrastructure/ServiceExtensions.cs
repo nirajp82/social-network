@@ -40,17 +40,18 @@ namespace SocialNetwork.Infrastructure
 
                     opt.Events = new JwtBearerEvents
                     {
-                       OnMessageReceived = (context) =>
-                       {
+                        OnMessageReceived = (context) =>
+                        {
                            //Set Access Token for Chat Request.
                            var accessToken = context.Request.Query[InfrastrctureConstants.ACCESS_TOKEN];
-                           var path = context.HttpContext.Request.Path;
-                           if (!string.IsNullOrWhiteSpace(accessToken) && path.StartsWithSegments(InfrastrctureConstants.CHAT_HUB))
-                           {
-                               context.Token = accessToken;
-                           }
-                           return Task.CompletedTask;
-                       }
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrWhiteSpace(accessToken) &&
+                                 path.StartsWithSegments(InfrastrctureConstants.ACTIVITY_CHAT_HUB))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
                     };
                 });
 

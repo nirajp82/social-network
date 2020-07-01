@@ -1,13 +1,11 @@
 ﻿import { observable, action, computed, runInAction } from 'mobx';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 
-import { IActivity } from '../models/IActivity';
+import { IActivity, IComment } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
 import { isUserGoing, isUserHost, getHost, createAttendee, removeAttendee } from '../features/activities/util';
-import * as constants from '../utils/constants';
 
 export default class activityStore {
     rootStore: rootStore;
@@ -22,44 +20,7 @@ export default class activityStore {
     @observable isLoadingActivity = false;
     @observable showForm = false;
     @observable isSaving = false;
-    @observable isDeleting = false;
-    @observable.ref hubConnection: HubConnection | null = null;
-
-    @action createHubConnection = () => {
-        //Build Hub Connection
-        this.hubConnection = new HubConnectionBuilder()
-            .withUrl(`${constants.BASE_SERVICE_URL}/chat`, {
-                //Send token as part as QueryString.
-                accessTokenFactory: () => this.rootStore.commonStore.token!
-            })
-            .configureLogging(LogLevel.Information)
-            .build();
-
-        //Start Hub Connection.
-        this.hubConnection.start()
-            .then(() => this.hubConnection?.state!)
-            .catch(error => console.log("Error establishing a connection: ", error));
-
-        //Event Handlers on Receiving message from server.
-        this.hubConnection.on('ReceiveComment', comment => {
-            runInAction(() => {
-                this.selectedActivity?.comments.push(comment)
-            });
-        });
-    };
-
-    @action stopHubConnection = () => {
-        this.hubConnection!.stop();
-    };
-
-    @action addComment = async (comment: any) => {
-        comment.activityId = this.selectedActivity!.id;
-        try {
-            await this.hubConnection!.invoke("SendComment", comment);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    @observable isDeleting = false;   
 
     getActivity = (id: string): IActivity | undefined => {
         return this.activityRegistry.get(id);
@@ -232,6 +193,19 @@ export default class activityStore {
             toast.error('Problem fetching comments, Please try again later!');
         }
     };
+
+    @action addComment = async (comment: any) => {
+        comment.activityId = this.selectedActivity!.id;
+        try {
+            await this.rootStore.activityHubStore.sendComment(comment);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    @action onReceivingCommentFromServer = (comment: IComment) => {
+        this.selectedActivity?.comments.push(comment)
+    }
 
     @computed get activityByDate(): [string, IActivity[]][] {
         const sortedArray = Array.from(this.activityRegistry.values()).sort(
