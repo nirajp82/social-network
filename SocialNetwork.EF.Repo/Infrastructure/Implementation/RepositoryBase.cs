@@ -69,8 +69,9 @@ namespace SocialNetwork.EF.Repo
             return Find(predicate, null);
         }
 
-        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate, IEnumerable<string> includes, Func<IQueryable<TEntity>,
-                IOrderedQueryable<TEntity>> orderBy = null, int? skip = null, int? take = null, bool isNoTracking = true)
+        public IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate,
+                IEnumerable<string> includes, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+                 int? skip = null, int? take = null, bool isNoTracking = true)
         {
             IQueryable<TEntity> queryable = _context.Set<TEntity>();
 

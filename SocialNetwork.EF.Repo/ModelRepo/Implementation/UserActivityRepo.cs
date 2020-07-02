@@ -10,7 +10,6 @@ namespace SocialNetwork.EF.Repo
         #region Constructor
         public UserActivityRepo(ApplicationContext context) : base(context)
         {
-
         }
         #endregion
 
