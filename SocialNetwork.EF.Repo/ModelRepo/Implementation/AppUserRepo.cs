@@ -24,7 +24,15 @@ namespace SocialNetwork.EF.Repo
 
         public async Task<AppUser> GetUserProfile(Guid appUserId, CancellationToken cancellationToken = default)
         {
-            return await FindFirstAsync(e => e.Id == appUserId, new List<string> { nameof(AppUser.IdentityUser), nameof(AppUser.Photos) });
+            AppUser appUser = await FindFirstAsync(e => e.Id == appUserId,
+                                        new List<string>
+                                        {
+                                           nameof(AppUser.IdentityUser),
+                                           nameof(AppUser.Photos),
+                                           //nameof(AppUser.Followers),
+                                           //nameof(AppUser.Followings),
+                                        }, cancellationToken);           
+            return appUser;
         }
         #endregion
     }

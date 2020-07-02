@@ -19,14 +19,12 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Members
             private IUnitOfWork _unitOfWork { get; }
             private IMapperHelper _mapperHelper { get; }
-            private readonly IPhotoAccessor _photoAccessor;
             #endregion
 
 
             #region Constuctor
-            public Handler(IPhotoAccessor photoAccessor, IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
-                _photoAccessor = photoAccessor;
                 _unitOfWork = unitOfWork;
                 _mapperHelper = mapperHelper;
             }

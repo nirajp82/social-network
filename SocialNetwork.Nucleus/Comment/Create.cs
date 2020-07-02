@@ -1,12 +1,8 @@
-﻿using FluentValidation;
-using MediatR;
-using SocialNetwork.DataModel;
+﻿using MediatR;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;

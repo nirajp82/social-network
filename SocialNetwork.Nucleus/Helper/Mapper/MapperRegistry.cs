@@ -19,7 +19,7 @@ namespace SocialNetwork.Nucleus
 
             Map<UserActivity, AttendeeDto>(false)
                 .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.AppUser.DisplayName))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom<PhotoPropertyUrlResolver>());
+                .ForMember(dest => dest.Image, opt => opt.MapFrom<AttendeePhotoUrlResolver>());
 
             Map<AppUser, UserDto>();
             Map<Create.Command, Activity>();
@@ -35,7 +35,9 @@ namespace SocialNetwork.Nucleus
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""));
 
             Map<Engine.User.Edit.Command, AppUser>(false);
-            Map<Photo, PhotoDto>(false);
+
+            Map<Photo, PhotoDto>(false)
+                .ForMember(dest => dest.Url, opt => opt.MapFrom<PhotoUrlResolver>());
 
             Map<DataModel.Comment, CommentDto>()
                 .ForMember(dest => dest.UserDisplayName, opt => opt.MapFrom(src => src.Author.DisplayName))
@@ -57,11 +59,26 @@ namespace SocialNetwork.Nucleus
 
 
         #region Property Resolver
-        private class PhotoPropertyUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>
+        private class PhotoUrlResolver : IValueResolver<Photo, PhotoDto, string>
         {
             private readonly IPhotoAccessor _photoAccessor;
 
-            public PhotoPropertyUrlResolver(IPhotoAccessor photoAccessor)
+            public PhotoUrlResolver(IPhotoAccessor photoAccessor)
+            {
+                _photoAccessor = photoAccessor;
+            }
+
+            public string Resolve(Photo source, PhotoDto destination, string destMember, ResolutionContext context)
+            {
+                return _photoAccessor.PreparePhotoUrl(source?.CloudFileName);
+            }
+        }
+
+        private class AttendeePhotoUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>
+        {
+            private readonly IPhotoAccessor _photoAccessor;
+
+            public AttendeePhotoUrlResolver(IPhotoAccessor photoAccessor)
             {
                 _photoAccessor = photoAccessor;
             }
@@ -70,7 +87,7 @@ namespace SocialNetwork.Nucleus
             {
                 return _photoAccessor.PreparePhotoUrl(source?.AppUser?.MainPhoto?.CloudFileName);
             }
-        }
+        }        
         #endregion
     }
 }

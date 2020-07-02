@@ -16,6 +16,7 @@ namespace SocialNetwork.Nucleus
             services.AddScoped<ISessionUser, SessionUser>();
             services.ConfigureRepoServices(configuration);
             services.AddScoped<IValueEngine, ValueEngine>();
+            services.AddScoped<IProfileReader, ProfileReader>();
             services.AddAutoMapper(typeof(List).Assembly, typeof(Activity).Assembly, typeof(ActivityDto).Assembly);
             services.AddMediatR(typeof(List).Assembly);
         }

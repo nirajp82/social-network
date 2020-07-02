@@ -10,10 +10,9 @@ namespace SocialNetwork.Dto
         public string Email { get; set; }
         public string Bio { get; set; }
         public PhotoDto MainPhoto { get; set; }
-
-        //public bool IsFollowed { get; set; }
-        //public int FollowersCount { get; set; }
-        //public int FollowingCount { get; set; }
+        public bool Following { get; set; }
+        public long FollowersCount { get; set; }
+        public long FollowingCount { get; set; }
         public IEnumerable<PhotoDto> Photos { get; set; }
         public string Username { get; set; }
     }

@@ -18,8 +18,10 @@
     <Compile Include="Implementation\ValueEngine.cs" />
     <Compile Include="Interfaces\IJwtGenerator.cs" />
     <Compile Include="Interfaces\IPhotoAccessor.cs" />
+    <Compile Include="Interfaces\IProfileReader.cs" />
     <Compile Include="Interfaces\IUserAccessor.cs" />
     <Compile Include="Interfaces\IValueEngine.cs" />
+    <Compile Include="Implementation\ProfileReader.cs" />
   </ItemGroup>
 
   <ItemGroup>

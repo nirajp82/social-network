@@ -5,7 +5,6 @@ using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
 using System.Net;
-using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,6 +71,7 @@ namespace SocialNetwork.Nucleus.Engine.User
                 throw new Exception("Problem saving changes to database");
             }
             #endregion
+
 
             #region Private Methods
             private async Task Validate(Command request, Guid appUserId)

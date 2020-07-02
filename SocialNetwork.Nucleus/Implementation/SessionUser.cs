@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using SocialNetwork.Dto;
-using SocialNetwork.EF.Repo;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using SocialNetwork.EF.Repo;
 
 namespace SocialNetwork.Nucleus
 {

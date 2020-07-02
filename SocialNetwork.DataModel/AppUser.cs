@@ -31,6 +31,7 @@ namespace SocialNetwork.DataModel
         public IEnumerable<Photo> Photos { get; set; }
 
         public IEnumerable<UserFollower> Followers { get; set; }
+
         public IEnumerable<UserFollower> Followings { get; set; }
 
         [NotMapped]

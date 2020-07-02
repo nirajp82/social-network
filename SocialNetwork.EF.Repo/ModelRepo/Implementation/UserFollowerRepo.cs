@@ -19,8 +19,7 @@ namespace SocialNetwork.EF.Repo
         #region Public Method
         public async Task<IEnumerable<UserFollower>> GetFollowers(Guid userId, CancellationToken cancellationToken = default)
         {
-            return await base.Find(e => e.UserId == userId, new List<string> { nameof(UserFollower.Follower) })
-                        .ToListAsync(cancellationToken);
+            return await base.Find(e => e.UserId == userId).ToListAsync(cancellationToken);
         }
 
         public async Task<long> GetFollowersCountAsync(Guid userId, CancellationToken cancellationToken = default)
@@ -30,8 +29,7 @@ namespace SocialNetwork.EF.Repo
 
         public async Task<IEnumerable<UserFollower>> GetFollowing(Guid followerId, CancellationToken cancellationToken = default)
         {
-            return await base.Find(e => e.FollowerId == followerId, new List<string> { nameof(UserFollower.User) })
-                                   .ToListAsync(cancellationToken);
+            return await base.Find(e => e.FollowerId == followerId).ToListAsync(cancellationToken);
         }
 
         public async Task<long> GetFollowingCountAsync(Guid followerId, CancellationToken cancellationToken = default)

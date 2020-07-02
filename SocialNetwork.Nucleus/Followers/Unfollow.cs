@@ -3,9 +3,7 @@ using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

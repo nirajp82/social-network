@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
-using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
 using System.Threading;
@@ -19,19 +17,14 @@ namespace SocialNetwork.Nucleus.Engine.User
         public class Handler : IRequestHandler<Query, ProfileDto>
         {
             #region Members
-            private readonly IPhotoAccessor _photoAccessor;
-            private readonly IUnitOfWork _unitOfWork;
-            private readonly IMapperHelper _mapperHelper;
+            private readonly IProfileReader _profileReader;
             #endregion
 
 
             #region Constructor
-            public Handler(IPhotoAccessor photoAccessor, IUnitOfWork unitOfWork,
-                IMapperHelper mapperHelper)
+            public Handler(IProfileReader profileReader)
             {
-                _photoAccessor = photoAccessor;
-                _unitOfWork = unitOfWork;
-                _mapperHelper = mapperHelper;
+                _profileReader = profileReader;
             }
             #endregion
 
@@ -39,11 +32,7 @@ namespace SocialNetwork.Nucleus.Engine.User
             #region Methods
             public async Task<ProfileDto> Handle(Query request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.GetUserProfile(request.AppUserId);
-                ProfileDto profile = _mapperHelper.Map<AppUser, ProfileDto>(appUser);
-                _photoAccessor.PreparePhotosUrl(profile.Photos);
-                _photoAccessor.PreparePhotoUrl(profile.MainPhoto);
-                return profile;
+                return await _profileReader.ReadProfile(request.AppUserId, cancellationToken);
             }
             #endregion
         }

@@ -18,6 +18,23 @@ namespace SocialNetwork.API.Controllers
     [Route("api/profiles")]
     public class FollowersController : BaseController
     {
+        #region Queries Action Methods
+        [HttpGet("{appUserId:guid}/{predicate}")]
+        [ProducesResponseType(typeof(IEnumerable<ProfileDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetFollowings(Guid appUserId, string predicate)
+        {
+            var result = await Mediator.Send(new List.Query {  AppUserId = appUserId, Predicate = predicate });
+            if (result?.Any() == true)
+                return Ok(result);
+            else
+                return NoContent();
+        }
+        #endregion
+
+
         #region Command Action Methods
         [HttpPost("{followingUserId:guid}/follow")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
