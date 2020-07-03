@@ -5,6 +5,7 @@ using SocialNetwork.EF.Repo;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
 namespace SocialNetwork.Nucleus
 {
@@ -37,8 +38,9 @@ namespace SocialNetwork.Nucleus
             #region Public Methods
             public async Task<UserDto> Handle(Query query, CancellationToken cancellationToken)
             {
+                Guid userId = _userAccessor.GetCurrentUserId();
                 string userName = _userAccessor.GetCurrentUserName();
-                AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName,
+                AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.Id == userId,
                                     new List<string> { nameof(AppUser.Photos) },
                                     cancellationToken);
                 return new UserDto

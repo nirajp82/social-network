@@ -32,17 +32,16 @@ namespace SocialNetwork.Nucleus
         #region Methods
         public async Task<ProfileDto> ReadProfile(Guid appUserId, CancellationToken cancellationToken)
         {
-            string currentUserName = _userAccessor.GetCurrentUserName();
             AppUser appUser = await _unitOfWork.AppUserRepo.GetUserProfile(appUserId, cancellationToken);
             ProfileDto profileDto = _mapperHelper.Map<AppUser, ProfileDto>(appUser);
 
             profileDto.FollowersCount = await _unitOfWork.UserFollowerRepo.GetFollowersCountAsync(appUserId, cancellationToken);
             profileDto.FollowingCount = await _unitOfWork.UserFollowerRepo.GetFollowingCountAsync(appUserId, cancellationToken);
             profileDto.Following = await _unitOfWork.UserFollowerRepo
-                                            .HasAnyAsync(f => f.Follower.IdentityUser.UserName == currentUserName &&
+                                            .HasAnyAsync(f => f.Follower.Id == _userAccessor.GetCurrentUserId() &&
                                                                 f.UserId == appUserId, cancellationToken);
             return profileDto;
-        }       
+        }
         #endregion
     }
 }

@@ -34,8 +34,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<bool> Handle(Query request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-                return await _unitOfWork.UserActivityRepo.IsHostAsync(request.ActivityId, appUser.Id, cancellationToken);
+                return await _unitOfWork.UserActivityRepo.IsHostAsync(request.ActivityId, _userAccessor.GetCurrentUserId(), cancellationToken);
             }
             #endregion
         }

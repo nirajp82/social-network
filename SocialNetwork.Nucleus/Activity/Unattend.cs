@@ -34,8 +34,8 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-                UserActivity userActivity = await _unitOfWork.UserActivityRepo.FindFirstAsync(request.ActivityId, appUser.Id, cancellationToken);
+                UserActivity userActivity = await _unitOfWork.UserActivityRepo.FindFirstAsync(request.ActivityId,
+                        _userAccessor.GetCurrentUserId(), cancellationToken);
                 _unitOfWork.UserActivityRepo.Delete(userActivity);
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
 

@@ -35,14 +35,12 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-
                 UserActivity hostAttendee = new UserActivity
                 {
                     ActivityId = request.ActivityId,
                     IsHost = false,
                     DateJoined = HelperFunc.GetCurrentDateTime(),
-                    AppUserId = appUser.Id
+                    AppUserId = _userAccessor.GetCurrentUserId()
                 };
                 _unitOfWork.UserActivityRepo.Add(hostAttendee);
 

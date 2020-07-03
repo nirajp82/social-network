@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Nucleus;
 using SocialNetwork.Util;
@@ -15,12 +14,12 @@ namespace SocialNetwork.Infrastructure
         #region Private Members
         private readonly IConfiguration _configuration;
         private readonly ICryptoHelper _cryptoHelper;
-        private readonly InfrastructureConfigSettings _configSettings;
+        private readonly ConfigSettings _configSettings;
         #endregion
 
 
         #region Constructor
-        public JwtGenerator(IConfiguration configuration, ICryptoHelper cryptoHelper, InfrastructureConfigSettings configSettings)
+        public JwtGenerator(IConfiguration configuration, ICryptoHelper cryptoHelper, ConfigSettings configSettings)
         {
             _configuration = configuration;
             _cryptoHelper = cryptoHelper;
@@ -34,8 +33,8 @@ namespace SocialNetwork.Infrastructure
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,appUserId)),
-                new Claim(JwtRegisteredClaimNames.UniqueName, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,userName))
+                new Claim(Constants.CLAIM_UID, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,appUserId)),
+                new Claim(Constants.CLAIM_UNAME, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,userName))
             };
 
             //Generate Signing Credentials

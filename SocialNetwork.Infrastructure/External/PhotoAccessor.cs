@@ -14,12 +14,12 @@ namespace SocialNetwork.Infrastructure
     public class PhotoAccessor : IPhotoAccessor
     {
         #region Members
-        private readonly InfrastructureConfigSettings _infrastructureConfig;
+        private readonly ConfigSettings _infrastructureConfig;
         #endregion
 
 
         #region Constructors
-        public PhotoAccessor(InfrastructureConfigSettings infrastructureConfig)
+        public PhotoAccessor(ConfigSettings infrastructureConfig)
         {
             _infrastructureConfig = infrastructureConfig;
         }

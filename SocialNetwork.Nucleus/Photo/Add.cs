@@ -43,10 +43,7 @@ namespace SocialNetwork.Nucleus.Engine.Photo
             public async Task<PhotoDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 PhotoDto photoUploadResult = await _photoAccessor.AddPhotoAsync(request.File, cancellationToken);
-                string userName = _userAccessor.GetCurrentUserName();
-
-                AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName);
-                DataModel.Photo photo = CreatePhotoModel(request, photoUploadResult, user);
+                DataModel.Photo photo = CreatePhotoModel(request, photoUploadResult);
                 _unitOfWork.PhotoRepo.Add(photo);
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)
@@ -57,12 +54,12 @@ namespace SocialNetwork.Nucleus.Engine.Photo
                 throw new Exception("Problem saving uploaded file entry into database.");
             }
 
-            private DataModel.Photo CreatePhotoModel(Command request, PhotoDto photoUploadResult, AppUser user)
+            private DataModel.Photo CreatePhotoModel(Command request, PhotoDto photoUploadResult)
             {
                 DataModel.Photo photo = _mapperHelper.Map<Command, DataModel.Photo>(request);
                 photo.Id = photoUploadResult.Id;
                 photo.UploadedDate = DateTime.Now;
-                photo.AppUserId = user.Id;
+                photo.AppUserId = _userAccessor.GetCurrentUserId();
                 photo.CloudFileName = photoUploadResult.CloudFileName;
                 return photo;
             }

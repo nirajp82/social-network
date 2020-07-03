@@ -56,8 +56,8 @@ namespace SocialNetwork.Nucleus.Engine.User
             #region Public Methods
             public async Task<string> Handle(Command request, CancellationToken cancellationToken)
             {
-                string userName = _userAccessor.GetCurrentUserName();
-                AppUser dbAppUser = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.IdentityUser.UserName == userName, null, cancellationToken);
+                Guid appUserId = _userAccessor.GetCurrentUserId();
+                AppUser dbAppUser = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.Id == appUserId, null, cancellationToken);
 
                 await Validate(request, dbAppUser.Id);
                 AppUser appUser = _mapperHelper.Map<Command, AppUser>(request);

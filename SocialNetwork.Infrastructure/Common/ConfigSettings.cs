@@ -1,6 +1,6 @@
 ﻿namespace SocialNetwork.Infrastructure
 {
-    public class InfrastructureConfigSettings
+    public class ConfigSettings
     {
         #region Members
         public string BlobAccountBaseUri { get; private set; }
@@ -13,7 +13,7 @@
 
 
         #region Constructor
-        public InfrastructureConfigSettings(Util.AppConfigHelper configHelper)
+        public ConfigSettings(Util.AppConfigHelper configHelper)
         {
             BlobAccountBaseUri = configHelper.GetValue<string>("Azure:Storage:BlobAccountBaseUri");
             AccountName = configHelper.GetValue<string>("Azure:Storage:AccountName");

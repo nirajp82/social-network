@@ -35,8 +35,8 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<KeyValuePair<bool, object>> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-                UserActivity userActivity = await _unitOfWork.UserActivityRepo.FindFirstAsync(request.ActivityId, appUser.Id, cancellationToken);
+                UserActivity userActivity = await _unitOfWork.UserActivityRepo.FindFirstAsync(request.ActivityId, 
+                    _userAccessor.GetCurrentUserId(), cancellationToken);
 
                 if (userActivity?.IsHost == true)
                     return new KeyValuePair<bool, object>(false, new { Attendance = "Host can not be removed from activity" });

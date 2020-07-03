@@ -85,7 +85,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        [Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
+        [Authorize(Policy = Constants.ACTIVITY_HOST_POLICY_NAME)]
         public async Task<IActionResult> Put(Guid activityId, [FromBody] Edit.Command request,
             CancellationToken cancellationToken)
         {
@@ -101,7 +101,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ServiceFilter(typeof(ValidateActivityExistsFilter))]
-        [Authorize(Policy = InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME)]
+        [Authorize(Policy = Constants.ACTIVITY_HOST_POLICY_NAME)]
         public async Task<IActionResult> Delete(Guid activityId, CancellationToken cancellationToken)
         {
             await Mediator.Send(new Delete.Command { ActivityId = activityId }, cancellationToken);

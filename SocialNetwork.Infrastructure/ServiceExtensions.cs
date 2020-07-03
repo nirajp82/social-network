@@ -17,7 +17,7 @@ namespace SocialNetwork.Infrastructure
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
             services.AddSingleton<IPhotoAccessor, PhotoAccessor>();
-            services.AddSingleton<InfrastructureConfigSettings>();
+            services.AddSingleton<ConfigSettings>();
             services.ConfigureSwaggerService();
 
             //Action Filters
@@ -43,10 +43,10 @@ namespace SocialNetwork.Infrastructure
                         OnMessageReceived = (context) =>
                         {
                            //Set Access Token for Chat Request.
-                           var accessToken = context.Request.Query[InfrastrctureConstants.ACCESS_TOKEN];
+                           var accessToken = context.Request.Query[Constants.ACCESS_TOKEN];
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrWhiteSpace(accessToken) &&
-                                 path.StartsWithSegments(InfrastrctureConstants.ACTIVITY_CHAT_HUB))
+                                 path.StartsWithSegments(Constants.ACTIVITY_CHAT_HUB))
                             {
                                 context.Token = accessToken;
                             }
@@ -58,7 +58,7 @@ namespace SocialNetwork.Infrastructure
             //Host Authorization
             services.AddAuthorization(opt =>
             {
-                opt.AddPolicy(InfrastrctureConstants.ACTIVITY_HOST_POLICY_NAME, policy =>
+                opt.AddPolicy(Constants.ACTIVITY_HOST_POLICY_NAME, policy =>
                 {
                     policy.Requirements.Add(new IsHostRequirement());
                 });

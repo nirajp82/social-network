@@ -38,14 +38,14 @@ namespace SocialNetwork.Nucleus.Followers
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
+                Guid appUserId = _userAccessor.GetCurrentUserId();
 
-                await Validate(appUser, request, cancellationToken);
+                await Validate(appUserId, request, cancellationToken);
 
                 UserFollower userFollower = new UserFollower
                 {
                     UserId = request.FollowingUserId,
-                    FollowerId = appUser.Id
+                    FollowerId = appUserId
                 };
                 _unitOfWork.UserFollowerRepo.Add(userFollower);
 
@@ -56,16 +56,16 @@ namespace SocialNetwork.Nucleus.Followers
                 throw new Exception("Problem saving changes to database");
             }
 
-            private async Task Validate(AppUser appUser, Command request, CancellationToken cancellationToken)
+            private async Task Validate(Guid appUserId, Command request, CancellationToken cancellationToken)
             {
-                if (request.FollowingUserId == appUser.Id)
+                if (request.FollowingUserId == appUserId)
                     throw new CustomException(HttpStatusCode.BadRequest, new { User = "You can not follow yourself" });
 
                 AppUser followingUser = await _unitOfWork.AppUserRepo.FindFirstAsync(u => u.Id == request.FollowingUserId, null, cancellationToken);
                 if (followingUser == null)
                     throw new CustomException(HttpStatusCode.NotFound, new { User = "Not Found" });
 
-                bool isFollowing = await _unitOfWork.UserFollowerRepo.HasAnyAsync(u => u.FollowerId == appUser.Id && u.UserId == followingUser.Id, cancellationToken);
+                bool isFollowing = await _unitOfWork.UserFollowerRepo.HasAnyAsync(u => u.FollowerId == appUserId && u.UserId == followingUser.Id, cancellationToken);
                 if (isFollowing)
                     throw new CustomException(HttpStatusCode.BadRequest, new { User = "You are already following this user" });
             }

@@ -37,8 +37,8 @@ namespace SocialNetwork.Nucleus.Engine.Photo
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName(), cancellationToken);
-                IEnumerable<DataModel.Photo> photos = await _unitOfWork.PhotoRepo.FindMainPhotosAsync(appUser.Id, request.PhotoId, cancellationToken);
+                Guid appUserId = _userAccessor.GetCurrentUserId();
+                IEnumerable<DataModel.Photo> photos = await _unitOfWork.PhotoRepo.FindMainPhotosAsync(appUserId, request.PhotoId, cancellationToken);
 
                 if (!photos.Any(p => p.Id == request.PhotoId))
                     throw new CustomException(System.Net.HttpStatusCode.NotFound, new { Photo = "Not found" });

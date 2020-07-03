@@ -13,7 +13,7 @@ namespace SocialNetwork.Util
         public T Decrypt<T>(string keyString, string cipherText)
         {
             if (string.IsNullOrWhiteSpace(keyString))
-                throw new ArgumentException(nameof(keyString));
+                throw new ArgumentNullException(nameof(keyString));
 
             if (string.IsNullOrWhiteSpace(cipherText))
                 throw new ArgumentNullException(nameof(cipherText));
@@ -56,7 +56,7 @@ namespace SocialNetwork.Util
         public string Encrypt<T>(string keyString, T value)
         {
             if (string.IsNullOrWhiteSpace(keyString))
-                throw new ArgumentException(nameof(keyString));
+                throw new ArgumentNullException(nameof(keyString));
 
             string plainText = HelperFunc.ChangeType<string>(value);
             if (string.IsNullOrWhiteSpace(plainText))

@@ -35,8 +35,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             #region Methods
             public async Task<KeyValuePair<bool, object>> Handle(Command request, CancellationToken cancellationToken)
             {
-                AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-                bool isUserAttending = await _unitOfWork.UserActivityRepo.ExistsAsync(request.ActivityId, appUser.Id, cancellationToken);
+                bool isUserAttending = await _unitOfWork.UserActivityRepo.ExistsAsync(request.ActivityId, _userAccessor.GetCurrentUserId(), cancellationToken);
                 if (isUserAttending)
                     return new KeyValuePair<bool, object>(false, new { Activity = "User is already attending this activity!" });
 
