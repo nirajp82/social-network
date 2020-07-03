@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Nucleus;
+using SocialNetwork.Util;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,13 +14,17 @@ namespace SocialNetwork.Infrastructure
     {
         #region Private Members
         private readonly IConfiguration _configuration;
+        private readonly ICryptoHelper _cryptoHelper;
+        private readonly InfrastructureConfigSettings _configSettings;
         #endregion
 
 
         #region Constructor
-        public JwtGenerator(IConfiguration configuration)
+        public JwtGenerator(IConfiguration configuration, ICryptoHelper cryptoHelper, InfrastructureConfigSettings configSettings)
         {
             _configuration = configuration;
+            _cryptoHelper = cryptoHelper;
+            _configSettings = configSettings;
         }
         #endregion
 
@@ -29,8 +34,8 @@ namespace SocialNetwork.Infrastructure
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, TODO: Encrypt Value appUserId.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, userName)
+                new Claim(JwtRegisteredClaimNames.NameId, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,appUserId)),
+                new Claim(JwtRegisteredClaimNames.UniqueName, _cryptoHelper.Encrypt(_configSettings.DataProtectionKey,userName))
             };
 
             //Generate Signing Credentials

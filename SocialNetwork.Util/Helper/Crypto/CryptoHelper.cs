@@ -21,27 +21,34 @@ namespace SocialNetwork.Util
             byte[] fullCipher = Convert.FromBase64String(cipherText);
 
             var iv = new byte[16];
-            var cipher = new byte[16];
+            var cipher = new byte[fullCipher.Length - iv.Length];
 
             Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
+            Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, fullCipher.Length - iv.Length);
             var key = Encoding.UTF8.GetBytes(keyString);
 
+            // Create an Aes object with the specified key
             using (Aes aesAlg = Aes.Create())
             {
-                using (ICryptoTransform decryptor = aesAlg.CreateDecryptor(key, iv))
+                aesAlg.Key = Encoding.UTF8.GetBytes(keyString);
+
+                // Create a decryptor to perform the stream transform.
+                using (ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, iv))
                 {
-                    string result;
+                    string plainText;
+                    // Create the streams used for decryption.
                     using (MemoryStream msDecrypt = new MemoryStream(cipher))
                     {
                         using (CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
                         {
+                            // Read the decrypted bytes from the decrypting stream
+                            // and place them in a string.
                             using (StreamReader srDecrypt = new StreamReader(csDecrypt))
-                                result = srDecrypt.ReadToEnd();
+                                plainText = srDecrypt.ReadToEnd();
                         }
                     }
-
-                    return HelperFunc.ChangeType<T>(result);
+                    //Return Plain Text
+                    return HelperFunc.ChangeType<T>(plainText);
                 }
             }
         }

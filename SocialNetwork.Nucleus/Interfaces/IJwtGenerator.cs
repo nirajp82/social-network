@@ -1,7 +1,9 @@
-﻿namespace SocialNetwork.Nucleus
+﻿using System;
+
+namespace SocialNetwork.Nucleus
 {
     public interface IJwtGenerator
     {
-        string CreateToken(string userName);
+        string CreateToken(Guid appUserId, string userName);
     }
 }

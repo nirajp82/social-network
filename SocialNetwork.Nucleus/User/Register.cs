@@ -70,7 +70,7 @@ namespace SocialNetwork.Nucleus.Engine.User
                         AppUserId = appUser.Id,
                         DisplayName = appUser.DisplayName,
                         UserName = command.UserName,
-                        Token = _jwtGenerator.CreateToken(command.UserName),
+                        Token = _jwtGenerator.CreateToken(appUser.Id, command.UserName),
                         Image = null
                     };
                 }
