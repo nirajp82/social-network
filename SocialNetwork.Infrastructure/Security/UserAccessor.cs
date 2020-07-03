@@ -40,7 +40,11 @@ namespace SocialNetwork.Infrastructure
         public string GetCurrentUserName()
         {
             string encryptedUserName = FindClaim(Constants.CLAIM_UNAME);
-            return _cryptoHelper.Decrypt<string>(_configSettings.DataProtectionKey, encryptedUserName);
+
+            if (!string.IsNullOrWhiteSpace(encryptedUserName))
+                return _cryptoHelper.Decrypt<string>(_configSettings.DataProtectionKey, encryptedUserName);
+            
+            return string.Empty;
         }
         #endregion
 

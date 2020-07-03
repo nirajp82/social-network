@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace SocialNetwork.Util
 {
@@ -21,7 +22,11 @@ namespace SocialNetwork.Util
             if (value is string)
             {
                 if (toType == typeof(Guid))
-                    return ChangeType<T>(new Guid(Convert.ToString(value)));
+                {
+                    if (!string.IsNullOrWhiteSpace(value.ToString()))
+                        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFromInvariantString(value.ToString());
+                    return default;
+                }
                 else if ((string)value == string.Empty && toType != typeof(string))
                     return ChangeType<T>(null);
                 else if (toType.IsValueType && toType.IsEnum && value is string && !string.IsNullOrWhiteSpace(Convert.ToString(value)))
