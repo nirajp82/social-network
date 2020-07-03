@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Nucleus
 {
-    public class ProfileReader : IProfileReader
+    internal class ProfileReader : IProfileReader
     {
         #region Members
         private readonly IUnitOfWork _unitOfWork;

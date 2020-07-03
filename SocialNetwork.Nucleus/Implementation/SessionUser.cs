@@ -2,7 +2,7 @@
 
 namespace SocialNetwork.Nucleus
 {
-    class SessionUser : ISessionUser
+    internal class SessionUser : ISessionUser
     {
         #region Members
         private readonly IUserAccessor _userAccessor;

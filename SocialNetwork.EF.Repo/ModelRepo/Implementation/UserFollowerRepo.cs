@@ -2,6 +2,7 @@
 using SocialNetwork.DataModel;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -35,6 +36,13 @@ namespace SocialNetwork.EF.Repo
         public async Task<long> GetFollowingCountAsync(Guid followerId, CancellationToken cancellationToken = default)
         {
             return await base.CountAsync(e => e.FollowerId == followerId, cancellationToken);
+        }
+
+        public async Task<IEnumerable<UserFollower>> FindAsync(Expression<Func<UserFollower, bool>> predicate, CancellationToken cancellationToken = default)
+        {
+            return await base.Find(predicate: predicate)
+                        .AsNoTracking()
+                        .ToListAsync(cancellationToken);
         }
         #endregion
     }

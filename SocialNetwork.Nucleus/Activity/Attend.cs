@@ -51,24 +51,6 @@ namespace SocialNetwork.Nucleus.Engine.Activity
                 throw new Exception("Problem saving changes to database");
             }
             #endregion
-
-
-            #region Private Method
-            //TODO: Validate
-            //private async Task<AppUser> Validate(Command request, CancellationToken cancellationToken)
-            //{
-            //    bool activityExists = await _unitOfWork.ActivityRepo.ExistsAsync(request.ActivityId, cancellationToken);
-            //    if (!activityExists)
-            //        throw new CustomException(HttpStatusCode.NotFound, new { Activity = "Could not found activity!" });
-
-            //    AppUser appUser = await _unitOfWork.AppUserRepo.FindByUserName(_userAccessor.GetCurrentUserName());
-            //    bool isUserAttending = await _unitOfWork.UserActivityRepo.ExistsAsync(request.ActivityId, appUser.Id, cancellationToken);
-            //    if (isUserAttending)
-            //        throw new CustomException(HttpStatusCode.BadRequest, new { Activity = "User is already attending this activity!" });
-
-            //    return appUser;
-            //}
-            #endregion
         }
     }
 }

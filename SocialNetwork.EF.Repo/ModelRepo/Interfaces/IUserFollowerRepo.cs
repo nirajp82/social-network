@@ -13,6 +13,8 @@ namespace SocialNetwork.EF.Repo
 
         void Delete(UserFollower entity);
 
+        Task<IEnumerable<UserFollower>> FindAsync(Expression<Func<UserFollower, bool>> predicate, CancellationToken cancellationToken = default);
+
         Task<long> GetFollowersCountAsync(Guid userId, CancellationToken cancellationToken = default);
 
         Task<long> GetFollowingCountAsync(Guid followerId, CancellationToken cancellationToken = default);

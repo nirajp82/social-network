@@ -15,7 +15,9 @@
 
   <ItemGroup>
     <Compile Include="Implementation\SessionUser.cs" />
+    <Compile Include="Implementation\UserActivityHelper.cs" />
     <Compile Include="Implementation\ValueEngine.cs" />
+    <Compile Include="Interfaces\IUserActivityHelper.cs" />
     <Compile Include="Interfaces\IJwtGenerator.cs" />
     <Compile Include="Interfaces\IPhotoAccessor.cs" />
     <Compile Include="Interfaces\IProfileReader.cs" />

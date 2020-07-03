@@ -14,27 +14,18 @@ namespace SocialNetwork.Nucleus
             Map<string, string>().ConvertUsing(str => string.IsNullOrWhiteSpace(str) ? str : str.Trim());
             Map<Value, ValueDto>();
 
-            Map<Activity, ActivityDto>()
-                .ForMember(dest => dest.Attendees, opt => opt.MapFrom(src => src.UserActivities));
-
-            Map<UserActivity, AttendeeDto>(false)
-                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.AppUser.DisplayName))
-                .ForMember(dest => dest.Image, opt => opt.MapFrom<AttendeePhotoUrlResolver>());
-
             Map<AppUser, UserDto>();
-            Map<Create.Command, Activity>();
-            Map<Edit.Command, Activity>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ActivityId));
-
-            Map<Add.Command, Photo>()
-                .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
-                .ForMember(dest => dest.ActualFileName, opt => opt.MapFrom(src => src.File.FileName))
-                .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
-
-            Map<AppUser, ProfileDto>(false)
+           
+                      Map<AppUser, ProfileDto>(false)
                 .ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.IdentityUser != null ? src.IdentityUser.UserName : ""));
 
             Map<Engine.User.Edit.Command, AppUser>(false);
+
+            Map<Engine.Photo.Add.Command, Photo>()
+              .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
+              .ForMember(dest => dest.ActualFileName, opt => opt.MapFrom(src => src.File.FileName))
+              .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
+
 
             Map<Photo, PhotoDto>(false)
                 .ForMember(dest => dest.Url, opt => opt.MapFrom<PhotoUrlResolver>());
@@ -73,21 +64,7 @@ namespace SocialNetwork.Nucleus
                 return _photoAccessor.PreparePhotoUrl(source?.CloudFileName);
             }
         }
-
-        private class AttendeePhotoUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>
-        {
-            private readonly IPhotoAccessor _photoAccessor;
-
-            public AttendeePhotoUrlResolver(IPhotoAccessor photoAccessor)
-            {
-                _photoAccessor = photoAccessor;
-            }
-
-            public string Resolve(UserActivity source, AttendeeDto destination, string destMember, ResolutionContext context)
-            {
-                return _photoAccessor.PreparePhotoUrl(source?.AppUser?.MainPhoto?.CloudFileName);
-            }
-        }        
+  
         #endregion
     }
 }

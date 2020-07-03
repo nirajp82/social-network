@@ -26,7 +26,6 @@ namespace SocialNetwork.Nucleus.Followers
             #region Members
             private readonly IUnitOfWork _unitOfWork;
             private readonly IProfileReader _profileReader;
-            private readonly IMapperHelper _mapperHelper;
             #endregion
 
 
@@ -35,7 +34,6 @@ namespace SocialNetwork.Nucleus.Followers
             {
                 _unitOfWork = unitOfWork;
                 _profileReader = profileReader;
-                _mapperHelper = mapperHelper;
             }
             #endregion
 

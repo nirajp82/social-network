@@ -20,16 +20,14 @@ namespace SocialNetwork.Nucleus.Followers
         {
             #region Members
             private readonly IUnitOfWork _unitOfWork;
-            private readonly IMapperHelper _mapperHelper;
             private readonly IUserAccessor _userAccessor;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper, IUserAccessor userAccessor)
+            public Handler(IUnitOfWork unitOfWork, IUserAccessor userAccessor)
             {
                 _unitOfWork = unitOfWork;
-                _mapperHelper = mapperHelper;
                 _userAccessor = userAccessor;
             }
             #endregion

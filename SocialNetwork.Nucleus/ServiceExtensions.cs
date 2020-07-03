@@ -6,6 +6,8 @@ using MediatR;
 using SocialNetwork.Nucleus.Engine.Activity;
 using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
+using System;
+using SocialNetwork.Nucleus.Interfaces;
 
 namespace SocialNetwork.Nucleus
 {
@@ -17,7 +19,8 @@ namespace SocialNetwork.Nucleus
             services.ConfigureRepoServices(configuration);
             services.AddScoped<IValueEngine, ValueEngine>();
             services.AddScoped<IProfileReader, ProfileReader>();
-            services.AddAutoMapper(typeof(List).Assembly, typeof(Activity).Assembly, typeof(ActivityDto).Assembly);
+            services.AddScoped<IUserActivityHelper, UserActivityHelper>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(typeof(List).Assembly);
         }
     }

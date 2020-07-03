@@ -1,8 +1,11 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
+using SocialNetwork.Nucleus.Interfaces;
 using SocialNetwork.Util;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,16 +20,16 @@ namespace SocialNetwork.Nucleus.Engine.Activity
         public class Handler : IRequestHandler<Query, IEnumerable<ActivityDto>>
         {
             #region Members
-            private IUnitOfWork _unitOfWork { get; }
-            private IMapperHelper _mapperHelper { get; }
+            private readonly IUnitOfWork _unitOfWork;
+            private readonly IUserActivityHelper _userActivityHelper;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
+            public Handler(IUnitOfWork unitOfWork, IUserActivityHelper userActivityHelper)
             {
                 _unitOfWork = unitOfWork;
-                _mapperHelper = mapperHelper;
+                _userActivityHelper = userActivityHelper;
             }
             #endregion
 
@@ -35,8 +38,7 @@ namespace SocialNetwork.Nucleus.Engine.Activity
             public async Task<IEnumerable<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var dbResult = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
-                IEnumerable<ActivityDto> reponse = _mapperHelper.MapList<DataModel.Activity, ActivityDto>(dbResult);
-                return reponse;
+                return await _userActivityHelper.PrepareActivities(dbResult);
             }
             #endregion
         }
