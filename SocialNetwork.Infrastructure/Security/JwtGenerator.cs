@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Nucleus;
 using System;
@@ -24,11 +25,12 @@ namespace SocialNetwork.Infrastructure
 
 
         #region Public Methods
-        public string CreateToken(string userName)
+        public string CreateToken(Guid appUserId, string userName)
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.NameId, userName)
+                new Claim(JwtRegisteredClaimNames.NameId, TODO: Encrypt Value appUserId.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, userName)
             };
 
             //Generate Signing Credentials

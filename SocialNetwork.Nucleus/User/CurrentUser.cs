@@ -46,7 +46,7 @@ namespace SocialNetwork.Nucleus
                     AppUserId = user.Id,
                     UserName = userName,
                     DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(userName),
+                    Token = _jwtGenerator.CreateToken(user.Id, userName),
                     Image = _photoAccessor.PreparePhotoUrl(user.MainPhoto?.CloudFileName)
                 };
             }
