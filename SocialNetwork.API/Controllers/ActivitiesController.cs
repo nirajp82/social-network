@@ -26,9 +26,10 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int? Offset, int? Limit, CancellationToken cancellationToken)
+        public async Task<IActionResult> Get(int? offset, int? limit, bool? isGoing, bool? isHost,
+            DateTime? startDate, CancellationToken cancellationToken)
         {
-            var result = await Mediator.Send(new List.Query(Offset, Limit), cancellationToken);
+            var result = await Mediator.Send(new List.Query(offset, limit, isGoing, isHost, startDate), cancellationToken);
             if (result.Count > 0)
                 return Ok(result);
             else

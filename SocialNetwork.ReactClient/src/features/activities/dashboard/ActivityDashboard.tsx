@@ -7,6 +7,7 @@ import ActivityList from './ActivityList';
 import { rootStoreContext } from '../../../stores/rootStore';
 import ProgressBar from '../../../layout/ProgressBar';
 import Spinner from '../../../layout/Spinner';
+import ActivityFilter from './ActivityFilter';
 
 const ActivityDashboard: React.FC = () => {
     const rootStoreObj = useContext(rootStoreContext);
@@ -44,7 +45,7 @@ const ActivityDashboard: React.FC = () => {
                 <ActivityList />
             </Grid.Column>
             <Grid.Column width={6} >
-                <h2>Filter</h2>
+                <ActivityFilter />
             </Grid.Column>
             <Grid.Column width={10} >
                 <Spinner loading={isLoading} />

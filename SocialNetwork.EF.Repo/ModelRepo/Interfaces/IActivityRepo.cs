@@ -12,7 +12,8 @@ namespace SocialNetwork.EF.Repo
 
         Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
-        Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, CancellationToken cancellationToken);
+        Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, bool isGoing, bool isHost,
+             DateTime startDate, Guid appUserId, CancellationToken cancellationToken);
 
         Task<bool> ExistsAsync(Guid activityId, CancellationToken cancellationToken = default);
 

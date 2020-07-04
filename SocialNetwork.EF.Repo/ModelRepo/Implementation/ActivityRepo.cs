@@ -18,12 +18,19 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Method
-        public async Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, CancellationToken cancellationToken)
+        public async Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, bool isGoing, bool isHost,
+             DateTime startDate, Guid appUserId, CancellationToken cancellationToken)
         {
             IQueryable<Activity> queryable = base.Find(null)
                                                .Include(a => a.UserActivities)
                                                .ThenInclude(ua => ua.AppUser)
                                                .ThenInclude(ua => ua.Photos);
+
+            queryable = queryable.Where(q => q.Date >= startDate);
+            if (isHost)
+                queryable = queryable.Where(q => q.UserActivities.Any(a => a.IsHost && a.AppUserId == appUserId));
+            else if (isGoing)
+                queryable = queryable.Where(q => q.UserActivities.Any(a => a.AppUserId == appUserId));
 
             ResponseEnvelope<Activity> response = new ResponseEnvelope<Activity>
             {
