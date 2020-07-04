@@ -26,7 +26,8 @@ export interface IAttendee {
     appUserId: string,
     displayName: string,
     image: string,
-    isHost: boolean
+    isHost: boolean,
+    following?: boolean
 };
 
 //following "extends Partial<IActivity>" line will inherit all the properties from IActivity and make all them optional 

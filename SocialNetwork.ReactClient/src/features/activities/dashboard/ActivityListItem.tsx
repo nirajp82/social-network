@@ -24,12 +24,14 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                             style={{ marginBottom: 3 }}
                         />
                         <Item.Content>
-                            <Item.Header as={Link} to={`/activities/${activity.id}`}>
+                            <Item.Header as={Link} to={`${constants.NAV_ACTIVITIES}/${activity.id}`}>
                                 {activity.title}
                             </Item.Header>
                             <Item.Description>
-                                Hosted by
-                                <Link to={`/profile/${activity.host?.appUserId}`}> {activity.host?.displayName}</Link>
+                                Hosted by {' '}
+                                <Link to={`/${constants.NAV_USER_PROFILE}/${activity.host?.appUserId}`}>
+                                    {activity.host?.displayName}
+                                </Link>
                             </Item.Description>
                             {activity.isCurrentUserHost && (
                                 <Item.Description>

@@ -1,12 +1,21 @@
-﻿import React, { useContext } from 'react';
+﻿import React, { useContext, Fragment, useState } from 'react';
 import { Segment, Item, Header, Button, Grid, Statistic, Divider, Reveal } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 import { rootStoreContext } from '../../../stores/rootStore';
 
-
 const ProfileHeader = () => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { userProfile } = rootStoreObj.profileStore;
+    const [isUpdatingFollowFlag, setIsUpdatingFollowFlag] = useState(false);
+    const { userProfile, follow, unfollow, isViewingOwnProfile } = rootStoreObj.profileStore;
+
+    const onFollowClickHandler = async () => {
+        setIsUpdatingFollowFlag(true);
+        if (userProfile!.following)
+            await unfollow(userProfile!.appUserId);
+        else
+            await follow(userProfile!.appUserId);
+        setIsUpdatingFollowFlag(false);
+    };
 
     return (
         <Segment>
@@ -26,15 +35,31 @@ const ProfileHeader = () => {
                         <Statistic label='Followers' value={userProfile?.followersCount} />
                         <Statistic label='Following' value={userProfile?.followingCount} />
                     </Statistic.Group>
-                    <Divider />
-                    <Reveal animated='move'>
-                        <Reveal.Content visible style={{ width: '100%' }}>
-                            <Button fluid color='teal' content='Not following' />
-                        </Reveal.Content>
-                        <Reveal.Content hidden>
-                            <Button fluid basic content='Unfollow' />
-                        </Reveal.Content>
-                    </Reveal>
+                    {
+                        userProfile && !isViewingOwnProfile ?
+                            (
+                                <Fragment>
+                                    <Divider />
+                                    <Reveal animated='move'>
+                                        <Fragment>
+                                            <Reveal.Content hidden>
+                                                <Button
+                                                    onClick={() => onFollowClickHandler()}
+                                                    content={userProfile!.following ? 'Unfollow' : 'Follow'}
+                                                    loading={isUpdatingFollowFlag}
+                                                    className={userProfile!.following ? 'negative' : 'positive'}
+                                                    fluid basic />
+                                            </Reveal.Content>)
+                                            <Reveal.Content visible style={{ width: '100%' }}>
+                                                <Button
+                                                    content={userProfile!.following ? 'Following' : 'Not following'}
+                                                    fluid color='teal' />
+                                            </Reveal.Content>
+                                        </Fragment>
+                                    </Reveal>
+                                </Fragment>
+                            ) : ""
+                    }
                 </Grid.Column>
             </Grid>
         </Segment>

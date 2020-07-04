@@ -6,7 +6,7 @@ import { rootStoreContext } from '../../../stores/rootStore';
 
 const ProfileAbout = () => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { userProfile, isUserViewingOwnProfile, updateProfile } = rootStoreObj.profileStore;
+    const { userProfile, isViewingOwnProfile, updateProfile } = rootStoreObj.profileStore;
     const [editMode, setEditMode] = useState(false);
 
     return (
@@ -18,7 +18,7 @@ const ProfileAbout = () => {
                         icon='user'
                         content={`About ${userProfile?.displayName}`}
                     />
-                    {isUserViewingOwnProfile && (
+                    {isViewingOwnProfile && (
                         <Button
                             floated='right'
                             basic

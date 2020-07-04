@@ -7,15 +7,15 @@ import PhotoUpload from '../../../common/upload/PhotoUpload';
 
 const ProfilePhoto = () => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { userProfile, isUserViewingOwnProfile, uploadPhoto, setMainPhoto, deletePhoto } = rootStoreObj.profileStore;
+    const { userProfile, isViewingOwnProfile, uploadPhoto, setMainPhoto, deletePhoto } = rootStoreObj.profileStore;
     const [addPhotoMode, setAddPhotoMode] = useState(false);
     const [isSettingMainPhoto, setIsSettingMainPhoto] = useState(false);
     const [isDeletingPhoto, setIsDeletingPhoto] = useState(false);
     const [target, setTarget] = useState('');
 
     //useEffect(() => {
-    //    setAddPhotoMode(profileStoreObj.isUserViewingOwnProfile);
-    //}, [profileStoreObj.isUserViewingOwnProfile]);
+    //    setAddPhotoMode(profileStoreObj.isViewingOwnProfile);
+    //}, [profileStoreObj.isViewingOwnProfile]);
 
     const onAddPhoto = () => {
         setAddPhotoMode(!addPhotoMode);
@@ -46,7 +46,7 @@ const ProfilePhoto = () => {
                 <Grid.Column width={16} style={{ paddingBottom: 0 }}>
                     <Header floated='left' icon='image' content='Photos' />
                     {
-                        isUserViewingOwnProfile &&
+                        isViewingOwnProfile &&
                         <Button onClick={() => onAddPhoto()} floated='right'
                             basic content={addPhotoMode ? 'Cancel' : 'Add Photo'} />
                     }

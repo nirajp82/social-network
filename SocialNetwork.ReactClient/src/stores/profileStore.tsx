@@ -1,21 +1,46 @@
 ﻿import { rootStore } from './rootStore';
-import { action, computed, runInAction, observable } from 'mobx';
+import { action, computed, runInAction, observable, reaction } from 'mobx';
 import { toast } from 'react-toastify';
 
 import profileService from '../api/profileService';
 import photoService from '../api/photoService';
 import { IProfile, IPhoto } from '../models/IProfile';
+import * as constants from '../utils/constants';
 
 export default class profileStore {
     rootStore: rootStore;
     @observable userProfile: IProfile | null = null;
+    @observable activeTabIndex: string | number | undefined = 0;
+    @observable followers: IProfile[] | null = null;
+    @observable isLoadingfollowers: boolean = false;
 
     constructor(rootStore: rootStore) {
         this.rootStore = rootStore;
+
+        reaction(() => this.activeTabIndex, index => {
+            if (index == constants.TAB_INDEX_FOLLOWERS)
+                this.loadFollowers(this.userProfile!.appUserId, constants.PREDICATE_FOLLOWERS);
+            else if (index == constants.TAB_INDEX_FOLLOWINGS)
+                this.loadFollowers(this.userProfile!.appUserId, constants.PREDICATE_FOLLOWINGS);
+            else
+                this.followers = [];
+        });
     }
 
-    @computed get isUserViewingOwnProfile(): boolean {
+    @computed get isViewingOwnProfile(): boolean {
         return !!(this.rootStore.userStore.user?.userName === this.userProfile?.username);
+    };
+
+    @computed get isUserViewingFollowersTab(): boolean {
+        return (this.activeTabIndex == constants.TAB_INDEX_FOLLOWERS);
+    };
+
+    @computed get isUserViewingFollowingTab(): boolean {
+        return (this.activeTabIndex == constants.TAB_INDEX_FOLLOWINGS);
+    };
+
+    @action setActiveTab = (tabIndex: string | number | undefined) => {
+        this.activeTabIndex = tabIndex;
     };
 
     @action setUserProfile = (userProfile: IProfile) => {
@@ -75,7 +100,7 @@ export default class profileStore {
     @action updateProfile = async (aboutProfile: IProfile) => {
         try {
             const displayName = await profileService.update(aboutProfile);
-            runInAction(() => {                
+            runInAction(() => {
                 this.rootStore.userStore.setDisplayName(displayName);
                 this.userProfile = { ...this.userProfile, ...aboutProfile };
                 this.userProfile!.displayName = displayName;
@@ -84,6 +109,54 @@ export default class profileStore {
             console.error(error);
             toast.error('Problem updating user profile');
         }
+    };
+
+    @action follow = async (userId: string) => {
+        try {
+            await profileService.follow(userId);
+            runInAction(() => {
+                this.userProfile!.followersCount += 1;
+                this.userProfile!.following = true;
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem following user');
+        }
+    };
+
+    @action unfollow = async (userId: string) => {
+        try {
+            await profileService.unfollow(userId);
+            runInAction(() => {
+                this.userProfile!.followersCount -= 1;
+                this.userProfile!.following = false;
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem unfollowing user');
+        }
+    };
+
+    @action loadFollowers = async (userId: string, predicate: string) => {
+        try {
+            this.isLoadingfollowers = true;
+            let followers: IProfile[] | null = null;
+
+            if (predicate === constants.PREDICATE_FOLLOWERS)
+                followers = await profileService.followers(userId);
+            else
+                followers = await profileService.followings(userId);
+
+            runInAction(() => {
+                this.followers = followers;
+                this.isLoadingfollowers = false;
+            });
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem loading followers');
+            this.isLoadingfollowers = false;
+        }
+        return null;
     };
 };
 

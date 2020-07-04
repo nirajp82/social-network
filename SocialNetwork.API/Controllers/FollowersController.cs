@@ -15,7 +15,7 @@ using SocialNetwork.Nucleus.Followers;
 
 namespace SocialNetwork.API.Controllers
 {
-    [Route("api/profiles")]
+    [Route("api/Profile")]
     public class FollowersController : BaseController
     {
         #region Queries Action Methods

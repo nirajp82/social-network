@@ -7,7 +7,7 @@ using SocialNetwork.EF.Repo;
 
 namespace SocialNetwork.Nucleus
 {
-    internal class ActivityMapper : Profile
+    internal class ActivityMapper : BaseMapper
     {
         #region Constructor
         public ActivityMapper()
@@ -26,16 +26,6 @@ namespace SocialNetwork.Nucleus
         }
         #endregion
 
-
-        #region Private Methods
-        IMappingExpression<source, dest> Map<source, dest>(bool createReserseMap = true)
-        {
-            if (createReserseMap)
-                return CreateMap<dest, source>().ReverseMap();
-
-            return CreateMap<source, dest>();
-        }
-        #endregion
 
         #region Resolver
         private class AttendeePhotoUrlResolver : IValueResolver<UserActivity, AttendeeDto, string>

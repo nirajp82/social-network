@@ -6,13 +6,14 @@
 //};
 
 export interface IProfile {
+    appUserId: string,
     displayName: string,
     firstName: string,
     lastName: string,
     email: string,
     bio: string,
     username: string,
-    // IsFollowed:string
+    following: boolean,
     followersCount: number,
     followingCount: number,
     mainPhoto: IPhoto | null,
