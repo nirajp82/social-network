@@ -11,19 +11,19 @@ export default class profileStore {
     rootStore: rootStore;
     @observable userProfile: IProfile | null = null;
     @observable activeTabIndex: string | number | undefined = 0;
-    @observable followers: IProfile[] | null = null;
+    @observable followers: IProfile[] | undefined = undefined;
     @observable isLoadingfollowers: boolean = false;
 
     constructor(rootStore: rootStore) {
         this.rootStore = rootStore;
 
         reaction(() => this.activeTabIndex, index => {
-            if (index == constants.TAB_INDEX_FOLLOWERS)
+            if (index === constants.TAB_INDEX_FOLLOWERS)
                 this.loadFollowers(this.userProfile!.appUserId, constants.PREDICATE_FOLLOWERS);
-            else if (index == constants.TAB_INDEX_FOLLOWINGS)
+            else if (index === constants.TAB_INDEX_FOLLOWINGS)
                 this.loadFollowers(this.userProfile!.appUserId, constants.PREDICATE_FOLLOWINGS);
             else
-                this.followers = [];
+                this.followers = undefined;
         });
     }
 
@@ -32,11 +32,11 @@ export default class profileStore {
     };
 
     @computed get isUserViewingFollowersTab(): boolean {
-        return (this.activeTabIndex == constants.TAB_INDEX_FOLLOWERS);
+        return (this.activeTabIndex === constants.TAB_INDEX_FOLLOWERS);
     };
 
     @computed get isUserViewingFollowingTab(): boolean {
-        return (this.activeTabIndex == constants.TAB_INDEX_FOLLOWINGS);
+        return (this.activeTabIndex === constants.TAB_INDEX_FOLLOWINGS);
     };
 
     @action setActiveTab = (tabIndex: string | number | undefined) => {
@@ -113,10 +113,14 @@ export default class profileStore {
 
     @action follow = async (userId: string) => {
         try {
-            await profileService.follow(userId);
+            const user: IProfile = await profileService.follow(userId);
             runInAction(() => {
                 this.userProfile!.followersCount += 1;
                 this.userProfile!.following = true;
+                if (this.isUserViewingFollowersTab) {
+                    this.followers = this.followers ?? [];
+                    this.followers.push(user);
+                }
             });
         } catch (error) {
             console.error(error);
@@ -130,6 +134,9 @@ export default class profileStore {
             runInAction(() => {
                 this.userProfile!.followersCount -= 1;
                 this.userProfile!.following = false;
+                if (this.isUserViewingFollowersTab) {
+                    this.followers = this.followers?.filter(u => u.appUserId !== this.rootStore.userStore.user?.appUserId);
+                }
             });
         } catch (error) {
             console.error(error);
@@ -140,7 +147,7 @@ export default class profileStore {
     @action loadFollowers = async (userId: string, predicate: string) => {
         try {
             this.isLoadingfollowers = true;
-            let followers: IProfile[] | null = null;
+            let followers: IProfile[] | undefined = undefined;
 
             if (predicate === constants.PREDICATE_FOLLOWERS)
                 followers = await profileService.followers(userId);
@@ -148,7 +155,7 @@ export default class profileStore {
                 followers = await profileService.followings(userId);
 
             runInAction(() => {
-                this.followers = followers;
+                this.followers = followers && followers.length > 0 ? followers : undefined;
                 this.isLoadingfollowers = false;
             });
         } catch (error) {

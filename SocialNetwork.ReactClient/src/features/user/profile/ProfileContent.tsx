@@ -5,9 +5,7 @@ import { observer } from 'mobx-react-lite';
 import ProfilePhoto from './ProfilePhoto';
 import ProfileAbout from './ProfileAbout';
 import ProfileFollowing from './ProfileFollowing';
-import * as constants from '../../../utils/constants';
 import { rootStoreContext } from '../../../stores/rootStore';
-
 
 const panes = () => [
     { menuItem: 'About', render: () => <ProfileAbout /> },

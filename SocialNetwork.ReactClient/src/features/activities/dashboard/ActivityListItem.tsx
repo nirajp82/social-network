@@ -29,7 +29,7 @@ const ActivityListItem: React.FC<IProps> = ({ activity }) => {
                             </Item.Header>
                             <Item.Description>
                                 Hosted by {' '}
-                                <Link to={`/${constants.NAV_USER_PROFILE}/${activity.host?.appUserId}`}>
+                                <Link to={`${constants.NAV_USER_PROFILE}/${activity.host?.appUserId}`}>
                                     {activity.host?.displayName}
                                 </Link>
                             </Item.Description>

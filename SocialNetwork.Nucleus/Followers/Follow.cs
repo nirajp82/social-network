@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using SocialNetwork.DataModel;
+using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;
@@ -11,30 +12,32 @@ namespace SocialNetwork.Nucleus.Followers
 {
     public class Follow
     {
-        public class Command : IRequest
+        public class Command : IRequest<ProfileDto>
         {
             public Guid FollowingUserId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, ProfileDto>
         {
             #region Members
             private readonly IUnitOfWork _unitOfWork;
             private readonly IUserAccessor _userAccessor;
+            private readonly IProfileReader _profileReader;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IUserAccessor userAccessor)
+            public Handler(IUnitOfWork unitOfWork, IUserAccessor userAccessor, IProfileReader profileReader)
             {
                 _unitOfWork = unitOfWork;
                 _userAccessor = userAccessor;
+                _profileReader = profileReader;
             }
             #endregion
 
 
             #region Methods
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<ProfileDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 Guid appUserId = _userAccessor.GetCurrentUserId();
 
@@ -49,7 +52,7 @@ namespace SocialNetwork.Nucleus.Followers
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
                 if (insertCnt > 0)
-                    return Unit.Value;
+                    return await _profileReader.ReadProfile(appUserId, cancellationToken);
 
                 throw new Exception("Problem saving changes to database");
             }

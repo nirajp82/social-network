@@ -1,4 +1,4 @@
-﻿import React, { useContext, useState, useEffect } from 'react';
+﻿import React, { useContext } from 'react';
 import { Tab, Grid, Header, Card } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
@@ -19,13 +19,14 @@ const ProfileFollowing = () => {
                         content={
                             isUserViewingFollowersTab
                                 ? `${userProfile!.displayName} is followed by below users`
-                                : `${userProfile!.displayName} is following below users.` 
+                                : `${userProfile!.displayName} is following below users.`
                         }
                     />
                 </Grid.Column>
                 <Grid.Column width={16}>
                     <Card.Group itemsPerRow={5}>
                         {
+                            followers && followers.length > 0 &&
                             followers?.map((profile) => {
                                 return <ProfileCard
                                     key={profile.appUserId}

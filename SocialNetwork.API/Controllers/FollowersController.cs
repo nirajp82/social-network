@@ -26,7 +26,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetFollowings(Guid appUserId, string predicate)
         {
-            var result = await Mediator.Send(new List.Query {  AppUserId = appUserId, Predicate = predicate });
+            var result = await Mediator.Send(new List.Query { AppUserId = appUserId, Predicate = predicate });
             if (result?.Any() == true)
                 return Ok(result);
             else
@@ -37,7 +37,7 @@ namespace SocialNetwork.API.Controllers
 
         #region Command Action Methods
         [HttpPost("{followingUserId:guid}/follow")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProfileDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -45,8 +45,8 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Follow(Guid followingUserId, CancellationToken cancellationToken)
         {
-            await Mediator.Send(new Follow.Command { FollowingUserId = followingUserId }, cancellationToken);
-            return NoContent();
+            ProfileDto profile = await Mediator.Send(new Follow.Command { FollowingUserId = followingUserId }, cancellationToken);
+            return Ok(profile);
         }
 
         [HttpPost("{followingUserId:guid}/unfollow")]

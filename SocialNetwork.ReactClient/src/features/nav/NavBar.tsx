@@ -32,7 +32,7 @@ const NavBar: React.FC = () => {
                                 <Dropdown.Menu>
                                     <Dropdown.Item
                                         as={Link}
-                                        to={`/profile/${userStore.user?.appUserId}`}
+                                        to={`${constants.NAV_USER_PROFILE}/${userStore.user?.appUserId}`}
                                         text='My profile'
                                         icon='user'
                                     />
