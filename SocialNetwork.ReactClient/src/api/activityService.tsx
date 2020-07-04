@@ -4,13 +4,13 @@ import { IActivity } from '../models/IActivity';
 
 
 const activityService = {
-    list: (): Promise<IActivity[]> => {
-        return httpService.get("/activities");
+    list: (offSet: number, limit: number) => {
+        return httpService.get(`/activities?offset=${offSet}&limit=${limit}`);
     },
-    details: (id: string): Promise<IActivity> => {
+    details: (id: string) => {
         return httpService.get(`/activities/${id}`);
     },
-    create: (activity: IActivity): Promise<string> => {
+    create: (activity: IActivity) => {
         //return httpService.post('/activities', activity) as unknown as string;
         return httpService.post('/activities', activity);
     },

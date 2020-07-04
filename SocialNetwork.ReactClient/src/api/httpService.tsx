@@ -3,7 +3,7 @@ import createBrowserHistory from '../utils/createBrowserHistory';
 import * as constants from '../utils/constants';
 import { toast } from 'react-toastify';
 
-const sleepTime = 1;
+const sleepTime = 1000;
 
 const axiosInstance = axios.create({
     baseURL: `${constants.BASE_SERVICE_URL}/api/`,

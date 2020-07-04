@@ -41,7 +41,7 @@ const ActivityDetailChat: React.FC = () => {
     }, [getComments, selectedActivity]);
 
     if (isLoadingComments)
-        return <Spinner message="Loading Comment" />
+        return <Spinner message="Loading Comment" loading={true} />
 
     return (
         <Fragment>

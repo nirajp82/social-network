@@ -7,6 +7,7 @@ import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
 import { isUserGoing, isUserHost, getHost, createAttendee, removeAttendee } from '../features/activities/util';
 
+const PAGE_SIZE: number = 2;
 export default class activityStore {
     rootStore: rootStore;
 
@@ -16,11 +17,13 @@ export default class activityStore {
 
     @observable activityRegistry = new Map<string, IActivity>();
     @observable selectedActivity: IActivity | null = null;
-    @observable isLoadingActivities = false;
+    //@observable isLoadingActivities = false;
     @observable isLoadingActivity = false;
     @observable showForm = false;
     @observable isSaving = false;
-    @observable isDeleting = false;   
+    @observable isDeleting = false;
+    @observable totalActivitiesCount = 0;
+    @observable currentPageNumber = 0;
 
     getActivity = (id: string): IActivity | undefined => {
         return this.activityRegistry.get(id);
@@ -34,9 +37,9 @@ export default class activityStore {
         this.showForm = value;
     };
 
-    @action setIsLoadingActivities = (value: boolean) => {
-        this.isLoadingActivities = value;
-    };
+    //@action setIsLoadingActivities = (value: boolean) => {
+    //    this.isLoadingActivities = value;
+    //};
 
     @action setIsLoadingActivity = (value: boolean) => {
         this.isLoadingActivity = value;
@@ -50,7 +53,7 @@ export default class activityStore {
         this.isDeleting = value;
     };
 
-    @action setActivity = (activity: IActivity) => {
+    @action registerActivity = (activity: IActivity) => {
         activity.date = new Date(activity.date);
         const user = this.getCurrentUser();
         if (user) {
@@ -62,16 +65,17 @@ export default class activityStore {
     };
 
     @action loadActivities = async () => {
-        this.setIsLoadingActivities(true);
+        //this.setIsLoadingActivities(true);
         try {
-            const activities = await activityService.list();
-            activities.forEach((activity) => {
-                this.setActivity(activity);
+            const { count, activities } = await activityService.list(this.currentPageNumber * PAGE_SIZE, PAGE_SIZE);
+            activities.forEach((activity: IActivity) => {
+                this.registerActivity(activity);
             });
-            this.setIsLoadingActivities(false);
+            this.setTotalActivityCount(count);
+           // this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
-            this.setIsLoadingActivities(false);
+            //this.setIsLoadingActivities(false);
         }
     };
 
@@ -79,7 +83,7 @@ export default class activityStore {
         if (!id || (id && id.length === 0))
             return;
 
-        let activity = this.getActivity(id);
+        let activity: IActivity | undefined = this.getActivity(id);
         if (activity) {
             this.setSelectedActivity(activity);
             return activity;
@@ -88,8 +92,8 @@ export default class activityStore {
         this.setIsLoadingActivity(true);
         try {
             activity = await activityService.details(id);
-            this.setActivity(activity!);
-            this.setSelectedActivity(activity);
+            this.registerActivity(activity!);
+            this.setSelectedActivity(activity!);
             this.setIsLoadingActivity(false);
             return activity;
         } catch (error) {
@@ -107,7 +111,7 @@ export default class activityStore {
                 activity.attendees = activity.attendees || [];
                 activity.attendees.push(createAttendee(this.getCurrentUser()!, true));
             });
-            this.setActivity(activity);
+            this.registerActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
             return activity.id;
@@ -123,7 +127,7 @@ export default class activityStore {
         this.setIsSaving(true);
         try {
             await activityService.update(activity);
-            this.setActivity(activity);
+            this.registerActivity(activity);
             this.setIsSaving(false);
             this.setShowFormFlag(false);
             return true;
@@ -158,7 +162,7 @@ export default class activityStore {
                 activity.attendees = activity.attendees || [];
                 activity.attendees.push(createAttendee(this.getCurrentUser()!, false));
             });
-            this.setActivity(activity);
+            this.registerActivity(activity);
         } catch (error) {
             console.error(error);
             toast.error('Problem signin up to activity, Please try again later!');
@@ -171,7 +175,7 @@ export default class activityStore {
             runInAction(() => {
                 activity.attendees = removeAttendee(activity, this.getCurrentUser()!);
             });
-            this.setActivity(activity);
+            this.registerActivity(activity);
         } catch (error) {
             console.error(error);
             toast.error('Problem cancelling attendance, Please try again later!');
@@ -205,7 +209,19 @@ export default class activityStore {
 
     @action onReceivingCommentFromServer = (comment: IComment) => {
         this.selectedActivity?.comments.push(comment)
-    }
+    };
+
+    @action setTotalActivityCount = (count: number) => {
+        this.totalActivitiesCount = count;
+    };
+
+    @action setPageNumber = (pageNumber: number) => {
+        this.currentPageNumber = pageNumber;
+    };
+
+    @computed get totalPages(): number {
+        return Math.ceil(this.totalActivitiesCount / PAGE_SIZE);
+    };
 
     @computed get activityByDate(): [string, IActivity[]][] {
         const sortedArray = Array.from(this.activityRegistry.values()).sort(
