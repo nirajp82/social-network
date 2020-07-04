@@ -18,13 +18,22 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Public Method
-        public async Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken)
+        public async Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, CancellationToken cancellationToken)
         {
-            IQueryable<Activity> result = base.Find(null)
-                                            .Include(a => a.UserActivities)
-                                            .ThenInclude(ua => ua.AppUser)
-                                            .ThenInclude(ua => ua.Photos);
-            return await result.ToListAsync(cancellationToken);
+            IQueryable<Activity> queryable = base.Find(null)
+                                               .Include(a => a.UserActivities)
+                                               .ThenInclude(ua => ua.AppUser)
+                                               .ThenInclude(ua => ua.Photos);
+
+            ResponseEnvelope<Activity> response = new ResponseEnvelope<Activity>
+            {
+                List = await queryable
+                            .Skip(offset)
+                            .Take(limit)
+                            .ToListAsync(cancellationToken),
+                Count = await queryable.CountAsync(cancellationToken)
+            };
+            return response;
         }
 
         public async Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken)
@@ -44,6 +53,8 @@ namespace SocialNetwork.EF.Repo
         {
             return await base.DeleteAsync(e => e.Id == id, cancellationToken);
         }
+
+
         #endregion
     }
 }

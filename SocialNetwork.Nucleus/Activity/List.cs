@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
+using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Nucleus.Interfaces;
@@ -13,11 +14,25 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 {
     public class List
     {
-        public class Query : IRequest<IEnumerable<ActivityDto>>
+        public class ActivityEnvelope
         {
+            public IEnumerable<ActivityDto> Activities { get; set; }
+            public int Count { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, IEnumerable<ActivityDto>>
+        public class Query : IRequest<ActivityEnvelope>
+        {
+            public Query(int? offSet, int? limit)
+            {
+                Offset = offSet ?? 0;
+                Limit = limit ?? 5;
+            }
+
+            public int Offset { get; set; }
+            public int Limit { get; set; }
+        }
+
+        public class Handler : IRequestHandler<Query, ActivityEnvelope>
         {
             #region Members
             private readonly IUnitOfWork _unitOfWork;
@@ -35,10 +50,15 @@ namespace SocialNetwork.Nucleus.Engine.Activity
 
 
             #region Methods
-            public async Task<IEnumerable<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<ActivityEnvelope> Handle(Query request, CancellationToken cancellationToken)
             {
-                var dbResult = await _unitOfWork.ActivityRepo.GetAllAsync(cancellationToken);
-                return await _userActivityHelper.PrepareActivities(dbResult);
+                var dbResponse = await _unitOfWork.ActivityRepo.GetAllAsync(request.Offset, request.Limit, cancellationToken);
+                ActivityEnvelope envelope = new ActivityEnvelope
+                {
+                    Activities = await _userActivityHelper.PrepareActivities(dbResponse.List),
+                    Count = dbResponse.Count
+                };
+                return envelope;
             }
             #endregion
         }

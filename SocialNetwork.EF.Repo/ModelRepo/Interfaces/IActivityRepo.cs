@@ -12,12 +12,12 @@ namespace SocialNetwork.EF.Repo
 
         Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken);
 
-        void Update(Activity entity);
+        Task<ResponseEnvelope<Activity>> GetAllAsync(int offset, int limit, CancellationToken cancellationToken);
 
-        Task<IEnumerable<Activity>> GetAllAsync(CancellationToken cancellationToken);
+        Task<bool> ExistsAsync(Guid activityId, CancellationToken cancellationToken = default);
 
         Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken);
 
-        Task<bool> ExistsAsync(Guid activityId, CancellationToken cancellationToken = default);
+        void Update(Activity entity);
     }
 }
