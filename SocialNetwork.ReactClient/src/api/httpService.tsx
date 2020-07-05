@@ -55,8 +55,8 @@ const addDelay = (ms: number) => (dbResponse: AxiosResponse) => {
 };
 
 const httpService = {
-    get: async (url: string) => {
-        const dbResponse: AxiosResponse = await axiosInstance.get(url).then(addDelay(sleepTime));
+    get: async (url: string, qsParams?: URLSearchParams) => {
+        const dbResponse: AxiosResponse = await axiosInstance.get(url, { params: qsParams }).then(addDelay(sleepTime));
         return processResponse(dbResponse);
     },
     post: async (url: string, body: {}) => {

@@ -1,4 +1,12 @@
-﻿export interface IActivity {
+﻿export interface IUserActivity {
+    activityId: string;
+    title: string;
+    description: string;
+    category: string;
+    date: Date;
+};
+
+export interface IActivity {
     id: string;
     title: string;
     description: string;

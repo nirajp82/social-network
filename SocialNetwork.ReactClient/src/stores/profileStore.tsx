@@ -6,6 +6,7 @@ import profileService from '../api/profileService';
 import photoService from '../api/photoService';
 import { IProfile, IPhoto } from '../models/IProfile';
 import * as constants from '../utils/constants';
+import { IUserActivity } from '../models/IActivity';
 
 export default class profileStore {
     rootStore: rootStore;
@@ -13,6 +14,7 @@ export default class profileStore {
     @observable activeTabIndex: string | number | undefined = 0;
     @observable followers: IProfile[] | undefined = undefined;
     @observable isLoadingfollowers: boolean = false;
+    @observable userActivities: IUserActivity[] | null = null;
 
     constructor(rootStore: rootStore) {
         this.rootStore = rootStore;
@@ -162,6 +164,23 @@ export default class profileStore {
             console.error(error);
             toast.error('Problem loading followers');
             this.isLoadingfollowers = false;
+        }
+        return null;
+    };
+
+    @action setUserActivities = (userActivities: IUserActivity[]) => {
+        this.userActivities = userActivities;
+    };
+
+    @action loadUserActivities = async (appUserId: string, predicate: string) => {
+        try {
+            const qsParams = new URLSearchParams();
+            qsParams.set('Predicate', predicate);
+            const userActivities = await profileService.userActivities(appUserId, qsParams);
+            this.setUserActivities(userActivities);
+        } catch (error) {
+            console.error(error);
+            toast.error('Problem loading user activities');
         }
         return null;
     };

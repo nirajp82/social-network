@@ -1,4 +1,4 @@
-﻿import { observable, action, computed, runInAction } from 'mobx';
+﻿import { observable, action, computed, runInAction, reaction } from 'mobx';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -6,6 +6,7 @@ import { IActivity, IComment } from '../models/IActivity';
 import activityService from '../api/activityService';
 import { rootStore } from './rootStore';
 import { isUserGoing, isUserHost, getHost, createAttendee, removeAttendee } from '../features/activities/util';
+import * as constants from '../utils/constants';
 
 const PAGE_SIZE: number = 2;
 export default class activityStore {
@@ -13,17 +14,25 @@ export default class activityStore {
 
     constructor(rootStore: rootStore) {
         this.rootStore = rootStore;
+
+        reaction(() => this.predicate.keys(), () => {
+            this.currentPageNumber = 0;
+            this.activityRegistry.clear();
+            this.loadActivities();
+        });
     }
 
     @observable activityRegistry = new Map<string, IActivity>();
     @observable selectedActivity: IActivity | null = null;
-    //@observable isLoadingActivities = false;
     @observable isLoadingActivity = false;
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
+
+    //Paging and Filter
     @observable totalActivitiesCount = 0;
     @observable currentPageNumber = 0;
+    @observable predicate = new Map();
 
     getActivity = (id: string): IActivity | undefined => {
         return this.activityRegistry.get(id);
@@ -36,10 +45,6 @@ export default class activityStore {
     @action setShowFormFlag = (value: boolean) => {
         this.showForm = value;
     };
-
-    //@action setIsLoadingActivities = (value: boolean) => {
-    //    this.isLoadingActivities = value;
-    //};
 
     @action setIsLoadingActivity = (value: boolean) => {
         this.isLoadingActivity = value;
@@ -65,17 +70,16 @@ export default class activityStore {
     };
 
     @action loadActivities = async () => {
-        //this.setIsLoadingActivities(true);
         try {
-            const { count, activities } = await activityService.list(this.currentPageNumber * PAGE_SIZE, PAGE_SIZE);
-            activities.forEach((activity: IActivity) => {
-                this.registerActivity(activity);
-            });
+            const { count, activities } = await activityService.list(this.getQSParams());
+            if (activities) {
+                activities.forEach((activity: IActivity) => {
+                    this.registerActivity(activity);
+                });
+            }
             this.setTotalActivityCount(count);
-           // this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
-            //this.setIsLoadingActivities(false);
         }
     };
 
@@ -218,6 +222,26 @@ export default class activityStore {
     @action setPageNumber = (pageNumber: number) => {
         this.currentPageNumber = pageNumber;
     };
+
+    @action setPredicate = (key: string, value: string | Date) => {
+        this.predicate.clear();
+        if (key !== constants.PREDICATE_ALL)
+            this.predicate.set(key, value);
+    }
+
+    getQSParams = (): URLSearchParams => {
+        const params = new URLSearchParams();
+        params.append('offset', (this.currentPageNumber * PAGE_SIZE).toString());
+        params.append('limit', PAGE_SIZE.toString());
+
+        this.predicate.forEach((value, key) => {
+            if (key === constants.PREDICATE_START_DATE)
+                params.append(key, (value as Date).toISOString());
+            else
+                params.append(key, value.toString());
+        });
+        return params;
+    }
 
     @computed get totalPages(): number {
         return Math.ceil(this.totalActivitiesCount / PAGE_SIZE);

@@ -40,9 +40,9 @@ const ActivityDashboard: React.FC = () => {
                     pageStart={0}
                     loadMore={loadNextHandler}
                     hasMore={!isLoading && activityStoreObj.currentPageNumber + 1 < activityStoreObj.totalPages}
-                    initialLoad={false}
-                />
-                <ActivityList />
+                    initialLoad={false}>
+                    <ActivityList />
+                </InfiniteScroll>
             </Grid.Column>
             <Grid.Column width={6} >
                 <ActivityFilter />

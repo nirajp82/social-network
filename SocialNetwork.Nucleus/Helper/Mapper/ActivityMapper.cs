@@ -23,6 +23,8 @@ namespace SocialNetwork.Nucleus
             Map<Edit.Command, Activity>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ActivityId));
 
+            Map<Activity, UserActivityDto>(false)
+                .ForMember(dest => dest.ActivityId, opt => opt.MapFrom(src => src.Id));
         }
         #endregion
 

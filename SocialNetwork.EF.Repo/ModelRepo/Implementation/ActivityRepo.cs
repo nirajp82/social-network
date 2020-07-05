@@ -45,7 +45,7 @@ namespace SocialNetwork.EF.Repo
 
         public async Task<Activity> FindFirstAsync(Guid activityId, CancellationToken cancellationToken)
         {
-            return await base.Find(e => e.Id == activityId, null)
+            return await base.Find(e => e.Id == activityId)
                             .Include(a => a.UserActivities)
                             .ThenInclude(ua => ua.AppUser)
                             .FirstOrDefaultAsync(cancellationToken);
@@ -59,9 +59,7 @@ namespace SocialNetwork.EF.Repo
         public async Task<int> DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
             return await base.DeleteAsync(e => e.Id == id, cancellationToken);
-        }
-
-
+        }     
         #endregion
     }
 }

@@ -1,9 +1,13 @@
 ﻿import { IProfile } from "../models/IProfile";
 import httpService from "./httpService";
+import { IUserActivity } from "../models/IActivity";
 
 const profileService = {
     get: (appUserId: string): Promise<IProfile> => {
         return httpService.get(`profile/${appUserId}`);
+    },
+    userActivities: (appUserId: string, qsParam: URLSearchParams): Promise<IUserActivity[]> => {
+        return httpService.get(`profile/${appUserId}/activities`, qsParam);
     },
     followers: (userId: string): Promise<IProfile[]> => {
         return httpService.get(`profile/${userId}/followers`);

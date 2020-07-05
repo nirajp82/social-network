@@ -4,8 +4,8 @@ import { IActivity } from '../models/IActivity';
 
 
 const activityService = {
-    list: (offSet: number, limit: number) => {
-        return httpService.get(`/activities?offset=${offSet}&limit=${limit}`);
+    list: (qsParams: URLSearchParams) => {
+        return httpService.get(`/activities`, qsParams);
     },
     details: (id: string) => {
         return httpService.get(`/activities/${id}`);

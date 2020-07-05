@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SocialNetwork.Infrastructure;
 using SocialNetwork.Nucleus.Engine.User;
+using SocialNetwork.Nucleus.User;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -33,7 +34,25 @@ namespace SocialNetwork.API.Controllers
             else
                 return BadRequest();
         }
+
+        /// <summary>
+        /// Fetch user activities
+        /// </summary>
+        [HttpGet("{appUserId:guid}/activities")]
+        [ProducesResponseType(typeof(UserActivityDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Activities(Guid appUserId, string predicate, CancellationToken cancellationToken)
+        {
+            var result = await Mediator.Send(new UserActivity.Query { AppUserId = appUserId, Predicate = predicate }, cancellationToken);
+            if (result != null)
+                return Ok(result);
+            else
+                return BadRequest();
+        }
         #endregion
+
 
         #region Command Action Methods
         [HttpPut()]
