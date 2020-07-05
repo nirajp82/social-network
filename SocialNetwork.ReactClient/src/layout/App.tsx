@@ -16,6 +16,7 @@ import { rootStoreContext } from '../stores/rootStore';
 import * as constants from '../utils/constants';
 import NotFound from './NotFound';
 import ProgressBar from './ProgressBar';
+import SecureRoute from './SecureRoute';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
     const rootStoreObj = useContext(rootStoreContext);
@@ -50,18 +51,18 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                     <NavBar />
                     <Container style={{ marginTop: '7em' }}>
                         <Switch>
-                            <Route path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
-                            <Route path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
+                            <SecureRoute path={constants.NAV_ACTIVITIES} exact component={ActivityDashboard} />
+                            <SecureRoute path={`${constants.NAV_ACTIVITY_DETAIL}/:id`} exact component={ActivityDetails} />
+
                             {/*Key: To fully unmounted and remounted component on ID change.*/}
-                            <Route key={location.key} exact
+                            <SecureRoute key={location.key} exact
                                 path={[constants.NAV_CREATE_ACTIVITY, `${constants.NAV_MANAGE_ACTIVITY}/:id`]}
                                 component={ActivityForm} />
 
+                            <SecureRoute path={`${constants.NAV_USER_PROFILE}/:appUserId`} component={UserProfile} />
+
                             <Route path={constants.NAV_LOGIN} component={LoginForm} />
                             <Route path={constants.NAV_REGISTER} component={RegisterForm} />
-
-                            <Route path={`${constants.NAV_USER_PROFILE}/:appUserId`} component={UserProfile} />
-
                             <Route component={NotFound} />
                         </Switch>
                     </Container>

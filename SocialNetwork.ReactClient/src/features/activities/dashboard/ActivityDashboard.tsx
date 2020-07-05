@@ -1,54 +1,49 @@
-﻿import React, { useEffect, useContext, useState } from 'react';
+﻿import React, { useEffect, useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Grid } from 'semantic-ui-react';
 import InfiniteScroll from 'react-infinite-scroller';
 
 import ActivityList from './ActivityList';
 import { rootStoreContext } from '../../../stores/rootStore';
-import ProgressBar from '../../../layout/ProgressBar';
 import Spinner from '../../../layout/Spinner';
 import ActivityFilter from './ActivityFilter';
+import ActivityListLoader from './ActivityListLoader';
 
 const ActivityDashboard: React.FC = () => {
     const rootStoreObj = useContext(rootStoreContext);
-    const activityStoreObj = rootStoreObj.activityStore;
-    const [isLoading, setIsLoading] = useState(false);
+    const { loadActivities, isLoadingActivities, setPageNumber, currentPageNumber, totalPages } = rootStoreObj.activityStore;
 
     useEffect(() => {
         const fetch = async () => {
-            setIsLoading(true);
-            await activityStoreObj.loadActivities();
-            setIsLoading(false);
+            await loadActivities();
         }
         fetch();
-    }, [activityStoreObj]);
+    }, [loadActivities]);
 
     const loadNextHandler = async () => {
-        setIsLoading(true);
-        activityStoreObj.setPageNumber(activityStoreObj.currentPageNumber + 1);
-        await activityStoreObj.loadActivities();
-        setIsLoading(false);
+        setPageNumber(currentPageNumber + 1);
+        await loadActivities();
     };
-
-    if (isLoading && activityStoreObj.currentPageNumber === 0)
-        return (<ProgressBar message="Loading Activities..." />);
 
     return (
         <Grid>
             <Grid.Column width={10} >
-                <InfiniteScroll
-                    pageStart={0}
-                    loadMore={loadNextHandler}
-                    hasMore={!isLoading && activityStoreObj.currentPageNumber + 1 < activityStoreObj.totalPages}
-                    initialLoad={false}>
-                    <ActivityList />
-                </InfiniteScroll>
+                {(isLoadingActivities && currentPageNumber === 0)
+                    ? (<ActivityListLoader />) : (
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={loadNextHandler}
+                            hasMore={!isLoadingActivities && currentPageNumber + 1 < totalPages}
+                            initialLoad={false}>
+                            <ActivityList />
+                        </InfiniteScroll>
+                    )}
             </Grid.Column>
             <Grid.Column width={6} >
                 <ActivityFilter />
             </Grid.Column>
             <Grid.Column width={10} >
-                <Spinner loading={isLoading} />
+                <Spinner loading={isLoadingActivities} />
             </Grid.Column>
         </Grid>
     );

@@ -3,7 +3,7 @@ import createBrowserHistory from '../utils/createBrowserHistory';
 import * as constants from '../utils/constants';
 import { toast } from 'react-toastify';
 
-const sleepTime = 1;
+const sleepTime = 100;
 
 const axiosInstance = axios.create({
     baseURL: `${constants.BASE_SERVICE_URL}/api/`,
@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use((response) => response, (err) => {
             toast.error('Bad request, Please check data');
             break;
         case 401:
-            createBrowserHistory.push(constants.NAV_HOME);
+            createBrowserHistory.push(constants.NAV_LOGIN);
             break;
         case 404:
             createBrowserHistory.push(constants.NAV_NOT_FOUND);

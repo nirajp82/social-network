@@ -18,7 +18,7 @@ const Home: React.FC = () => {
                     Social Network
                 </Header>
 
-                {userStore.isUserLoggedIn && userStore.user
+                {userStore.user
                     ? (<Fragment>
                         <Header as='h2' inverted content={`Welcome back ${userStore.user.displayName}`} />
                         <Button as={Link} to={constants.NAV_ACTIVITIES} size='huge' inverted>

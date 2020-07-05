@@ -25,6 +25,7 @@ export default class activityStore {
     @observable activityRegistry = new Map<string, IActivity>();
     @observable selectedActivity: IActivity | null = null;
     @observable isLoadingActivity = false;
+    @observable isLoadingActivities = false;
     @observable showForm = false;
     @observable isSaving = false;
     @observable isDeleting = false;
@@ -58,6 +59,10 @@ export default class activityStore {
         this.isDeleting = value;
     };
 
+    @action setIsLoadingActivities = (value: boolean) => {
+        this.isLoadingActivities= value;
+    };
+
     @action registerActivity = (activity: IActivity) => {
         activity.date = new Date(activity.date);
         const user = this.getCurrentUser();
@@ -71,6 +76,7 @@ export default class activityStore {
 
     @action loadActivities = async () => {
         try {
+            this.setIsLoadingActivities(true);
             const { count, activities } = await activityService.list(this.getQSParams());
             if (activities) {
                 activities.forEach((activity: IActivity) => {
@@ -78,6 +84,7 @@ export default class activityStore {
                 });
             }
             this.setTotalActivityCount(count);
+            this.setIsLoadingActivities(false);
         } catch (error) {
             console.error(error);
         }

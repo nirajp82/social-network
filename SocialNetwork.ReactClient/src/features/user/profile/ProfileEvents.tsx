@@ -20,17 +20,17 @@ const ProfileEvents = () => {
     const rootStore = useContext(rootStoreContext);
     const { loadUserActivities, userProfile, userActivities } = rootStore.profileStore;
 
-    const load = async (predicate: string) => {
-        setLoadingActivities(true);
-        await loadUserActivities(userProfile!.appUserId, predicate);
-        setLoadingActivities(false);
-    };
-
     useEffect(() => {
-        load('');
+        const load = async () => {
+            setLoadingActivities(true);
+            await loadUserActivities(userProfile!.appUserId, '');
+            setLoadingActivities(false);
+        };
+        load();
     }, [loadUserActivities, userProfile]);
 
     const handleTabChange = (_: React.MouseEvent<HTMLDivElement, MouseEvent>, data: TabProps) => {
+        setLoadingActivities(true);
         let predicate;
         switch (data.activeIndex) {
             case 1:
@@ -43,7 +43,8 @@ const ProfileEvents = () => {
                 predicate = 'future';
                 break;
         }
-        load(predicate);
+        loadUserActivities(userProfile!.appUserId, predicate)
+            .then(() => { setLoadingActivities(false)});
     };
 
     return (
