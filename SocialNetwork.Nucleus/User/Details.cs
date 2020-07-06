@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using SocialNetwork.Dto;
-using SocialNetwork.Util;
 using System;
 using System.Threading;
 using System.Threading.Tasks;

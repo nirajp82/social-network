@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;

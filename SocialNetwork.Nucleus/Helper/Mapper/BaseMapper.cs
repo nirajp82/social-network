@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using SocialNetwork.Dto;
-using SocialNetwork.DataModel;
-using SocialNetwork.Nucleus.Engine.Activity;
-using SocialNetwork.Nucleus.Engine.Photo;
 
 namespace SocialNetwork.Nucleus
 {

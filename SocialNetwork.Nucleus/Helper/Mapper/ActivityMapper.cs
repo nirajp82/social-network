@@ -2,8 +2,6 @@
 using SocialNetwork.Dto;
 using SocialNetwork.DataModel;
 using SocialNetwork.Nucleus.Engine.Activity;
-using SocialNetwork.Util;
-using SocialNetwork.EF.Repo;
 
 namespace SocialNetwork.Nucleus
 {

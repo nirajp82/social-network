@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SocialNetwork.DataModel;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
 using System;

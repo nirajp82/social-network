@@ -44,8 +44,9 @@ namespace SocialNetwork.Infrastructure
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = credentials
+                NotBefore = DateTime.Now,
+                Expires = DateTime.Now.AddSeconds(15),
+                SigningCredentials = credentials,
             };
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();

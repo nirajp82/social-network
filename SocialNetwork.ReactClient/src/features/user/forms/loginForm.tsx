@@ -1,4 +1,4 @@
-﻿import React, { Fragment, useContext,  useEffect } from 'react';
+﻿import React, { Fragment, useContext, useEffect } from 'react';
 import { Form, Button, Header } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
@@ -15,22 +15,23 @@ import ErrorMessage from '../../../common/elements/ErrorMessage';
 const LoginForm = () => {
     const rootStoreObj = useContext(rootStoreContext);
     const userStoreObj = rootStoreObj.userStore;
+    const commonStoreObj = rootStoreObj.commonStore;
 
     const validationRules = combineValidators({
         userName: isRequired('User name'),
         password: isRequired('Password')
     });
 
-    const onClose = () => {
+    const redirectToHomePage = () => {
         createBrowserHistory.push(constants.NAV_HOME);
     };
 
     useEffect(() => {
         // If user is already logged in, redirect user to home page.
-        if (userStoreObj.isUserLoggedIn) {
-            createBrowserHistory.push(constants.NAV_HOME);
+        if (userStoreObj.canAccessSecureResource) {
+            redirectToHomePage();
         }
-    }, [userStoreObj.isUserLoggedIn]);
+    }, [userStoreObj.canAccessSecureResource]);
 
     const onLoginHandler = async (values: ILogin) => {
         try {
@@ -88,7 +89,7 @@ const LoginForm = () => {
             <ModelContainer
                 defaultOpen={true}
                 content={getContent()}
-                onClose={onClose}
+                onClose={redirectToHomePage}
                 size={modalSize.Tiny} />
         </Fragment>
     );

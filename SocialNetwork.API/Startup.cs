@@ -98,6 +98,7 @@ namespace SocialNetwork.API
                 {
                     corsOptions
                         .WithOrigins(appConfigHelper.GetValue<string>(_CORS_ALLOWED_HOST_KEY))
+                        .WithExposedHeaders("WWW-Authenticate")
                         .AllowAnyHeader()
                         .AllowAnyMethod()
                         .AllowCredentials();

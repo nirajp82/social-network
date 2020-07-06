@@ -14,11 +14,11 @@ interface IProps extends RouteProps {
 // screen if you're not yet authenticated.
 const SecureRoute: React.FC<IProps> = ({ component: Component, ...rest }) => {
     const rootStoreObj = useContext(rootStoreContext);
-    const { isUserLoggedIn } = rootStoreObj.userStore;
+    const { canAccessSecureResource } = rootStoreObj.userStore;
     return (
         <Route
             {...rest}
-            render={(props) => isUserLoggedIn ? <Component {...props} /> : <Redirect to={constants.NAV_LOGIN} />}
+            render={(props) => canAccessSecureResource ? <Component {...props} /> : <Redirect to={constants.NAV_LOGIN} />}
         />
     );
 };

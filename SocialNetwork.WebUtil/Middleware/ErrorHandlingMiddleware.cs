@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using SocialNetwork.Util;
 using System;
 using System.Net;
@@ -37,6 +38,12 @@ namespace SocialNetwork.WebUtil
                 object errors = cex.Errors;
                 await HandleException(cex, httpContext, errors, (int)cex.StatusCode);
             }
+            catch (SecurityTokenExpiredException ste)
+            {
+                httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                httpContext.Response.Headers.Add("www-authenticate", "invalid_token");
+                await HandleException(ste, httpContext, new { TokenExpired = ste.Message }, (int)HttpStatusCode.Unauthorized);
+            }
             catch (Exception ex)
             {
                 object errors = string.IsNullOrWhiteSpace(ex.Message) ? ex.Message : "Oops, something went wrong";
@@ -52,7 +59,6 @@ namespace SocialNetwork.WebUtil
             //Note: Please be careful when logging request body, it may contain sensitive information.
             _logger.LogError(ex, $"Reuest Body:{await RequestUtil.GetBodyAsync(httpContext.Request)}");
             httpContext.Response.StatusCode = statusCode;
-            httpContext.Response.ContentType = "";
             if (errors != null)
             {
                 var errorBody = JsonSerializer.Serialize(new { errors });

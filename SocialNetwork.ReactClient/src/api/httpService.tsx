@@ -22,28 +22,28 @@ axiosInstance.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
-axiosInstance.interceptors.response.use((response) => response, (err) => {
-    //const { response, config, data } = err;   
-    const { response } = err;
-    if (err.message === "Network Error" && !response) {
+axiosInstance.interceptors.response.use((response) => response, (error) => {
+    if (error.message === 'Network Error' && !error.response) {
         toast.error('Network error server is down for maintenance, Please try after sometime');
         return;
     }
-    switch (response.status) {
-        case 400:
-            toast.error('Bad request, Please check data');
-            break;
-        case 401:
+    const { status, headers } = error.response;
+    if (status === 400)
+        toast.error('Bad request, Please check data');
+    else if (status === 401) {
+        window.localStorage.removeItem(constants.AUTH_TOKEN_NAME);
+        if (headers['www-authenticate'] && headers['www-authenticate'].indexOf('invalid_token') >= 0) {
             createBrowserHistory.push(constants.NAV_LOGIN);
-            break;
-        case 404:
-            createBrowserHistory.push(constants.NAV_NOT_FOUND);
-            break;
-        case 500:
-            toast.error('Server Issue - Oops, something went wrong');
-            break;
+            toast.info('Your session has expired, please login again');
+        }
     }
-    throw err.response;
+    else if (status === 404) {
+        createBrowserHistory.push(constants.NAV_NOT_FOUND);
+    }
+    else if (status === 500) {
+        toast.error('Server Issue - Oops, something went wrong');
+    }
+    throw error.response;
 });
 
 const processResponse = (dbResponse: AxiosResponse) => {

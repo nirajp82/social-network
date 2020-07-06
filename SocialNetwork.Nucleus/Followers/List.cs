@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;

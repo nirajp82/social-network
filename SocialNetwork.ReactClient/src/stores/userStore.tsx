@@ -20,12 +20,18 @@ class userStore {
         return !!this.user;
     };
 
+    @computed get canAccessSecureResource(): boolean {
+        const token: string | null = this.rootStore.commonStore.getToken();
+        return !!(this.isUserLoggedIn && token && token.length > 0);
+    };
+
     @action setUser = (user: IUser | null) => {
         this.user = user;
     };
 
     @action login = async (command: ILogin) => {
         try {
+            this.rootStore.commonStore.setToken(null);
             const user = await userService.login(command);
             this.setUser(user);
             this.rootStore.commonStore.setToken(user.token);

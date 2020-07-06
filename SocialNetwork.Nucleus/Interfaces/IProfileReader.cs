@@ -1,7 +1,5 @@
-﻿using SocialNetwork.DataModel;
-using SocialNetwork.Dto;
+﻿using SocialNetwork.Dto;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 

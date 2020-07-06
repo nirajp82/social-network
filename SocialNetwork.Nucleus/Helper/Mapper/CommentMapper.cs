@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using SocialNetwork.Dto;
-using SocialNetwork.DataModel;
-using SocialNetwork.Nucleus.Engine.Activity;
-using SocialNetwork.Util;
-using SocialNetwork.EF.Repo;
+﻿using SocialNetwork.Dto;
 
 namespace SocialNetwork.Nucleus
 {

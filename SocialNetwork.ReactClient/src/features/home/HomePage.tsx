@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom';
 
 import * as constants from '../../utils/constants';
 import { rootStoreContext } from '../../stores/rootStore';
+import createBrowserHistory from '../../utils/createBrowserHistory';
+import { observer } from 'mobx-react-lite';
 
 
 const Home: React.FC = () => {
     const rootStoreObject = useContext(rootStoreContext);
-    const userStore = rootStoreObject.userStore;
+    const userStoreObj = rootStoreObject.userStore;
+    const commonStoreObj = rootStoreObject.commonStore;
 
     return (
         <Segment inverted textAlign='center' vertical className='masthead'>
@@ -18,18 +21,17 @@ const Home: React.FC = () => {
                     Social Network
                 </Header>
 
-                {userStore.user
+                {userStoreObj.isUserLoggedIn === true && commonStoreObj.getToken()
                     ? (<Fragment>
-                        <Header as='h2' inverted content={`Welcome back ${userStore.user.displayName}`} />
+                        <Header as='h2' inverted content={`Welcome back ${userStoreObj.user!.displayName}`} />
                         <Button as={Link} to={constants.NAV_ACTIVITIES} size='huge' inverted>
                             Go to activities!
-                             </Button>
+                        </Button>
                     </Fragment>)
                     : (<Fragment>
                         <Button as={Link} to={constants.NAV_LOGIN} size='huge' inverted>
                             Login
                         </Button>
-
                         <Button as={Link} to={constants.NAV_REGISTER} size='huge' inverted>
                             Register
                         </Button>
@@ -40,4 +42,4 @@ const Home: React.FC = () => {
     );
 }
 
-export default Home;
+export default observer(Home);

@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.DataProtection.XmlEncryption;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.AspNetCore.Http;
 using SocialNetwork.Nucleus;
 using SocialNetwork.Util;
 using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -43,7 +39,7 @@ namespace SocialNetwork.Infrastructure
 
             if (!string.IsNullOrWhiteSpace(encryptedUserName))
                 return _cryptoHelper.Decrypt<string>(_configSettings.DataProtectionKey, encryptedUserName);
-            
+
             return string.Empty;
         }
         #endregion

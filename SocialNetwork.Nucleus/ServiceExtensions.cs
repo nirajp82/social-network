@@ -4,8 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SocialNetwork.EF.Repo;
 using MediatR;
 using SocialNetwork.Nucleus.Engine.Activity;
-using SocialNetwork.DataModel;
-using SocialNetwork.Dto;
 using System;
 using SocialNetwork.Nucleus.Interfaces;
 

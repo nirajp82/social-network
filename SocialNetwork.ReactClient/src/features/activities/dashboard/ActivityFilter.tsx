@@ -10,7 +10,6 @@ const ActivityFilter = () => {
     const rootStoreObj = useContext(rootStoreContext);
     const { setPredicate, predicate } = rootStoreObj.activityStore;
 
-    console.log(predicate.size);
     return (
         <Fragment>
             <Menu vertical size={'large'} style={{ width: '100%', marginTop: 50 }}>
