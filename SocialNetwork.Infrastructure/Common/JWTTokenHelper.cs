@@ -41,25 +41,20 @@ namespace SocialNetwork.Infrastructure
                     }
                     return Task.CompletedTask;
                 },
-                OnTokenValidated = (context) =>
+                //OnTokenValidated = (context) =>
+                //{
+                //    DateTime validFrom = context.SecurityToken.ValidFrom;
+                //    DateTime ValidTo = context.SecurityToken.ValidTo;
+                //    return Task.CompletedTask;
+                //},
+                OnAuthenticationFailed = (context) =>
                 {
-                    DateTime validFrom = context.SecurityToken.ValidFrom;
-                    DateTime ValidTo = context.SecurityToken.ValidTo;
-                    return Task.CompletedTask;
-                },
-                OnAuthenticationFailed = async (context) =>
-                {
-
-                    ////For expired token, return HTTP 401 manually. currently is allows request to continue.
+                    ////For expired token to stop the execution throw an exception. (Without it continues with requests)
                     if (context.Exception is SecurityTokenExpiredException)
                     {
                         throw context.Exception;
-                        //    context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                        //    context.HttpContext.Response.Headers.Add("www-authenticate", "invalid_token");
-                        //    context.HttpContext.Response.ContentType = "text/plain";
-                        //    await context.HttpContext.Response.WriteAsync(context.Exception.Message);
-                        //}
                     }
+                    return Task.CompletedTask;
                 }
             };
         }
