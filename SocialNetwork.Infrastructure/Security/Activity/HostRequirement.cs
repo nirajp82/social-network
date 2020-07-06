@@ -34,6 +34,7 @@ namespace SocialNetwork.Infrastructure
         {
             Guid activityId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues.SingleOrDefault(x => x.Key == "activityId").Value.ToString());
             bool isHost = await _mediator.Send(new IsHost.Query { ActivityId = activityId });
+            //Mark handler as success by calling context.Succeed, passing the requirement that has been successfully validated.
             if (isHost)
                 context.Succeed(requirement);
         }

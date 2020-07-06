@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import * as constants from '../../utils/constants';
 import { rootStoreContext } from '../../stores/rootStore';
-import createBrowserHistory from '../../utils/createBrowserHistory';
 import { observer } from 'mobx-react-lite';
 
 

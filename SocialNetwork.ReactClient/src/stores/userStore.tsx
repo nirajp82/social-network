@@ -21,7 +21,7 @@ class userStore {
     };
 
     @computed get canAccessSecureResource(): boolean {
-        const token: string | null = this.rootStore.commonStore.getToken();
+        const token = this.rootStore.commonStore.getToken();
         return !!(this.isUserLoggedIn && token && token.length > 0);
     };
 

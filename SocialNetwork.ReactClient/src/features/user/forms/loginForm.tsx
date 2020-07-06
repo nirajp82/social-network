@@ -15,7 +15,6 @@ import ErrorMessage from '../../../common/elements/ErrorMessage';
 const LoginForm = () => {
     const rootStoreObj = useContext(rootStoreContext);
     const userStoreObj = rootStoreObj.userStore;
-    const commonStoreObj = rootStoreObj.commonStore;
 
     const validationRules = combineValidators({
         userName: isRequired('User name'),
