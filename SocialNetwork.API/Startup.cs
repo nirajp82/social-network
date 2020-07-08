@@ -84,7 +84,9 @@ namespace SocialNetwork.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ActivityChatHub>(Constants.ACTIVITY_CHAT_HUB);
-                endpoints.MapFallbackToFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"));
+                //endpoints.MapFallbackToFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"),
+                //    new StaticFileOptions { DefaultContentType = "text/HTML" });
+                endpoints.MapFallbackToController("Index", "Fallback");
             });
         }
         #endregion
