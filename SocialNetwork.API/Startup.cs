@@ -14,6 +14,8 @@ using SocialNetwork.WebUtil;
 using System.Net;
 using SocialNetwork.Infrastructure;
 using SocialNetwork.Nucleus;
+using System.IO;
+using Microsoft.Extensions.FileProviders;
 
 namespace SocialNetwork.API
 {
@@ -56,6 +58,16 @@ namespace SocialNetwork.API
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
+            // Enables default file mapping on the current path
+            app.UseDefaultFiles();
+
+
+            //Enables static file serving for the current request path
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
+            });
+
             app.UseRouting();
 
             app.UseCors(_CORS_POLICY_NAME);
@@ -72,6 +84,7 @@ namespace SocialNetwork.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ActivityChatHub>(Constants.ACTIVITY_CHAT_HUB);
+                endpoints.MapFallbackToFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"));
             });
         }
         #endregion

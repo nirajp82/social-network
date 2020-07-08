@@ -3,7 +3,7 @@ import createBrowserHistory from '../utils/createBrowserHistory';
 import * as constants from '../utils/constants';
 import { toast } from 'react-toastify';
 
-const sleepTime = 100;
+//const SLEEP_TIME = 100;
 
 const axiosInstance = axios.create({
     baseURL: `${constants.BASE_SERVICE_URL}/api/`,
@@ -50,25 +50,29 @@ const processResponse = (dbResponse: AxiosResponse) => {
     return dbResponse.data;
 };
 
-const addDelay = (ms: number) => (dbResponse: AxiosResponse) => {
-    return new Promise<AxiosResponse>(resolve => setTimeout(() => resolve(dbResponse), ms));
-};
+//const addDelay = (ms: number) => (dbResponse: AxiosResponse) => {
+//    return new Promise<AxiosResponse>(resolve => setTimeout(() => resolve(dbResponse), ms));
+//};
 
 const httpService = {
     get: async (url: string, qsParams?: URLSearchParams) => {
-        const dbResponse: AxiosResponse = await axiosInstance.get(url, { params: qsParams }).then(addDelay(sleepTime));
+        const dbResponse: AxiosResponse = await axiosInstance.get(url, { params: qsParams });
+        //.then(addDelay(SLEEP_TIME));
         return processResponse(dbResponse);
     },
     post: async (url: string, body: {}) => {
-        const dbResponse: AxiosResponse = await axiosInstance.post(url, body).then(addDelay(sleepTime));
+        const dbResponse: AxiosResponse = await axiosInstance.post(url, body);
+        //.then(addDelay(SLEEP_TIME));
         return processResponse(dbResponse);
     },
     put: async (url: string, body: {}) => {
-        const dbResponse: AxiosResponse = await axiosInstance.put(url, body).then(addDelay(sleepTime));
+        const dbResponse: AxiosResponse = await axiosInstance.put(url, body);
+        //.then(addDelay(SLEEP_TIME));
         return processResponse(dbResponse);
     },
     delete: async (url: string) => {
-        const dbResponse: AxiosResponse = await axiosInstance.delete(url).then(addDelay(sleepTime));
+        const dbResponse: AxiosResponse = await axiosInstance.delete(url);
+        //.then(addDelay(SLEEP_TIME));
         return processResponse(dbResponse);
     },
     postForm: async (url: string, formData: FormData) => {

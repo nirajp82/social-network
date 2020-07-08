@@ -23,7 +23,7 @@ const ActivityDetailInfo: React.FC<{ activity: IActivity | undefined }> = ({ act
                         <Icon name='calendar' size='large' color='teal' />
                     </Grid.Column>
                     <Grid.Column width={15}>
-                        <span>{moment(activity?.date).format('dddd Do MMM')} at {moment(activity?.date).format('h:mm A')}  </span>
+                        <span>{moment(activity?.date).format('dddd Do MMM')} at {moment(activity?.date).format('h:mm A')}</span>
                     </Grid.Column>
                 </Grid>
             </Segment>

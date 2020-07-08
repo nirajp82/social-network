@@ -1,4 +1,4 @@
-﻿export const BASE_SERVICE_URL = 'http://localhost/socialnetwork'; 
+﻿export const BASE_SERVICE_URL = process.env.REACT_APP_API_BASE_URL ?? '';
 
 //Navigation Link
 export const NAV_HOME = '/'; 
