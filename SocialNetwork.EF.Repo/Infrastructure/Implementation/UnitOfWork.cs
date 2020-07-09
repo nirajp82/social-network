@@ -14,7 +14,6 @@ namespace SocialNetwork.EF.Repo
         private IIdentityUserRepo _identityUserRepo { get; set; }
         private IUserActivityRepo _userActivityRepo { get; set; }
         private IUserFollowerRepo _userFollowerRepo { get; set; }
-        private IValueRepo _valueRepository { get; set; }
 
         private ApplicationContext _context { get; }
         #endregion
@@ -29,7 +28,6 @@ namespace SocialNetwork.EF.Repo
         public IPhotoRepo PhotoRepo => _photoRepo ?? (_photoRepo = new PhotoRepo(_context));
         public IUserActivityRepo UserActivityRepo => _userActivityRepo ?? (_userActivityRepo = new UserActivityRepo(_context));
         public IUserFollowerRepo UserFollowerRepo => _userFollowerRepo ?? (_userFollowerRepo = new UserFollowerRepo(_context));
-        public IValueRepo ValueRepo => _valueRepository ?? (_valueRepository = new ValueRepo(_context));
         #endregion
 
 

@@ -12,7 +12,6 @@ namespace SocialNetwork.EF.Repo
         IPhotoRepo PhotoRepo { get; }
         IUserActivityRepo UserActivityRepo { get; }
         IUserFollowerRepo UserFollowerRepo { get; }
-        IValueRepo ValueRepo { get; }
 
         Task<int> SaveAsync(CancellationToken cancellationToken = default);
     }

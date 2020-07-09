@@ -19,7 +19,6 @@ namespace SocialNetwork.EF.Repo
         public DbSet<Photo> Photo { get; set; }
         public DbSet<UserActivity> UserActivity { get; set; }
         public DbSet<UserFollower> UserFollower { get; set; }
-        public DbSet<Value> Values { get; set; }
         #endregion
 
 

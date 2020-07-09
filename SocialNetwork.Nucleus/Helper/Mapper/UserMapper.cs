@@ -8,7 +8,6 @@ namespace SocialNetwork.Nucleus
         #region Constructor
         public UserMapper()
         {
-            Map<Value, ValueDto>();
             Map<AppUser, UserDto>();
 
             Map<AppUser, ProfileDto>(false)

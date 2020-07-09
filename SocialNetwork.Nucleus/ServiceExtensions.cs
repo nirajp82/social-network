@@ -15,7 +15,6 @@ namespace SocialNetwork.Nucleus
         {
             services.AddScoped<ISessionUser, SessionUser>();
             services.ConfigureRepoServices(configuration);
-            services.AddScoped<IValueEngine, ValueEngine>();
             services.AddScoped<IProfileReader, ProfileReader>();
             services.AddScoped<IUserActivityHelper, UserActivityHelper>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

@@ -16,19 +16,17 @@
   <ItemGroup>
     <Compile Include="Implementation\SessionUser.cs" />
     <Compile Include="Implementation\UserActivityHelper.cs" />
-    <Compile Include="Implementation\ValueEngine.cs" />
     <Compile Include="Interfaces\IUserActivityHelper.cs" />
     <Compile Include="Interfaces\IJwtGenerator.cs" />
     <Compile Include="Interfaces\IPhotoAccessor.cs" />
     <Compile Include="Interfaces\IProfileReader.cs" />
     <Compile Include="Interfaces\IUserAccessor.cs" />
-    <Compile Include="Interfaces\IValueEngine.cs" />
     <Compile Include="Implementation\ProfileReader.cs" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\SocialNetwork.DataModel\SocialNetwork.DataModel.csproj" />
-    <ProjectReference Include="..\SocialNetwork.DTO\SocialNetwork.Dto.csproj" />    
+    <ProjectReference Include="..\SocialNetwork.Dto\SocialNetwork.Dto.csproj" />    
     <ProjectReference Include="..\SocialNetwork.EF.Repo\SocialNetwork.EF.Repo.csproj" />
     <ProjectReference Include="..\SocialNetwork.Util\SocialNetwork.Util.csproj" />
   </ItemGroup>
