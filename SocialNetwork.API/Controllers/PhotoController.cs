@@ -44,7 +44,9 @@ namespace SocialNetwork.API.Controllers
             return NoContent();
         }
 
-
+        /// <summary>
+        /// Delete Photo
+        /// </summary>
         [HttpDelete("{photoId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
