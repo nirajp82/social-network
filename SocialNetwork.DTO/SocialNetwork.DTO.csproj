@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>SocialNetwork.Dto</AssemblyName>
+    <RootNamespace>SocialNetwork.Dto</RootNamespace>
   </PropertyGroup>
 
 </Project>
