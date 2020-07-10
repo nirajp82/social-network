@@ -1,0 +1,470 @@
+{
+  "source": 2,
+  "revision": 2,
+  "description": null,
+  "createdBy": {
+    "displayName": "Niraj Patel",
+    "url": "https://spsprodeus21.vssps.visualstudio.com/A6bd369da-0c88-460c-9cbe-f73cff7559b7/_apis/Identities/a758b1bf-e3b4-4b71-972b-21a160f008cb",
+    "_links": {
+      "avatar": {
+        "href": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+      }
+    },
+    "id": "a758b1bf-e3b4-4b71-972b-21a160f008cb",
+    "uniqueName": "nijpatel90@hotmail.com",
+    "imageUrl": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh",
+    "descriptor": "msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+  },
+  "createdOn": "2020-07-10T03:13:55.957Z",
+  "modifiedBy": {
+    "displayName": "Niraj Patel",
+    "url": "https://spsprodeus21.vssps.visualstudio.com/A6bd369da-0c88-460c-9cbe-f73cff7559b7/_apis/Identities/a758b1bf-e3b4-4b71-972b-21a160f008cb",
+    "_links": {
+      "avatar": {
+        "href": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+      }
+    },
+    "id": "a758b1bf-e3b4-4b71-972b-21a160f008cb",
+    "uniqueName": "nijpatel90@hotmail.com",
+    "imageUrl": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh",
+    "descriptor": "msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+  },
+  "modifiedOn": "2020-07-10T03:13:55.957Z",
+  "isDeleted": false,
+  "lastRelease": {
+    "id": 3,
+    "name": "Release-3",
+    "artifacts": [
+    ],
+    "_links": {
+    },
+    "description": "Triggered by nirajp82.social-network 20200710.5.",
+    "releaseDefinition": {
+      "id": 1,
+      "projectReference": null,
+      "_links": {
+      }
+    },
+    "createdOn": "2020-07-10T03:44:04.253Z",
+    "createdBy": {
+      "displayName": "GitHub",
+      "url": "https://spsprodeus21.vssps.visualstudio.com/A6bd369da-0c88-460c-9cbe-f73cff7559b7/_apis/Identities/9a2e248a-1838-4e2a-b75f-ff7bf2999f28",
+      "_links": {
+        "avatar": {
+          "href": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/svc.NmJkMzY5ZGEtMGM4OC00NjBjLTljYmUtZjczY2ZmNzU1OWI3OkdpdEh1YiBBcHA6N2VjNWExM2MtMDIyYi00OGM4LTllNjgtMDBiZjljZDhiZGMz"
+        }
+      },
+      "id": "9a2e248a-1838-4e2a-b75f-ff7bf2999f28",
+      "uniqueName": "GitHub App\\7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3",
+      "imageUrl": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/svc.NmJkMzY5ZGEtMGM4OC00NjBjLTljYmUtZjczY2ZmNzU1OWI3OkdpdEh1YiBBcHA6N2VjNWExM2MtMDIyYi00OGM4LTllNjgtMDBiZjljZDhiZGMz",
+      "descriptor": "svc.NmJkMzY5ZGEtMGM4OC00NjBjLTljYmUtZjczY2ZmNzU1OWI3OkdpdEh1YiBBcHA6N2VjNWExM2MtMDIyYi00OGM4LTllNjgtMDBiZjljZDhiZGMz"
+    }
+  },
+  "variables": {
+  },
+  "variableGroups": [
+  ],
+  "environments": [
+    {
+      "id": 1,
+      "name": "Deploy to Azure",
+      "rank": 1,
+      "owner": {
+        "displayName": "Niraj Patel",
+        "url": "https://spsprodeus21.vssps.visualstudio.com/A6bd369da-0c88-460c-9cbe-f73cff7559b7/_apis/Identities/a758b1bf-e3b4-4b71-972b-21a160f008cb",
+        "_links": {
+          "avatar": {
+            "href": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+          }
+        },
+        "id": "a758b1bf-e3b4-4b71-972b-21a160f008cb",
+        "uniqueName": "nijpatel90@hotmail.com",
+        "imageUrl": "https://shreerajshyamaji.visualstudio.com/_apis/GraphProfile/MemberAvatars/msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh",
+        "descriptor": "msa.ZDMxYmI0MjktMTYwZC03Nzc1LThjODktOTRlYjI3MDBiMjVh"
+      },
+      "variables": {
+      },
+      "variableGroups": [
+      ],
+      "preDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 1
+          }
+        ],
+        "approvalOptions": {
+          "requiredApproverCount": null,
+          "releaseCreatorCanBeApprover": false,
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "timeoutInMinutes": 0,
+          "executionOrder": 1
+        }
+      },
+      "deployStep": {
+        "id": 2
+      },
+      "postDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 3
+          }
+        ],
+        "approvalOptions": {
+          "requiredApproverCount": null,
+          "releaseCreatorCanBeApprover": false,
+          "autoTriggeredAndPreviousEnvironmentApprovedCanBeSkipped": false,
+          "enforceIdentityRevalidation": false,
+          "timeoutInMinutes": 0,
+          "executionOrder": 2
+        }
+      },
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "parallelExecution": {
+              "parallelExecutionType": 0
+            },
+            "agentSpecification": {
+              "identifier": "vs2017-win2016"
+            },
+            "skipArtifactsDownload": false,
+            "artifactsDownloadInput": {
+              "downloadInputs": [
+              ]
+            },
+            "queueId": 156,
+            "demands": [
+            ],
+            "enableAccessToken": false,
+            "timeoutInMinutes": 0,
+            "jobCancelTimeoutInMinutes": 1,
+            "condition": "succeeded()",
+            "overrideInputs": {
+            }
+          },
+          "rank": 1,
+          "phaseType": 1,
+          "name": "Run on agent",
+          "refName": null,
+          "workflowTasks": [
+            {
+              "environment": {
+              },
+              "taskId": "497d490f-eea7-4f2b-ab94-48d9c1acdcb1",
+              "version": "4.*",
+              "name": "Deploy Azure App Service",
+              "refName": "",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": null,
+              "overrideInputs": {
+              },
+              "condition": "succeeded()",
+              "inputs": {
+                "ConnectionType": "AzureRM",
+                "ConnectedServiceName": "$(Parameters.ConnectedServiceName)",
+                "PublishProfilePath": "$(System.DefaultWorkingDirectory)/**/*.pubxml",
+                "PublishProfilePassword": "",
+                "WebAppKind": "$(Parameters.WebAppKind)",
+                "WebAppName": "$(Parameters.WebAppName)",
+                "DeployToSlotOrASEFlag": "false",
+                "ResourceGroupName": "SocialNetworkDev",
+                "SlotName": "production",
+                "DockerNamespace": "$(Parameters.DockerNamespace)",
+                "DockerRepository": "$(Parameters.DockerRepository)",
+                "DockerImageTag": "$(Build.BuildId)",
+                "VirtualApplication": "",
+                "Package": "$(System.DefaultWorkingDirectory)/**/*.zip",
+                "RuntimeStack": "",
+                "RuntimeStackFunction": "",
+                "StartupCommand": "$(Parameters.StartupCommand)",
+                "ScriptType": "",
+                "InlineScript": "",
+                "ScriptPath": "",
+                "WebConfigParameters": "",
+                "AppSettings": "",
+                "ConfigurationSettings": "",
+                "UseWebDeploy": "false",
+                "DeploymentType": "webDeploy",
+                "TakeAppOfflineFlag": "true",
+                "SetParametersFile": "",
+                "RemoveAdditionalFilesFlag": "false",
+                "ExcludeFilesFromAppDataFlag": "false",
+                "AdditionalArguments": "",
+                "RenameFilesFlag": "true",
+                "XmlTransformation": "false",
+                "XmlVariableSubstitution": "false",
+                "JSONFiles": ""
+              }
+            }
+          ]
+        }
+      ],
+      "environmentOptions": {
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0,
+        "enableAccessToken": false,
+        "publishDeploymentStatus": true,
+        "badgeEnabled": false,
+        "autoLinkWorkItems": false,
+        "pullRequestDeploymentEnabled": false
+      },
+      "demands": [
+      ],
+      "conditions": [
+        {
+          "name": "ReleaseStarted",
+          "conditionType": 1,
+          "value": ""
+        }
+      ],
+      "executionPolicy": {
+        "concurrencyCount": 1,
+        "queueDepthCount": 0
+      },
+      "schedules": [
+      ],
+      "currentRelease": {
+        "id": 3,
+        "url": "https://shreerajshyamaji.vsrm.visualstudio.com/7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3/_apis/Release/releases/3",
+        "_links": {
+        }
+      },
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      },
+      "processParameters": {
+        "inputs": [
+          {
+            "aliases": [
+            ],
+            "options": {
+            },
+            "properties": {
+            },
+            "name": "ConnectedServiceName",
+            "label": "Azure subscription",
+            "defaultValue": "80b5098f-9847-4ecf-b334-babaeedca2de",
+            "required": true,
+            "type": "connectedService:AzureRM",
+            "helpMarkDown": "Select the Azure Resource Manager subscription for the deployment.",
+            "visibleRule": "",
+            "groupName": ""
+          },
+          {
+            "aliases": [
+            ],
+            "options": {
+              "webApp": "Web App on Windows",
+              "webAppLinux": "Web App on Linux",
+              "webAppContainer": "Web App for Containers (Linux)",
+              "functionApp": "Function App on Windows",
+              "functionAppLinux": "Function App on Linux",
+              "functionAppContainer": "Function App for Containers (Linux)",
+              "apiApp": "API App",
+              "mobileApp": "Mobile App"
+            },
+            "properties": {
+              "EditableOptions": "false"
+            },
+            "name": "WebAppKind",
+            "label": "App type",
+            "defaultValue": "webAppLinux",
+            "type": "pickList",
+            "helpMarkDown": "",
+            "groupName": ""
+          },
+          {
+            "aliases": [
+            ],
+            "options": {
+            },
+            "properties": {
+              "EditableOptions": "True"
+            },
+            "name": "WebAppName",
+            "label": "App service name",
+            "defaultValue": "SNwork",
+            "required": true,
+            "type": "pickList",
+            "helpMarkDown": "Enter or select the name of an existing Azure App Service.",
+            "visibleRule": "",
+            "groupName": ""
+          },
+          {
+            "aliases": [
+            ],
+            "options": {
+            },
+            "properties": {
+            },
+            "name": "DockerNamespace",
+            "label": "Registry or Namespace",
+            "defaultValue": "",
+            "required": true,
+            "type": "string",
+            "helpMarkDown": "A globally unique top-level domain name for your specific registry or namespace.<br/> Note: Fully qualified image name will be of the format: '<b>`<registry or namespace`></b>/`<repository`>:`<tag`>'. For example, '<b>myregistry.azurecr.io</b>/nginx:latest'.",
+            "visibleRule": "WebAppKind = webAppContainer || WebAppkind = functionAppContainer",
+            "groupName": ""
+          },
+          {
+            "aliases": [
+            ],
+            "options": {
+            },
+            "properties": {
+            },
+            "name": "DockerRepository",
+            "label": "Repository",
+            "defaultValue": "",
+            "required": true,
+            "type": "string",
+            "helpMarkDown": "Name of the repository where the container images are stored.<br/> Note: Fully qualified image name will be of the format: '`<registry or namespace`>/<b>`<repository`></b>:`<tag`>'. For example, 'myregistry.azurecr.io/<b>nginx</b>:latest'.",
+            "visibleRule": "WebAppKind = webAppContainer || WebAppkind = functionAppContainer",
+            "groupName": ""
+          },
+          {
+            "aliases": [
+            ],
+            "options": {
+            },
+            "properties": {
+            },
+            "name": "StartupCommand",
+            "label": "Startup command",
+            "defaultValue": "",
+            "type": "string",
+            "helpMarkDown": "Enter the start up command. For ex.<br/>dotnet run<br/>dotnet filename.dll",
+            "visibleRule": "WebAppKind = webAppLinux || WebAppKind = webAppContainer || WebAppkind = functionAppContainer || WebAppKind = functionAppLinux",
+            "groupName": ""
+          }
+        ],
+        "dataSourceBindings": [
+          {
+            "dataSourceName": "AzureRMWebAppNamesByAppType",
+            "parameters": {
+              "WebAppKind": "$(WebAppKind)"
+            },
+            "endpointId": "$(ConnectedServiceName)",
+            "target": "WebAppName"
+          }
+        ]
+      },
+      "properties": {
+        "BoardsEnvironmentType": {
+          "$type": "System.String",
+          "$value": "unmapped"
+        },
+        "LinkBoardsWorkItems": {
+          "$type": "System.String",
+          "$value": "False"
+        }
+      },
+      "preDeploymentGates": {
+        "id": 0,
+        "gatesOptions": null,
+        "gates": [
+        ]
+      },
+      "postDeploymentGates": {
+        "id": 0,
+        "gatesOptions": null,
+        "gates": [
+        ]
+      },
+      "environmentTriggers": [
+      ],
+      "badgeUrl": "https://shreerajshyamaji.vsrm.visualstudio.com/_apis/public/Release/badge/7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3/1/1"
+    }
+  ],
+  "artifacts": [
+    {
+      "sourceId": "7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3:6",
+      "type": "Build",
+      "alias": "nirajp82.social-network",
+      "definitionReference": {
+        "defaultVersionBranch": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionSpecific": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionTags": {
+          "id": "",
+          "name": ""
+        },
+        "defaultVersionType": {
+          "id": "latestType",
+          "name": "Latest"
+        },
+        "definition": {
+          "id": "6",
+          "name": "nirajp82.social-network"
+        },
+        "project": {
+          "id": "7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3",
+          "name": "SocialNetwork"
+        },
+        "artifactSourceDefinitionUrl": {
+          "id": "https://shreerajshyamaji.visualstudio.com/_permalink/_build/index?collectionId=d03ba310-24c4-454b-8582-e9f022a85b8e&projectId=7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3&definitionId=6",
+          "name": ""
+        }
+      },
+      "isPrimary": true,
+      "isRetained": false
+    }
+  ],
+  "triggers": [
+    {
+      "artifactAlias": "nirajp82.social-network",
+      "triggerConditions": [
+      ],
+      "triggerType": 1
+    }
+  ],
+  "releaseNameFormat": "Release-$(rev:r)",
+  "tags": [
+  ],
+  "properties": {
+    "DefinitionCreationSource": {
+      "$type": "System.String",
+      "$value": "BuildSummary"
+    },
+    "IntegrateBoardsWorkItems": {
+      "$type": "System.String",
+      "$value": "False"
+    },
+    "IntegrateJiraWorkItems": {
+      "$type": "System.String",
+      "$value": "false"
+    }
+  },
+  "id": 1,
+  "name": "nirajp82.social-network - Continuous deployment",
+  "path": "\\",
+  "projectReference": null,
+  "url": "https://shreerajshyamaji.vsrm.visualstudio.com/7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3/_apis/Release/definitions/1",
+  "_links": {
+    "self": {
+      "href": "https://shreerajshyamaji.vsrm.visualstudio.com/7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3/_apis/Release/definitions/1"
+    },
+    "web": {
+      "href": "https://shreerajshyamaji.visualstudio.com/7ec5a13c-022b-48c8-9e68-00bf9cd8bdc3/_release?definitionId=1"
+    }
+  }
+}
