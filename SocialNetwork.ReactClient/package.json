@@ -34,6 +34,7 @@
     "react-widgets": "^4.5.0",
     "react-widgets-moment": "^4.0.28",
     "revalidate": "^1.2.0",
+    "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "typescript": "^3.7.5"
   },

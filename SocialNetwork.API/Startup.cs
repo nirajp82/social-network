@@ -16,6 +16,7 @@ using SocialNetwork.Infrastructure;
 using SocialNetwork.Nucleus;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
+using System;
 
 namespace SocialNetwork.API
 {
@@ -58,10 +59,10 @@ namespace SocialNetwork.API
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
 
+            ConfigureSecuriyMiddleware(app);
+
             // Enables default file mapping on the current path
             app.UseDefaultFiles();
-
-            app.UseHttpsRedirection();
 
             //Enables static file serving for the current request path
             app.UseStaticFiles(new StaticFileOptions
@@ -74,6 +75,8 @@ namespace SocialNetwork.API
             app.UseCors(_CORS_POLICY_NAME);
 
             app.ConfigureSwaggerMiddleware();
+
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
@@ -129,6 +132,41 @@ namespace SocialNetwork.API
                             .RequireAuthenticatedUser()
                             .Build();
             options.Filters.Add(new AuthorizeFilter(policy));
+        }
+
+        private void ConfigureSecuriyMiddleware(IApplicationBuilder app)
+        {
+            //Sets the X-Content-Type-Options response header. 
+            //This is marker used by the server to indicate that the MIME types advertised in the Content-Type 
+            //headers should not be changed and be followed.
+            app.UseXContentTypeOptions();
+
+            //Sets the Referrer-Policy response header.
+            //It instructs the browser, when navigating to the target resource, to omit the Referer header
+            app.UseReferrerPolicy(opt => opt.NoReferrer());
+
+            //Sets the X-Xss-Protection header
+            //It instructs the browser to prevent rendering of the page if an attack is detected.
+            app.UseXXssProtection(opt => opt.EnabledWithBlockMode());
+
+            //Sets the X-Frame-Options response header.
+            //The X-Frame-Options HTTP response header can be used to indicate whether or not a browser should be allowed to
+            //render a page in a <frame>, <iframe>, <embed> or <object>. Sites can use this to avoid click-jacking attacks, 
+            //by ensuring that their content is not embedded into other sites.
+            app.UseXfo(opt => opt.Deny());
+
+            //Sets the Content-Security-Policy-Report-Only response header
+            app.UseCsp(opt => opt
+                .BlockAllMixedContent()
+                .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", 
+                                  "sha256-F4GpCPyRepgP5znjMD8sc7PEjzet5Eef4r09dEGPpTs="))
+                .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
+                .FormActions(s => s.Self())
+                .FrameAncestors(s => s.Self())
+                .ImageSources(s => s.Self().CustomSources("https://socialnetworkdev.blob.core.windows.net", "blob:", "data:"))
+                //Allow Inlinescript by providing hash
+                .ScriptSources(s => s.Self().CustomSources("sha256-BEfVagb2tFvpT8eok5d+XlOLrZ/j3XC6FcyYKtUlaWQ="))
+            );
         }
         #endregion
     }

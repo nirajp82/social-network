@@ -47,7 +47,7 @@ const ProfilePhoto = () => {
                     <Header floated='left' icon='image' content='Photos' />
                     {
                         isViewingOwnProfile &&
-                        <Button onClick={() => onAddPhoto()} floated='right'
+                        <Button onClick={() => onAddPhoto()} floated='right' primary
                             basic content={addPhotoMode ? 'Cancel' : 'Add Photo'} />
                     }
                 </Grid.Column>

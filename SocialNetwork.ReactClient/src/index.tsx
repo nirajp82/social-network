@@ -7,6 +7,7 @@ import momentLocalizer from 'react-widgets-moment';
 import 'mobx-react-lite/batchingForReactDom';
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-widgets/dist/css/react-widgets.css';
+import 'semantic-ui-css/semantic.min.css';
 
 import './layout/styles.css';
 

@@ -15,6 +15,8 @@ namespace SocialNetwork.API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    // Remove Server header from response.
+                    //webBuilder.UseKestrel(x => x.AddServerHeader = false);
                 });
     }
 }
