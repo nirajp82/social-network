@@ -16,4 +16,9 @@
     <ProjectReference Include="..\SocialNetwork.Nucleus\SocialNetwork.Nucleus.csproj" />
     <ProjectReference Include="..\SocialNetwork.WebUtil\SocialNetwork.WebUtil.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
