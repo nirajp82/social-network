@@ -61,6 +61,7 @@ namespace SocialNetwork.API
             // Enables default file mapping on the current path
             app.UseDefaultFiles();
 
+            app.UseHttpsRedirection();
 
             //Enables static file serving for the current request path
             app.UseStaticFiles(new StaticFileOptions
@@ -73,8 +74,6 @@ namespace SocialNetwork.API
             app.UseCors(_CORS_POLICY_NAME);
 
             app.ConfigureSwaggerMiddleware();
-
-            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
