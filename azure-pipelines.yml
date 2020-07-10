@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-latest'  # examples of other options: 'macOS-10.15', 'windows-2019'
 
 variables:
   buildConfiguration: 'Release'
@@ -16,17 +16,15 @@ steps:
 - script: dotnet build --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
-- task: CopyFiles@2
+- task: DotNetCoreCLI@2
   inputs:
-    SourceFolder: '$(Build.SourcesDirectory)'
-    Contents: |
-      **/*
-      !.git/**/*
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
-    CleanTargetFolder: true
-    OverWrite: true
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
 
+# this code takes all the files in $(Build.ArtifactStagingDirectory) and uploads them as an artifact of your build.
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'drop'    
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'SocialNetworkApp'
