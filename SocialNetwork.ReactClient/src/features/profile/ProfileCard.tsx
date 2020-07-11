@@ -2,8 +2,9 @@
 import { Card, Image, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import { IProfile } from '../../../models/IProfile';
-import * as constants from '../../../utils/constants';
+
+import { IProfile } from '../../models/IProfile';
+import * as constants from '../../utils/constants';
 
 interface IProps {
     profile: IProfile;

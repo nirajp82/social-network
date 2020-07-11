@@ -6,7 +6,7 @@ import ProfilePhoto from './ProfilePhoto';
 import ProfileAbout from './ProfileAbout';
 import ProfileEvents from './ProfileEvents';
 import ProfileFollowing from './ProfileFollowing';
-import { rootStoreContext } from '../../../stores/rootStore';
+import { rootStoreContext } from '../../stores/rootStore';
 
 const panes = () => [
     { menuItem: 'About', render: () => <ProfileAbout /> },

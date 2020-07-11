@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.Infrastructure
 {
-    public class PhotoAccessor : IPhotoAccessor
+    internal class PhotoAccessor : IPhotoAccessor
     {
         #region Members
         private readonly ConfigSettings _infrastructureConfig;

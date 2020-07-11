@@ -9,6 +9,8 @@
         public string UserImageContainerName { get; private set; }
         public string UserImageContainerPath { get; private set; }
         public string DataProtectionKey { get; private set; }
+        public string FacebookAppId { get; private set; }
+        public string FacebookAppSecret { get; private set; }
         #endregion
 
 
@@ -22,6 +24,8 @@
             UserImageContainerPath = $"{BlobAccountBaseUri}/{UserImageContainerName}";
 
             DataProtectionKey = configHelper.GetValue<string>("Security:DataProtectionKey");
+            FacebookAppId = configHelper.GetValue<string>("Security:Facebook:AppId");
+            FacebookAppSecret = configHelper.GetValue<string>("Security:Facebook:AppSecret");
         }
         #endregion
     }

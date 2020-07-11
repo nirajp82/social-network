@@ -11,7 +11,7 @@ import ActivityDetails from '../features/activities/details/ActivityDetails';
 import ActivityForm from '../features/activities/forms/ActivityForm';
 import LoginForm from '../features/user/forms/LoginForm';
 import RegisterForm from '../features/user/forms/RegisterForm';
-import UserProfile from '../features/user/profile/UserProfile';
+import UserProfile from '../features/profile/UserProfile';
 import { rootStoreContext } from '../stores/rootStore';
 import * as constants from '../utils/constants';
 import NotFound from './NotFound';

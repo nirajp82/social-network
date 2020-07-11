@@ -1,4 +1,5 @@
 ﻿export const BASE_SERVICE_URL = process.env.REACT_APP_API_BASE_URL ?? '';
+export const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID!;
 
 //Navigation Link
 export const NAV_HOME = '/'; 

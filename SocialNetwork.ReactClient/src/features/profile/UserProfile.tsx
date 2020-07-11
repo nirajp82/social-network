@@ -1,11 +1,11 @@
 ﻿import React, { useEffect, useContext, Fragment, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { rootStoreContext } from '../../../stores/rootStore';
+import { observer } from 'mobx-react-lite';
 
 import ProfileHeader from './ProfileHeader';
 import ProfileContent from './ProfileContent';
-import ProgressBar from '../../../layout/ProgressBar';
-import { observer } from 'mobx-react-lite';
+import ProgressBar from '../../layout/ProgressBar';
+import { rootStoreContext } from '../../stores/rootStore';
 
 interface iRouteProps {
     appUserId: string

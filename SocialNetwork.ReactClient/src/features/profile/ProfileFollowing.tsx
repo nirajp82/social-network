@@ -2,7 +2,7 @@
 import { Tab, Grid, Header, Card } from 'semantic-ui-react';
 import { observer } from 'mobx-react-lite';
 
-import { rootStoreContext } from '../../../stores/rootStore';
+import { rootStoreContext } from '../../stores/rootStore';
 import ProfileCard from './ProfileCard';
 
 const ProfileFollowing = () => {

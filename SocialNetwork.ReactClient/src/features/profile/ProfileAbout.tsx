@@ -2,7 +2,7 @@
 import { Tab, Grid, Button, Header, Card, Icon } from 'semantic-ui-react';
 
 import ProfileEditForm from './forms/ProfileEditForm';
-import { rootStoreContext } from '../../../stores/rootStore';
+import { rootStoreContext } from '../../stores/rootStore';
 
 const ProfileAbout = () => {
     const rootStoreObj = useContext(rootStoreContext);

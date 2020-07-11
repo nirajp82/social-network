@@ -14,6 +14,7 @@ namespace SocialNetwork.Infrastructure
             //Services Registration
             services.AddScoped<IJwtGenerator, JwtGenerator>();
             services.AddScoped<IUserAccessor, UserAccessor>();
+            services.AddSingleton<IFacebookAccessor, FacebookAccessor>();
             services.AddSingleton<IPhotoAccessor, PhotoAccessor>();
             services.AddSingleton<ConfigSettings>();
             services.ConfigureSwaggerService();

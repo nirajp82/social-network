@@ -3,13 +3,12 @@ import { Form, Tab, Button } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { combineValidators, isRequired, composeValidators, hasLengthGreaterThan, hasLengthLessThan } from 'revalidate';
-//import { toJS } from 'mobx';
-
-import { isValidEmail } from '../../../../utils/customValidators';
-import TextInput from '../../../../common/elements/TextInput';
-import TextAreaInput from '../../../../common/elements/TextAreaInput';
-import { IProfile } from '../../../../models/IProfile';
 import { observer } from 'mobx-react-lite';
+
+import { isValidEmail } from '../../../utils/customValidators';
+import TextInput from '../../../common/elements/TextInput';
+import TextAreaInput from '../../../common/elements/TextAreaInput';
+import { IProfile } from '../../../models/IProfile';
 
 interface IProps {
     updateProfile: (profile: IProfile) => Promise<void>,

@@ -80,6 +80,10 @@ class userStore {
         createBrowserHistory.push(constants.NAV_HOME);
     };
 
+    @action fbResponseHandler = (response: any) => {
+        console.log(response);
+    }
+
     getCurrentUserInstance = () => {
         return toJS(this.user);
     };
