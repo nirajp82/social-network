@@ -119,18 +119,22 @@ namespace SocialNetwork.API
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             Util.AppConfigHelper appConfigHelper = serviceProvider.GetService<Util.AppConfigHelper>();
 
-            services.AddCors(options =>
+            string corsAllowedHost = appConfigHelper.GetValue<string>(_CORS_ALLOWED_HOST_KEY);
+            if (!string.IsNullOrWhiteSpace(_CORS_ALLOWED_HOST_KEY))
             {
-                options.AddPolicy(_CORS_POLICY_NAME, corsOptions =>
+                services.AddCors(options =>
                 {
-                    corsOptions
-                        .WithOrigins(appConfigHelper.GetValue<string>(_CORS_ALLOWED_HOST_KEY))
-                        .WithExposedHeaders("WWW-Authenticate")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                    options.AddPolicy(_CORS_POLICY_NAME, corsOptions =>
+                    {
+                        corsOptions
+                            .WithOrigins(corsAllowedHost)
+                            .WithExposedHeaders("WWW-Authenticate")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    });
                 });
-            });
+            }
         }
 
         private void ConfigureAuthorizationPolicy(MvcOptions options)
