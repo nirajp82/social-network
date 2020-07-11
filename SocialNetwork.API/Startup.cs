@@ -58,6 +58,7 @@ namespace SocialNetwork.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseHsts();
 
             ConfigureSecuriyMiddleware(app);
 
