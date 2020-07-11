@@ -14,6 +14,9 @@ secrets.json
 *.db
 *.config
 web.config
+*.log
+SNlog.*.json
+log/
 #wwwroot/
 
 # User-specific files (MonoDevelop/Xamarin Studio)

@@ -17,6 +17,7 @@ using SocialNetwork.Nucleus;
 using System.IO;
 using Microsoft.Extensions.FileProviders;
 using System;
+using Serilog;
 
 namespace SocialNetwork.API
 {
@@ -60,7 +61,8 @@ namespace SocialNetwork.API
             app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseHsts();
 
-            ConfigureSecuriyMiddleware(app);
+
+            ConfigureSecuriyHeaderMiddleware(app);
 
             // Enables default file mapping on the current path
             app.UseDefaultFiles();
@@ -70,6 +72,9 @@ namespace SocialNetwork.API
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")),
             });
+
+            //Log request details
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 
@@ -87,12 +92,14 @@ namespace SocialNetwork.API
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ActivityChatHub>(Constants.ACTIVITY_CHAT_HUB);
-                //endpoints.MapFallbackToFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"),
-                //    new StaticFileOptions { DefaultContentType = "text/HTML" });
 
                 //Route all not matching request to Fallback controller.
                 endpoints.MapFallbackToController("Index", "Fallback");
             });
+
+            //, IApplicationLifetime lifetime
+            //lifetime.ApplicationStarted.Register(OnApplicationStarted);
+            //lifetime.ApplicationStopping.Register(OnShutdown);
         }
         #endregion
 
@@ -135,8 +142,10 @@ namespace SocialNetwork.API
             options.Filters.Add(new AuthorizeFilter(policy));
         }
 
-        private void ConfigureSecuriyMiddleware(IApplicationBuilder app)
+        private void ConfigureSecuriyHeaderMiddleware(IApplicationBuilder app)
         {
+            ConfigSettings configSettings = app.ApplicationServices.GetService<ConfigSettings>();
+
             //Sets the X-Content-Type-Options response header. 
             //This is marker used by the server to indicate that the MIME types advertised in the Content-Type 
             //headers should not be changed and be followed.
@@ -159,16 +168,26 @@ namespace SocialNetwork.API
             //Sets the Content-Security-Policy-Report-Only response header
             app.UseCsp(opt => opt
                 .BlockAllMixedContent()
-                .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com", 
+                .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com",
                                   "sha256-F4GpCPyRepgP5znjMD8sc7PEjzet5Eef4r09dEGPpTs="))
                 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
-                .ImageSources(s => s.Self().CustomSources("https://socialnetworkdev.blob.core.windows.net", "blob:", "data:"))
+                .ImageSources(s => s.Self().CustomSources(configSettings.BlobAccountBaseUri, "blob:", "data:"))
                 //Allow Inlinescript by providing hash
                 .ScriptSources(s => s.Self().CustomSources("sha256-BEfVagb2tFvpT8eok5d+XlOLrZ/j3XC6FcyYKtUlaWQ="))
             );
         }
+
+        //public void OnApplicationStarted()
+        //{
+        //    Console.Out.WriteLine($"Open Api Started");
+        //}
+
+        //public void OnShutdown()
+        //{
+        //    Console.Out.WriteLine($"Open Api is shutting down.");
+        //}
         #endregion
     }
 }
