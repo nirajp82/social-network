@@ -2,6 +2,7 @@
 using SocialNetwork.DataModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SocialNetwork.EF.Repo.Infrastructure
 {
@@ -159,8 +160,11 @@ namespace SocialNetwork.EF.Repo.Infrastructure
             modelBuilder.Entity<AppUser>()
                 .HasData(users);
 
-            ICollection<IdentityUser> iUsers = CreateIdentityUsers(users);
-            modelBuilder.Entity<IdentityUser>().HasData(iUsers);
+            ICollection<IdentityUser> identityUsers = CreateIdentityUsers(users);
+            modelBuilder.Entity<IdentityUser>().HasData(identityUsers);
+
+            ICollection<UserFollower> userFollowers = CreateUserFollowers(users.ToArray());
+            modelBuilder.Entity<UserFollower>().HasData(userFollowers);
         }
 
         private static ICollection<IdentityUser> CreateIdentityUsers(IEnumerable<AppUser> users)
@@ -220,6 +224,32 @@ namespace SocialNetwork.EF.Repo.Infrastructure
             }
 
             return iUsers;
+        }
+
+        private static ICollection<UserFollower> CreateUserFollowers(AppUser[] users)
+        {
+            ICollection<UserFollower> userFollowers = new List<UserFollower>();
+            for (int oCnt = 0; oCnt < users.Count(); oCnt++)
+            {
+                for (int iCnt = oCnt + 1; iCnt < users.Count(); iCnt++)
+                {
+                    userFollowers.Add(new UserFollower
+                    {
+                        FollowerId = users[iCnt].Id,
+                        UserId = users[oCnt].Id
+                    });
+
+                    if (iCnt % 2 == 0)
+                    {
+                        userFollowers.Add(new UserFollower
+                        {
+                            FollowerId = users[oCnt].Id,
+                            UserId = users[iCnt].Id
+                        });
+                    }
+                }
+            }
+            return userFollowers;
         }
 
         private static void SeedAuditFields(IAuditModel audit)
