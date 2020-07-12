@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.User
+namespace SocialNetwork.Nucleus.User
 {
     public class Details
     {

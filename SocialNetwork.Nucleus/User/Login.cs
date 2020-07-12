@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.User
+namespace SocialNetwork.Nucleus.User
 {
     public class Login
     {
@@ -33,18 +33,18 @@ namespace SocialNetwork.Nucleus.Engine.User
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IUnitOfWork _unitOfWork;
             private readonly ICryptoHelper _cryptoHelper;
-            private readonly IPhotoAccessor _photoAccessor;
+            private readonly IMapperHelper _mapperHelper;
             #endregion
 
 
             #region Constuctor
-            public Handler(IUnitOfWork unitOfWork, IPhotoAccessor photoAccessor,
-                IJwtGenerator jwtGenerator, UtilFactory utilFactory)
+            public Handler(IUnitOfWork unitOfWork, 
+                IJwtGenerator jwtGenerator, UtilFactory utilFactory, IMapperHelper mapperHelper)
             {
-                _photoAccessor = photoAccessor;
                 _unitOfWork = unitOfWork;
                 _jwtGenerator = jwtGenerator;
                 _cryptoHelper = utilFactory.CryptoHelper;
+                _mapperHelper = mapperHelper;
             }
             #endregion
 
@@ -52,20 +52,19 @@ namespace SocialNetwork.Nucleus.Engine.User
             #region Methods
             public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
             {
-                IdentityUser user = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
-                if (user == null)
+                IdentityUser identityUser = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
+                if (identityUser == null)
                     throw new CustomException(HttpStatusCode.Unauthorized);
 
-                if (_cryptoHelper.GenerateHash(request.Password, user.Salt) == user.Passoword)
+                if (_cryptoHelper.GenerateHash(request.Password, identityUser.Salt) == identityUser.Passoword)
                 {
-                    return new UserDto
-                    {
-                        AppUserId = user.AppUserId,
-                        UserName = request.UserName,
-                        DisplayName = user.AppUser.DisplayName,
-                        Token = _jwtGenerator.CreateToken(user.AppUserId, request.UserName),
-                        Image = _photoAccessor.PreparePhotoUrl(user.AppUser.MainPhoto?.CloudFileName)
-                    };
+                    identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
+                    identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(30);
+                    _unitOfWork.IdentityUserRepo.Update(identityUser);
+
+                    await _unitOfWork.SaveAsync(cancellationToken);
+
+                    return _mapperHelper.Map<IdentityUser, UserDto>(identityUser);
                 }
                 throw new CustomException(HttpStatusCode.Unauthorized);
             }

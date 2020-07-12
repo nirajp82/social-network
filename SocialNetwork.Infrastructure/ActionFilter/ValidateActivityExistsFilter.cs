@@ -5,7 +5,7 @@ using SocialNetwork.Util;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using static SocialNetwork.Nucleus.Engine.Activity.Exists;
+using static SocialNetwork.Nucleus.Activity.Exists;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -40,8 +40,8 @@ namespace SocialNetwork.Infrastructure
             }
             _logger.LogError("Missing activityId parameter!");
             throw new CustomException(HttpStatusCode.NotFound, new { MissingParameter = "Missing activityId parameter!" });
-            #endregion
         }
+        #endregion
     }
 }
 

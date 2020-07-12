@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using SocialNetwork.Dto;
-using SocialNetwork.DataModel;
 
 namespace SocialNetwork.Nucleus
 {
@@ -9,18 +8,19 @@ namespace SocialNetwork.Nucleus
         #region Constructor
         public PhotoMapper()
         {
-            Map<Engine.Photo.Add.Command, Photo>()
+            Map<Photo.Add.Command, DataModel.Photo>()
             .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
             .ForMember(dest => dest.ActualFileName, opt => opt.MapFrom(src => src.File.FileName))
             .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
 
-            Map<Photo, PhotoDto>(false)
+            Map<DataModel.Photo, PhotoDto>(false)
                 .ForMember(dest => dest.Url, opt => opt.MapFrom<PhotoUrlResolver>());
         }
         #endregion
 
+
         #region Property Resolver
-        private class PhotoUrlResolver : IValueResolver<Photo, PhotoDto, string>
+        private class PhotoUrlResolver : IValueResolver<DataModel.Photo, PhotoDto, string>
         {
             private readonly IPhotoAccessor _photoAccessor;
 
@@ -29,7 +29,7 @@ namespace SocialNetwork.Nucleus
                 _photoAccessor = photoAccessor;
             }
 
-            public string Resolve(Photo source, PhotoDto destination, string destMember, ResolutionContext context)
+            public string Resolve(DataModel.Photo source, PhotoDto destination, string destMember, ResolutionContext context)
             {
                 return _photoAccessor.PreparePhotoUrl(source?.CloudFileName);
             }

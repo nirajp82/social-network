@@ -9,7 +9,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.User
+namespace SocialNetwork.Nucleus.User
 {
     public class Register
     {
@@ -37,18 +37,16 @@ namespace SocialNetwork.Nucleus.Engine.User
         public class Handler : IRequestHandler<Command, UserDto>
         {
             #region Members
-            private readonly ICryptoHelper _cryptoHelper;
-            private readonly IJwtGenerator _jwtGenerator;
             private readonly IUnitOfWork _unitOfWork;
+            private readonly IMapperHelper _mapperHelper;
             #endregion
 
 
             #region Constructor
-            public Handler(IJwtGenerator jwtGenerator, IUnitOfWork unitOfWork, UtilFactory utilFactory)
+            public Handler(IUnitOfWork unitOfWork, IMapperHelper mapperHelper)
             {
-                _jwtGenerator = jwtGenerator;
-                _cryptoHelper = utilFactory.CryptoHelper;
                 _unitOfWork = unitOfWork;
+                _mapperHelper = mapperHelper;
             }
             #endregion
 
@@ -58,46 +56,19 @@ namespace SocialNetwork.Nucleus.Engine.User
             {
                 await Validate(command);
 
-                AppUser appUser = CreateAppUser(command);
+                AppUser appUser = _mapperHelper.Map<Command, AppUser>(command);
                 _unitOfWork.AppUserRepo.Add(appUser);
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);
 
                 if (insertCnt > 0)
-                {
-                    return new UserDto
-                    {
-                        AppUserId = appUser.Id,
-                        DisplayName = appUser.DisplayName,
-                        UserName = command.UserName,
-                        Token = _jwtGenerator.CreateToken(appUser.Id, command.UserName),
-                        Image = null
-                    };
-                }
+                    return _mapperHelper.Map<AppUser, UserDto>(appUser);
 
                 throw new Exception("Problem saving changes to database");
             }
             #endregion
 
             #region Private Methods
-            private AppUser CreateAppUser(Command request)
-            {
-                string salt = _cryptoHelper.CreateBase64Salt();
-                AppUser appUser = new AppUser
-                {
-                    FirstName = request.FirstName,
-                    LastName = request.LastName,
-                    Email = request.Email,
-                    IdentityUser = new IdentityUser
-                    {
-                        UserName = request.UserName,
-                        Salt = salt,
-                        Passoword = _cryptoHelper.GenerateHash(request.Password, salt)
-                    }
-                };
-                return appUser;
-            }
-
             private async Task Validate(Command user)
             {
                 bool exits = await _unitOfWork.AppUserRepo.HasAnyAsync(e => e.Email == user.Email);

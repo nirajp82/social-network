@@ -12,5 +12,7 @@ namespace SocialNetwork.EF.Repo
                     CancellationToken cancellationToken = default);
 
         Task<IdentityUser> FindFirstAsync(string userName, CancellationToken cancellationToken);
+
+        void Update(IdentityUser entity);
     }
 }

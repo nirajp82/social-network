@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Dto;
 using SocialNetwork.Nucleus;
-using SocialNetwork.Nucleus.Engine.User;
+using SocialNetwork.Nucleus.User;
 
 namespace SocialNetwork.API.Controllers
 {
@@ -21,7 +21,7 @@ namespace SocialNetwork.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Current(CancellationToken cancellationToken)
         {
-            var user = await Mediator.Send(new CurrentUser.Query(), cancellationToken);
+            var user = await Mediator.Send(new CurrentAppUser.Query(), cancellationToken);
             return Ok(user);
         }
         #endregion

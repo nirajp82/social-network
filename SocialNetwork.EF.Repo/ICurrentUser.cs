@@ -1,6 +1,6 @@
 ﻿namespace SocialNetwork.EF.Repo
 {
-    public interface ISessionUser
+    public interface ICurrentUser
     {
         string GetName();
     }

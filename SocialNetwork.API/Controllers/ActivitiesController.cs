@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Dto;
-using SocialNetwork.Nucleus.Engine.Activity;
+using SocialNetwork.Nucleus.Activity;
 using System;
 using System.Threading;
 using SocialNetwork.WebUtil;

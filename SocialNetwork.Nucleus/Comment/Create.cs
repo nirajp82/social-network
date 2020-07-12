@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Comment
+namespace SocialNetwork.Nucleus.Comment
 {
     public class Create
     {

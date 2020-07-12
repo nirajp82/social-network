@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activity
+namespace SocialNetwork.Nucleus.Activity
 {
     public class List
     {

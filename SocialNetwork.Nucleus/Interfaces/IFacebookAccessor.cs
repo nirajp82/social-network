@@ -1,5 +1,4 @@
 ﻿using SocialNetwork.Dto;
-using System;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.Nucleus

@@ -11,7 +11,7 @@ namespace SocialNetwork.EF.Repo
     public class ApplicationContext : DbContext
     {
         #region Members
-        private readonly ISessionUser _sessionUser;
+        private readonly ICurrentUser _currentUser;
 
         public DbSet<Activity> Activities { get; set; }
         public DbSet<AppUser> AppUser { get; set; }
@@ -23,10 +23,10 @@ namespace SocialNetwork.EF.Repo
 
 
         #region Constructor
-        public ApplicationContext(DbContextOptions dbContextOptions, ISessionUser sessionUser) :
+        public ApplicationContext(DbContextOptions dbContextOptions, ICurrentUser sessionUser) :
             base(dbContextOptions)
         {
-            _sessionUser = sessionUser;
+            _currentUser = sessionUser;
         }
         #endregion
 
@@ -78,7 +78,7 @@ namespace SocialNetwork.EF.Repo
 
             foreach (var entityEntry in entries)
             {
-                string userName = _sessionUser.GetName();
+                string userName = _currentUser.GetName();
                 ((IAuditModel)entityEntry.Entity).UpdatedDate = DateTime.Now;
                 ((IAuditModel)entityEntry.Entity).UpdatedBy = userName;
 

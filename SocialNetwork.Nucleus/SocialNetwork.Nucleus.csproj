@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Implementation\SessionUser.cs" />
+    <Compile Include="Implementation\CurrentUser.cs" />
     <Compile Include="Implementation\UserActivityHelper.cs" />
     <Compile Include="Interfaces\IFacebookAccessor.cs" />
     <Compile Include="Interfaces\IUserActivityHelper.cs" />

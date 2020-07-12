@@ -2,7 +2,7 @@
 
 namespace SocialNetwork.Nucleus
 {
-    internal class SessionUser : ISessionUser
+    internal class CurrentUser : ICurrentUser
     {
         #region Members
         private readonly IUserAccessor _userAccessor;
@@ -10,7 +10,7 @@ namespace SocialNetwork.Nucleus
 
 
         #region Constructor
-        public SessionUser(IUserAccessor userAccessor)
+        public CurrentUser(IUserAccessor userAccessor)
         {
             _userAccessor = userAccessor;
         }

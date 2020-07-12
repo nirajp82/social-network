@@ -7,7 +7,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Photo
+namespace SocialNetwork.Nucleus.Photo
 {
     public class Add
     {

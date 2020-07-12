@@ -16,6 +16,10 @@ namespace SocialNetwork.DataModel
         [MaxLength(50)]
         public string Salt { get; set; }
 
+        public string RefreshToken { get; set; }
+
+        public DateTime? RefreshTokenExpiry { get; set; }
+
         public Guid AppUserId { get; set; }
 
         public AppUser AppUser { get; set; }

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
-using SocialNetwork.Nucleus.Engine.Activity;
+using SocialNetwork.Nucleus.Activity;
 using SocialNetwork.Util;
 using System;
 using System.Net;

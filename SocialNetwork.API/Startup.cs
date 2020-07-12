@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SocialNetwork.Nucleus.Engine.Activity;
+using SocialNetwork.Nucleus.Activity;
 using SocialNetwork.Util;
 using SocialNetwork.WebUtil;
 using System.Net;

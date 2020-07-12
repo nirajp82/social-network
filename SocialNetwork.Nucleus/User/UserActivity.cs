@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
 using SocialNetwork.Util;
@@ -39,12 +38,11 @@ namespace SocialNetwork.Nucleus.User
             #region Public Methods
             public async Task<IEnumerable<UserActivityDto>> Handle(Query request, CancellationToken cancellationToken)
             {
-                IEnumerable<Activity> dbResult = await _unitOfWork.UserActivityRepo.GetUserActivities(request.AppUserId, request.Predicate, cancellationToken);
-                var result = _mapperHelper.MapList<Activity, UserActivityDto>(dbResult);
+                IEnumerable<DataModel.Activity> dbResult = await _unitOfWork.UserActivityRepo.GetUserActivities(request.AppUserId, request.Predicate, cancellationToken);
+                var result = _mapperHelper.MapList<DataModel.Activity, UserActivityDto>(dbResult);
                 return result?.OrderBy(a => a.Date);
             }
             #endregion
-
         }
     }
 }

@@ -10,7 +10,7 @@ using SocialNetwork.WebUtil;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using SocialNetwork.Infrastructure;
-using SocialNetwork.Nucleus.Engine.Photo;
+using SocialNetwork.Nucleus.Photo;
 
 namespace SocialNetwork.API.Controllers
 {

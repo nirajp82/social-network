@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using MediatR;
-using SocialNetwork.Nucleus.Engine.Activity;
+using SocialNetwork.Nucleus.Activity;
 
 namespace SocialNetwork.Infrastructure
 {

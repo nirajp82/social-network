@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Nucleus;
-using SocialNetwork.Nucleus.Engine.Comment;
+using SocialNetwork.Nucleus.Comment;
 using System;
 using System.Collections.Generic;
 using System.Linq;

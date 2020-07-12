@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SocialNetwork.Nucleus.Engine.Activity
+namespace SocialNetwork.Nucleus.Activity
 {
     public class Edit
     {

@@ -6,31 +6,29 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using SocialNetwork.Util;
 
 namespace SocialNetwork.Nucleus
 {
-    public class CurrentUser
+    public class CurrentAppUser
     {
         public class Query : IRequest<UserDto> { }
 
         public class Handler : IRequestHandler<Query, UserDto>
         {
             #region Members
-            private readonly IJwtGenerator _jwtGenerator;
             private readonly IUnitOfWork _unitOfWork;
             private readonly IUserAccessor _userAccessor;
-            private readonly IPhotoAccessor _photoAccessor;
+            private readonly IMapperHelper _mapperHelper;
             #endregion
 
 
             #region Constructor
-            public Handler(IPhotoAccessor photoAccessor, IJwtGenerator jwtGenerator,
-                IUnitOfWork unitOfWork, IUserAccessor userAccessor)
+            public Handler(IUnitOfWork unitOfWork, IUserAccessor userAccessor, IMapperHelper mapperHelper)
             {
-                _photoAccessor = photoAccessor;
-                _jwtGenerator = jwtGenerator;
                 _unitOfWork = unitOfWork;
                 _userAccessor = userAccessor;
+                _mapperHelper = mapperHelper;
             }
             #endregion
 
@@ -43,14 +41,8 @@ namespace SocialNetwork.Nucleus
                 AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.Id == userId,
                                     new List<string> { nameof(AppUser.Photos) },
                                     cancellationToken);
-                return new UserDto
-                {
-                    AppUserId = user.Id,
-                    UserName = userName,
-                    DisplayName = user.DisplayName,
-                    Token = _jwtGenerator.CreateToken(user.Id, userName),
-                    Image = _photoAccessor.PreparePhotoUrl(user.MainPhoto?.CloudFileName)
-                };
+
+                return _mapperHelper.Map<AppUser, UserDto>(user);
             }
             #endregion
         }

@@ -30,16 +30,16 @@ namespace SocialNetwork.Nucleus
 
 
         #region Methods
-        public async Task<IEnumerable<ActivityDto>> PrepareActivities(IEnumerable<Activity> dbActivities)
+        public async Task<IEnumerable<ActivityDto>> PrepareActivities(IEnumerable<DataModel.Activity> dbActivities)
         {
             return await Prepare(dbActivities);
         }
 
-        public async Task<ActivityDto> PrepareActivity(Activity dbActivity)
+        public async Task<ActivityDto> PrepareActivity(DataModel.Activity dbActivity)
         {
             if (dbActivity != null)
             {
-                var result = await Prepare(new List<Activity> { dbActivity });
+                var result = await Prepare(new List<DataModel.Activity> { dbActivity });
                 return result.FirstOrDefault();
             }
             return null;
@@ -48,9 +48,9 @@ namespace SocialNetwork.Nucleus
 
 
         #region Private Methods
-        private async Task<IEnumerable<ActivityDto>> Prepare(IEnumerable<Activity> dbActivities)
+        private async Task<IEnumerable<ActivityDto>> Prepare(IEnumerable<DataModel.Activity> dbActivities)
         {
-            IEnumerable<ActivityDto> activities = _mapperHelper.MapList<Activity, ActivityDto>(dbActivities);
+            IEnumerable<ActivityDto> activities = _mapperHelper.MapList<DataModel.Activity, ActivityDto>(dbActivities);
             if (activities?.Any() == true)
             {
                 var attendees = activities.SelectMany(a => a.Attendees.Select(a => a.AppUserId)).Distinct();

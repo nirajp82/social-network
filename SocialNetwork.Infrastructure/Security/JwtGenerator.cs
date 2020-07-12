@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -45,13 +46,21 @@ namespace SocialNetwork.Infrastructure
             {
                 Subject = new ClaimsIdentity(claims),
                 NotBefore = DateTime.Now,
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddSeconds(15000),
                 SigningCredentials = credentials,
             };
 
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[] randomValueHolder = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomValueHolder);
+            return Convert.ToBase64String(randomValueHolder);
         }
         #endregion
     }

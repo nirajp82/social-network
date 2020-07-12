@@ -3,10 +3,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Azure;
-using Microsoft.AspNetCore.Http;
-using System.Net;
-using System.Text.Json;
 
 namespace SocialNetwork.Infrastructure
 {
@@ -19,7 +15,6 @@ namespace SocialNetwork.Infrastructure
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = Helper.GenerateSecurityKey(configuration),
-                //TODO: Customize this options.
                 ValidateAudience = false,
                 ValidateIssuer = false,
                 ValidateLifetime = true,

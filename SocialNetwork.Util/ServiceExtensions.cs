@@ -6,10 +6,10 @@ namespace SocialNetwork.Util
     {
         public static void ConfigureUtilServices(this IServiceCollection services)
         {
-            services.AddSingleton<ICryptoHelper, CryptoHelper>();
-            services.AddSingleton<IMapperHelper, MapperHelper>();
+            services.AddScoped<ICryptoHelper, CryptoHelper>();
+            services.AddScoped<IMapperHelper, MapperHelper>();
             services.AddSingleton<AppConfigHelper>();
-            services.AddSingleton<UtilFactory>();
+            services.AddScoped<UtilFactory>();
         }
     }
 }
