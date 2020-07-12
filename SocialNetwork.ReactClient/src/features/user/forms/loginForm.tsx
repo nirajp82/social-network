@@ -1,5 +1,5 @@
 ﻿import React, { Fragment, useContext, useEffect } from 'react';
-import { Form, Button, Header, Divider } from 'semantic-ui-react';
+import { Form, Button, Header } from 'semantic-ui-react';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { combineValidators, isRequired } from 'revalidate';
 import { FORM_ERROR } from 'final-form';
@@ -11,7 +11,7 @@ import createBrowserHistory from '../../../utils/createBrowserHistory';
 import * as constants from '../../../utils/constants';
 import ModelContainer, { modalSize } from '../../../common/modals/modalContainer';
 import ErrorMessage from '../../../common/elements/ErrorMessage';
-import FBLogin from '../FBLogin';
+//import FBLogin from '../FBLogin';
 
 const LoginForm = () => {
     const rootStoreObj = useContext(rootStoreContext);
@@ -76,9 +76,9 @@ const LoginForm = () => {
                         color="teal"
                         fluid
                     />
-                    <Divider horizontal>Or</Divider>
-                    <FBLogin fbResponseCallback={userStoreObj.fbResponseHandler} />
                     {/*
+                     * <Divider horizontal>Or</Divider>
+                    <FBLogin fbResponseCallback={userStoreObj.fbResponseHandler} />
                                 *<pre>{JSON.stringify(props.form.getState(), null, 2)} </pre> 
                             */}
                 </Form>
