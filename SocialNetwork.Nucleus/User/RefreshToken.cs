@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation;
+using MediatR;
 using SocialNetwork.DataModel;
 using SocialNetwork.Dto;
 using SocialNetwork.EF.Repo;
@@ -18,22 +19,31 @@ namespace SocialNetwork.Nucleus.User
             public string RefreshToken { get; set; }
         }
 
+        public class CommandValidator : AbstractValidator<Command> 
+        {
+            public CommandValidator()
+            {
+                RuleFor(l => l.UserName).NotEmpty();
+                RuleFor(l => l.Token).NotEmpty();
+                RuleFor(l => l.RefreshToken).NotEmpty();
+            }
+        }
+
         public class Handler : IRequestHandler<Command, UserDto>
         {
             #region Members
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IUnitOfWork _unitOfWork;
-            private readonly IPhotoAccessor _photoAccessor;
             private readonly IMapperHelper _mapperHelper;
             #endregion
 
 
             #region Constructor
-            public Handler(IMapperHelper mapperHelper, IUnitOfWork unitOfWork, IPhotoAccessor photoAccessor)
+            public Handler(IMapperHelper mapperHelper, IUnitOfWork unitOfWork, IJwtGenerator jwtGenerator)
             {
                 _mapperHelper = mapperHelper;
-                _unitOfWork = unitOfWork;   
-                _photoAccessor = photoAccessor;
+                _unitOfWork = unitOfWork;
+                _jwtGenerator = jwtGenerator;
             }
             #endregion
 
@@ -42,7 +52,8 @@ namespace SocialNetwork.Nucleus.User
             public async Task<UserDto> Handle(Command request, CancellationToken cancellationToken)
             {
                 IdentityUser identityUser = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
-                if (identityUser == null || identityUser.RefreshToken != request.RefreshToken || identityUser.RefreshTokenExpiry > HelperFunc.GetCurrentDateTime())
+                if (identityUser == null || identityUser.RefreshToken != request.RefreshToken 
+                            || identityUser.RefreshTokenExpiry > HelperFunc.GetCurrentDateTime())
                     throw new CustomException(HttpStatusCode.BadRequest);
 
                 identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
