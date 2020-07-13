@@ -35,11 +35,9 @@ namespace SocialNetwork.Nucleus.Activity
             #region Methods
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                //TODO: Move to Automapper
                 UserActivity hostAttendee = new UserActivity
                 {
                     ActivityId = request.ActivityId,
-                    IsHost = false,
                     DateJoined = HelperFunc.GetCurrentDateTime(),
                     AppUserId = _userAccessor.GetCurrentUserId()
                 };

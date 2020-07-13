@@ -14,10 +14,10 @@ namespace SocialNetwork.Nucleus.Comment
         public class Command : IRequest<CommentDto>
         {
             public string Body { get; set; }
-            
+
             [JsonIgnore]
             public string UserName { get; set; }
-            
+
             public Guid ActivityId { get; set; }
         }
 
@@ -50,16 +50,10 @@ namespace SocialNetwork.Nucleus.Comment
                 var user = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
                 if (user == null)
                     throw new CustomException(System.Net.HttpStatusCode.BadRequest, new { User = "Not Found" });
-                
-                //TODO: Move to Automapper
-                DataModel.Comment comment = new DataModel.Comment
-                {
-                    ActivityId = request.ActivityId,
-                    AuthorId = user.AppUser.Id,
-                    Body = request.Body,
-                    Id = Guid.NewGuid(),
-                    CreatedDate = HelperFunc.GetCurrentDateTime()
-                };
+
+                DataModel.Comment comment = _mapperHelper.Map<Command, DataModel.Comment>(request);
+                comment.AuthorId = user.AppUser.Id;
+
                 _unitOfWork.CommentRepo.Add(comment);
 
                 int insertCnt = await _unitOfWork.SaveAsync(cancellationToken);

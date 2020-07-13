@@ -43,7 +43,6 @@ namespace SocialNetwork.Nucleus.Followers
 
                 await Validate(appUserId, request, cancellationToken);
 
-                //TODO: Move to Automapper
                 UserFollower userFollower = new UserFollower
                 {
                     UserId = request.FollowingUserId,

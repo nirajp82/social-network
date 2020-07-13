@@ -39,15 +39,7 @@ namespace SocialNetwork.Nucleus.Comment
             public async Task<IEnumerable<CommentDto>> Handle(Command request, CancellationToken cancellationToken)
             {
                 IEnumerable<DataModel.Comment> dbComments = await _unitOfWork.CommentRepo.FindAsync(request.ActivityId, cancellationToken);
-               
-                //TODO: Move to Automapper
-                IEnumerable<CommentDto> comments = _mapperHelper.MapList<DataModel.Comment, CommentDto>(dbComments);
-                if (comments != null)
-                {
-                    foreach (var comment in comments)
-                        comment.UserImage = _photoAccessor.PreparePhotoUrl(comment.MainPhotoCloudFileName);
-                }
-                return comments;
+                return _mapperHelper.MapList<DataModel.Comment, CommentDto>(dbComments);
             }
             #endregion
         }

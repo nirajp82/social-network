@@ -66,7 +66,6 @@ namespace SocialNetwork.Nucleus.Activity
                 activity.Id = Guid.NewGuid();
                 _unitOfWork.ActivityRepo.Add(activity);
 
-                //TODO: Move to Automapper
                 UserActivity hostAttendee = new UserActivity
                 {
                     Activity = activity,

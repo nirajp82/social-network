@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SocialNetwork.Dto;
+using SocialNetwork.Util;
 
 namespace SocialNetwork.Nucleus
 {
@@ -11,7 +12,8 @@ namespace SocialNetwork.Nucleus
             Map<Photo.Add.Command, DataModel.Photo>()
             .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.File.ContentType))
             .ForMember(dest => dest.ActualFileName, opt => opt.MapFrom(src => src.File.FileName))
-            .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length));
+            .ForMember(dest => dest.Length, opt => opt.MapFrom(src => src.File.Length))
+            .ForMember(dest => dest.UploadedDate, opt => opt.MapFrom(src => HelperFunc.GetCurrentDateTime()));
 
             Map<DataModel.Photo, PhotoDto>(false)
                 .ForMember(dest => dest.Url, opt => opt.MapFrom<PhotoUrlResolver>());
