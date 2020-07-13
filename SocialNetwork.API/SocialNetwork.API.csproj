@@ -6,9 +6,6 @@
     <UserSecretsId>09e83169-fb48-478a-9c31-8791da392f4c</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="appsettings.json" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
