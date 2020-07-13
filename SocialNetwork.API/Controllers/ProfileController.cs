@@ -39,6 +39,7 @@ namespace SocialNetwork.API.Controllers
         /// </summary>
         [HttpGet("{appUserId:guid}/activities")]
         [ProducesResponseType(typeof(UserActivityDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType((int)StatusCodeEx.Status499ClientClosedRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -48,7 +49,7 @@ namespace SocialNetwork.API.Controllers
             if (result != null)
                 return Ok(result);
             else
-                return BadRequest();
+                return NoContent();
         }
         #endregion
 

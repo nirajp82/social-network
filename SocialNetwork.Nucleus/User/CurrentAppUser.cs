@@ -39,7 +39,7 @@ namespace SocialNetwork.Nucleus
                 Guid userId = _userAccessor.GetCurrentUserId();
                 string userName = _userAccessor.GetCurrentUserName();
                 AppUser user = await _unitOfWork.AppUserRepo.FindFirstAsync(e => e.Id == userId,
-                                    new List<string> { nameof(AppUser.Photos) },
+                                    new List<string> { nameof(AppUser.Photos), nameof(AppUser.IdentityUser) },
                                     cancellationToken);
 
                 return _mapperHelper.Map<AppUser, UserDto>(user);

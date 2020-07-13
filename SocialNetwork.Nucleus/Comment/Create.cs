@@ -50,10 +50,11 @@ namespace SocialNetwork.Nucleus.Comment
                 var user = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
                 if (user == null)
                     throw new CustomException(System.Net.HttpStatusCode.BadRequest, new { User = "Not Found" });
-
+                
+                //TODO: Move to Automapper
                 DataModel.Comment comment = new DataModel.Comment
                 {
-                    ActivityId = activity.Id,
+                    ActivityId = request.ActivityId,
                     AuthorId = user.AppUser.Id,
                     Body = request.Body,
                     Id = Guid.NewGuid(),

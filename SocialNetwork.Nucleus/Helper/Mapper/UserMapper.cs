@@ -15,7 +15,9 @@ namespace SocialNetwork.Nucleus
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.IdentityUser.UserName))
                 .ForMember(dest => dest.AppUserId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.RefreshToken, opt => opt.MapFrom(src => src.IdentityUser.RefreshToken))
-                .ForMember(dest => dest.Token, opt => opt.MapFrom<AppUserTokenResolver>());
+                .ForMember(dest => dest.Token, opt => opt.MapFrom<AppUserTokenResolver>())
+                .ForMember(dest => dest.Image, opt => opt.MapFrom<AppUserPhotoResolver>());
+
 
 
             Map<AppUser, ProfileDto>(false)
@@ -105,7 +107,29 @@ namespace SocialNetwork.Nucleus
 
             public string Resolve(IdentityUser src, UserDto destination, string destMember, ResolutionContext context)
             {
-                return _jwtGenerator.CreateToken(src.Id, src.UserName);
+                return _jwtGenerator.CreateToken(src.AppUserId, src.UserName);
+            }
+        }
+
+
+        private class AppUserPhotoResolver : IValueResolver<AppUser, UserDto, string>
+        {
+            #region Members
+            private readonly IPhotoAccessor _photoAccessor;
+            #endregion
+
+
+            #region Constructor
+            public AppUserPhotoResolver(IPhotoAccessor photoAccessor)
+            {
+                _photoAccessor = photoAccessor;
+            }
+            #endregion
+
+
+            public string Resolve(AppUser src, UserDto dest, string destMember, ResolutionContext context)
+            {
+                return _photoAccessor.PreparePhotoUrl(src.MainPhoto?.CloudFileName);
             }
         }
 

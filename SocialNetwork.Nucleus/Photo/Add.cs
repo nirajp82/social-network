@@ -55,6 +55,7 @@ namespace SocialNetwork.Nucleus.Photo
 
             private DataModel.Photo CreatePhotoModel(Command request, PhotoDto photoUploadResult)
             {
+                //TODO: Move to Automapper
                 DataModel.Photo photo = _mapperHelper.Map<Command, DataModel.Photo>(request);
                 photo.Id = photoUploadResult.Id;
                 photo.UploadedDate = DateTime.Now;

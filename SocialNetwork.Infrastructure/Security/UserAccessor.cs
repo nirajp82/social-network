@@ -32,7 +32,6 @@ namespace SocialNetwork.Infrastructure
             return _cryptoHelper.Decrypt<Guid>(_configSettings.DataProtectionKey, encryptedUserId);
         }
 
-
         public string GetCurrentUserName()
         {
             string encryptedUserName = FindClaim(Constants.CLAIM_UNAME);

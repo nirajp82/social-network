@@ -61,9 +61,7 @@ namespace SocialNetwork.Nucleus
                 foreach (var activity in activities)
                 {
                     foreach (var attendee in activity.Attendees)
-                    {
                         attendee.Following = followingList.Any(u => u.UserId == attendee.AppUserId);
-                    }
                 }
             }
             return activities;
