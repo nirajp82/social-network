@@ -14,6 +14,7 @@ export const NAV_NOT_FOUND = '/notfound';
 
 //Security
 export const AUTH_TOKEN_NAME = 'SN_JWT_Token';
+export const AUTH_REFRESH_TOKEN_NAME = 'SN_JWT_Refresh_Token';
 
 //Followers/Following
 export const PREDICATE_FOLLOWERS = 'followers';

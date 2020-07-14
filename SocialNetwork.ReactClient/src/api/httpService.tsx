@@ -27,21 +27,43 @@ axiosInstance.interceptors.response.use((response) => response, (error) => {
         toast.error('Network error server is down for maintenance, Please try after sometime');
         return;
     }
-    const { status, headers } = error.response;
-    if (status === 400)
-        toast.error('Bad request, Please check data');
+    const originalRequest = error.config;
+    const { config, data, status } = error.response;
+    if (status === 400) {
+        if (config.method === 'get' && data.errors.hasOwnProperty('id')) {
+            createBrowserHistory.push(constants.NAV_NOT_FOUND);
+        }
+        else {
+            toast.error('Bad request, Please check data');
+        }
+    }
     else if (status === 401) {
-        window.localStorage.removeItem(constants.AUTH_TOKEN_NAME);
-        if (headers['www-authenticate'] && headers['www-authenticate'].indexOf('invalid_token') >= 0) {
+        if (originalRequest.url.endsWith('refresh')) {
+            window.localStorage.removeItem(constants.AUTH_TOKEN_NAME);
+            window.localStorage.removeItem(constants.AUTH_REFRESH_TOKEN_NAME);
             createBrowserHistory.push(constants.NAV_LOGIN);
-            toast.info('Your session has expired, please login again');
+            toast.error('Your session has expired, please login again');
+            return Promise.reject(error);
+        }
+        else if (!originalRequest._refreshAttempt) {
+            originalRequest._refreshAttempt = true;
+            return axios.post(`${constants.BASE_SERVICE_URL}/api/user/refresh`, {
+                token: window.localStorage.getItem(constants.AUTH_TOKEN_NAME),
+                refreshToken: window.localStorage.getItem(constants.AUTH_REFRESH_TOKEN_NAME)
+            }).then(res => {
+                window.localStorage.setItem(constants.AUTH_TOKEN_NAME, res.data.token);
+                window.localStorage.setItem(constants.AUTH_REFRESH_TOKEN_NAME, res.data.refreshToken);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+                originalRequest.headers['Authorization'] = axios.defaults.headers.common['Authorization'];
+                return axios(originalRequest);
+            });
         }
     }
     else if (status === 404) {
         createBrowserHistory.push(constants.NAV_NOT_FOUND);
     }
     else if (status === 500) {
-        toast.error('Server Issue - Oops, something went wrong');
+        toast.error('Oops! Something went wrong, please try again later');
     }
     throw error.response;
 });

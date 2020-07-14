@@ -32,9 +32,11 @@ class userStore {
     @action login = async (command: ILogin) => {
         try {
             this.rootStore.commonStore.setToken(null);
+            this.rootStore.commonStore.setRefreshToken(null);
             const user = await userService.login(command);
             this.setUser(user);
             this.rootStore.commonStore.setToken(user.token);
+            this.rootStore.commonStore.setRefreshToken(user.refreshToken);
         } catch (err) {
             throw err;
         }
@@ -46,6 +48,7 @@ class userStore {
                 const user = await userService.register(command);
                 this.setUser(user);
                 this.rootStore.commonStore.setToken(user.token);
+                this.rootStore.commonStore.setRefreshToken(user.refreshToken);
             }
         } catch (err) {
             throw err;
@@ -76,6 +79,7 @@ class userStore {
 
     @action logout = () => {
         this.rootStore.commonStore.setToken(null);
+        this.rootStore.commonStore.setRefreshToken(null);
         this.setUser(null);
         createBrowserHistory.push(constants.NAV_HOME);
     };

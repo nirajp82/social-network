@@ -24,7 +24,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     const { current } = rootStoreObj.userStore;
 
     useEffect(() => {
-        if (commonStore.getToken()) {
+        const hasToken = !!commonStore.getToken();
+        if (hasToken) {
+            //If token exists fetch user information.
             const loadUser = async () => {
                 await current().finally(() => commonStore.setAppLoaded());
             };

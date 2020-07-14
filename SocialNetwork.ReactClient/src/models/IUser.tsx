@@ -3,6 +3,7 @@
     displayName: string;
     userName: string;
     token: string;
+    refreshToken: string;
     image: string;
 };
 
