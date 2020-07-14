@@ -13,6 +13,9 @@ namespace SocialNetwork.API.Controllers.MVC
     {
         public IActionResult Index()
         {
+            if (HttpContext.Request.Path.Value.Contains("/api/"))
+                return NotFound();
+
             return PhysicalFile(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "index.html"), "text/HTML");
         }
     }
