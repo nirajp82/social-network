@@ -53,7 +53,7 @@ namespace SocialNetwork.Nucleus
             IEnumerable<ActivityDto> activities = _mapperHelper.MapList<DataModel.Activity, ActivityDto>(dbActivities);
             if (activities?.Any() == true)
             {
-                var attendees = activities.SelectMany(a => a.Attendees.Select(a => a.AppUserId)).Distinct();
+                IEnumerable<Guid> attendees = activities.SelectMany(a => a.Attendees.Select(a => a.AppUserId)).Distinct();
                 IEnumerable<UserFollower> followingList = await _unitOfWork
                     .UserFollowerRepo
                     .FindAsync(u => attendees.Contains(u.UserId) && u.FollowerId == _userAccessor.GetCurrentUserId());

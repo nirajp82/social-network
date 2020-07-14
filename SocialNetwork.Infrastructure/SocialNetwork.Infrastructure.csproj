@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SocialNetwork.Nucleus\SocialNetwork.Nucleus.csproj" />
+    <ProjectReference Include="..\SocialNetwork.WebUtil\SocialNetwork.WebUtil.csproj" />
   </ItemGroup>
 
 </Project>

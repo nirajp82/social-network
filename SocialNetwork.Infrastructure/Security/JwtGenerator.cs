@@ -41,12 +41,11 @@ namespace SocialNetwork.Infrastructure
             //Generate Signing Credentials
             SymmetricSecurityKey securityKey = Helper.GenerateSecurityKey(_configuration);
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha512Signature);
-
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 NotBefore = DateTime.Now,
-                Expires = DateTime.Now.AddSeconds(15000),
+                Expires = DateTime.Now.AddSeconds(Constants.TOKEN_EXPIRES_IN),
                 SigningCredentials = credentials,
             };
 

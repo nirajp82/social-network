@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialNetwork.Dto;
+using SocialNetwork.Infrastructure;
 using SocialNetwork.Nucleus;
 using SocialNetwork.Nucleus.User;
 
@@ -47,6 +48,18 @@ namespace SocialNetwork.API.Controllers
         public async Task<IActionResult> Register(Register.Command command, CancellationToken cancellationToken)
         {
             UserDto user = await Mediator.Send(command, cancellationToken);
+            return Ok(user);
+        }
+
+        [HttpPost(nameof(Refresh))]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ServiceFilter(typeof(ValidateExpiredTokenFilter))]
+        [AllowAnonymous()]
+        public async Task<IActionResult> Refresh(RefreshToken.Query query, CancellationToken cancellationToken) 
+        {
+            UserDto user = await Mediator.Send(query, cancellationToken);
             return Ok(user);
         }
         #endregion

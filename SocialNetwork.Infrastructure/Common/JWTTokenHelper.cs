@@ -9,20 +9,23 @@ namespace SocialNetwork.Infrastructure
     internal class JWTTokenHelper
     {
         #region Public Methods
-        internal static void InitJwtBearerOptions(JwtBearerOptions opt, IConfiguration configuration)
+        internal static TokenValidationParameters InitTokenValidationParameters(IConfiguration configuration, bool validateLifetime)
         {
-            opt.TokenValidationParameters = new TokenValidationParameters
+            TokenValidationParameters tokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = Helper.GenerateSecurityKey(configuration),
                 ValidateAudience = false,
                 ValidateIssuer = false,
-                ValidateLifetime = true,
-                //LifetimeValidator = CustomLifetimeValidator,
-                ClockSkew = TimeSpan.Zero,
+                ValidateLifetime = validateLifetime,
+                ClockSkew = TimeSpan.Zero
             };
+            return tokenValidationParameters;
+        }
 
-            opt.Events = new JwtBearerEvents
+        internal static JwtBearerEvents InitJwtBearerEvents()
+        {
+            JwtBearerEvents jwtBearerEvents = new JwtBearerEvents
             {
                 OnMessageReceived = (context) =>
                 {
@@ -36,22 +39,23 @@ namespace SocialNetwork.Infrastructure
                     }
                     return Task.CompletedTask;
                 },
-                //OnTokenValidated = (context) =>
-                //{
-                //    DateTime validFrom = context.SecurityToken.ValidFrom;
-                //    DateTime ValidTo = context.SecurityToken.ValidTo;
-                //    return Task.CompletedTask;
-                //},
                 OnAuthenticationFailed = (context) =>
                 {
                     ////For expired token to stop the execution throw an exception. (Without it continues with requests)
                     if (context.Exception is SecurityTokenExpiredException)
                     {
-                        throw context.Exception;
+                        //throw context.Exception;
                     }
                     return Task.CompletedTask;
-                }
+                },
+                OnTokenValidated = (context) =>
+                {
+                    DateTime validFrom = context.SecurityToken.ValidFrom;
+                    DateTime ValidTo = context.SecurityToken.ValidTo;
+                    return Task.CompletedTask;
+                },
             };
+            return jwtBearerEvents;
         }
         #endregion
 

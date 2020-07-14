@@ -347,3 +347,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/SocialNetwork.API/Logs/SNLog20200714.json
+/SocialNetwork.API/Logs/SNLog20200713.json

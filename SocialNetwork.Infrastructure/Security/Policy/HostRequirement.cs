@@ -2,7 +2,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using System.Linq;
 using MediatR;
 using SocialNetwork.Nucleus.Activity;
 
@@ -29,10 +28,10 @@ namespace SocialNetwork.Infrastructure
         #endregion
 
 
-        #region Constuctor
+        #region Methods
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
         {
-            Guid activityId = Guid.Parse(_httpContextAccessor.HttpContext.Request.RouteValues.SingleOrDefault(x => x.Key == "activityId").Value.ToString());
+            Guid activityId = Helper.FindRouteValue<Guid>(_httpContextAccessor, "activityId");
             bool isHost = await _mediator.Send(new IsHost.Query { ActivityId = activityId });
             //Mark handler as success by calling context.Succeed, passing the requirement that has been successfully validated.
             if (isHost)

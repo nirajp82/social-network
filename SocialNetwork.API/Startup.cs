@@ -169,17 +169,20 @@ namespace SocialNetwork.API
             //by ensuring that their content is not embedded into other sites.
             app.UseXfo(opt => opt.Deny());
 
-            //Sets the Content-Security-Policy-Report-Only response header
+            //Sets the Content-Security-Policy header
             app.UseCsp(opt => opt
                 .BlockAllMixedContent()
                 .StyleSources(s => s.Self().CustomSources("https://fonts.googleapis.com",
+                                  "sha256-wkAU1AW/h8YFx0XlzvpTllAKnFEO2tw8aKErs5a26LY=",
                                   "sha256-F4GpCPyRepgP5znjMD8sc7PEjzet5Eef4r09dEGPpTs="))
                 .FontSources(s => s.Self().CustomSources("https://fonts.gstatic.com", "data:"))
                 .FormActions(s => s.Self())
                 .FrameAncestors(s => s.Self())
                 .ImageSources(s => s.Self().CustomSources(configSettings.BlobAccountBaseUri, "blob:", "data:"))
                 //Allow Inlinescript by providing hash
-                .ScriptSources(s => s.Self().CustomSources("sha256-BEfVagb2tFvpT8eok5d+XlOLrZ/j3XC6FcyYKtUlaWQ="))
+                .ScriptSources(s => s.Self().CustomSources("sha256-BEfVagb2tFvpT8eok5d+XlOLrZ/j3XC6FcyYKtUlaWQ=",
+                        "sha256-Tui7QoFlnLXkJCSl1/JvEZdIXTmBttnWNxzJpXomQjg='",
+                        "sha256-qcFfVuN2Zqcgn7cIiZUgPkdMtkryEam6lT5umFlQBC4="))
             );
         }
 

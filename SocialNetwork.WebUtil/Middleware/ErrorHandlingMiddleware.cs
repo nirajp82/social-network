@@ -57,7 +57,7 @@ namespace SocialNetwork.WebUtil
         private async Task HandleException(Exception ex, HttpContext httpContext, object errors, int statusCode)
         {
             //Note: Please be careful when logging request body, it may contain sensitive information.
-            _logger.LogError(ex, $"RequestBody:{await RequestUtil.GetBodyAsync(httpContext.Request)}");
+            _logger.LogError(ex, $"RequestBody:{await WebHelperFunc.GetBodyAsync(httpContext.Request)}");
             httpContext.Response.StatusCode = statusCode;
             if (errors != null)
             {
