@@ -21,7 +21,7 @@ namespace SocialNetwork.Nucleus.User
             public string RefreshToken { get; set; }
         }
 
-        public class CommandValidator : AbstractValidator<Query> 
+        public class CommandValidator : AbstractValidator<Query>
         {
             public CommandValidator()
             {
@@ -53,16 +53,32 @@ namespace SocialNetwork.Nucleus.User
             public async Task<UserDto> Handle(Query request, CancellationToken cancellationToken)
             {
                 IdentityUser identityUser = await _unitOfWork.IdentityUserRepo.FindFirstAsync(request.UserName, cancellationToken);
-                if (identityUser == null || identityUser.RefreshToken != request.RefreshToken 
-                            || identityUser.RefreshTokenExpiry < HelperFunc.GetCurrentDateTime())
+                if (identityUser == null)
                     throw new CustomException(HttpStatusCode.BadRequest);
 
-                identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
-                identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(30);
-                _unitOfWork.IdentityUserRepo.Update(identityUser);
-                await _unitOfWork.SaveAsync(cancellationToken);
+                //If recently expired token is matching with toke n in request please return recently generated token
+                //This will be the case when two concurrent request comes from client and one request updates refresh token
+                else if (request.RefreshToken == identityUser.PreviousRefreshToken && identityUser.PreviousRefreshTokenExpiry > HelperFunc.GetCurrentDateTime())
+                    return _mapperHelper.Map<IdentityUser, UserDto>(identityUser);
 
-                return _mapperHelper.Map<IdentityUser, UserDto>(identityUser);
+                //Check if current refresh token is matching and valid
+                else if (request.RefreshToken == identityUser.RefreshToken && identityUser.RefreshTokenExpiry > HelperFunc.GetCurrentDateTime())
+                {
+                    //If current valid token is expired, generate new token and return it.
+                    //else return existing token that is still valid.
+                    if (request.RefreshToken == identityUser.RefreshToken)
+                    {
+                        identityUser.PreviousRefreshToken = identityUser.RefreshToken;
+                        identityUser.PreviousRefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddMinutes(2);
+
+                        identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
+                        identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(30);
+                        _unitOfWork.IdentityUserRepo.Update(identityUser);
+                        await _unitOfWork.SaveAsync(cancellationToken);
+                    }
+                    return _mapperHelper.Map<IdentityUser, UserDto>(identityUser);
+                }
+                throw new CustomException(HttpStatusCode.BadRequest);
             }
             #endregion
         }

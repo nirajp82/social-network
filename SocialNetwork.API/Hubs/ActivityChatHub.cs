@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using SocialNetwork.Nucleus;
 using SocialNetwork.Nucleus.Comment;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SocialNetwork.API
 {
+    [Authorize]
     public class ActivityChatHub : Hub
     {
         #region Members

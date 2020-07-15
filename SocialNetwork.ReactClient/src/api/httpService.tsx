@@ -2,6 +2,7 @@
 import createBrowserHistory from '../utils/createBrowserHistory';
 import * as constants from '../utils/constants';
 import { toast } from 'react-toastify';
+import { IUser } from '../models/IUser';
 
 //const SLEEP_TIME = 100;
 
@@ -22,7 +23,7 @@ axiosInstance.interceptors.request.use((config) => {
     return Promise.reject(error);
 });
 
-axiosInstance.interceptors.response.use((response) => response, (error) => {
+axiosInstance.interceptors.response.use((response) => response, async (error) => {
     if (error.message === 'Network Error' && !error.response) {
         toast.error('Network error server is down for maintenance, Please try after sometime');
         return;
@@ -47,16 +48,11 @@ axiosInstance.interceptors.response.use((response) => response, (error) => {
         }
         else if (!originalRequest._refreshAttempt) {
             originalRequest._refreshAttempt = true;
-            return axios.post(`${constants.BASE_SERVICE_URL}/api/user/refresh`, {
-                token: window.localStorage.getItem(constants.AUTH_TOKEN_NAME),
-                refreshToken: window.localStorage.getItem(constants.AUTH_REFRESH_TOKEN_NAME)
-            }).then(res => {
-                window.localStorage.setItem(constants.AUTH_TOKEN_NAME, res.data.token);
-                window.localStorage.setItem(constants.AUTH_REFRESH_TOKEN_NAME, res.data.refreshToken);
-                axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
-                originalRequest.headers['Authorization'] = axios.defaults.headers.common['Authorization'];
-                return axios(originalRequest);
-            });
+            const token = window.localStorage.getItem(constants.AUTH_TOKEN_NAME);
+            const refreshToken = window.localStorage.getItem(constants.AUTH_REFRESH_TOKEN_NAME);
+            const user: IUser = await getRefreshToken(token, refreshToken);
+            originalRequest.headers['Authorization'] = `Bearer ${user.token}`;
+            return axios(originalRequest);
         }
     }
     else if (status === 404) {
@@ -67,6 +63,18 @@ axiosInstance.interceptors.response.use((response) => response, (error) => {
     }
     throw error.response;
 });
+
+export const getRefreshToken = (token: string | null, refreshToken: string | null): Promise<IUser> => {
+    return axios.post(`${constants.BASE_SERVICE_URL}/api/user/refresh`, {
+        token: token,
+        refreshToken: refreshToken
+    }).then(res => {
+        window.localStorage.setItem(constants.AUTH_TOKEN_NAME, res.data.token);
+        window.localStorage.setItem(constants.AUTH_REFRESH_TOKEN_NAME, res.data.refreshToken);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
+        return res.data;
+    });
+};
 
 const processResponse = (dbResponse: AxiosResponse) => {
     return dbResponse.data;

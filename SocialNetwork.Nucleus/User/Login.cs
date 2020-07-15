@@ -58,6 +58,8 @@ namespace SocialNetwork.Nucleus.User
 
                 if (_cryptoHelper.GenerateHash(request.Password, identityUser.Salt) == identityUser.Passoword)
                 {
+                    identityUser.PreviousRefreshToken = null;
+                    identityUser.PreviousRefreshTokenExpiry = null;
                     identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
                     identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(30);
                     _unitOfWork.IdentityUserRepo.Update(identityUser);

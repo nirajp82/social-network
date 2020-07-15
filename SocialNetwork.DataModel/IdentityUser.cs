@@ -21,6 +21,11 @@ namespace SocialNetwork.DataModel
 
         public DateTime? RefreshTokenExpiry { get; set; }
 
+        [MaxLength(50)]
+        public string PreviousRefreshToken { get; set; }
+
+        public DateTime? PreviousRefreshTokenExpiry { get; set; }
+
         public Guid AppUserId { get; set; }
 
         public AppUser AppUser { get; set; }

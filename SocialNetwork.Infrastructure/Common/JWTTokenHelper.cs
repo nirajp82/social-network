@@ -39,21 +39,21 @@ namespace SocialNetwork.Infrastructure
                     }
                     return Task.CompletedTask;
                 },
-                OnAuthenticationFailed = (context) =>
-                {
-                    ////For expired token to stop the execution throw an exception. (Without it continues with requests)
-                    if (context.Exception is SecurityTokenExpiredException)
-                    {
-                        //throw context.Exception;
-                    }
-                    return Task.CompletedTask;
-                },
-                OnTokenValidated = (context) =>
-                {
-                    DateTime validFrom = context.SecurityToken.ValidFrom;
-                    DateTime ValidTo = context.SecurityToken.ValidTo;
-                    return Task.CompletedTask;
-                },
+                //OnAuthenticationFailed = (context) =>
+                //{
+                //    ////For expired token to stop the execution throw an exception. (Without it continues with requests)
+                //    if (context.Exception is SecurityTokenExpiredException)
+                //    {
+                //        //throw context.Exception;
+                //    }
+                //    return Task.CompletedTask;
+                //},
+                //OnTokenValidated = (context) =>
+                //{
+                //    DateTime validFrom = context.SecurityToken.ValidFrom;
+                //    DateTime ValidTo = context.SecurityToken.ValidTo;
+                //    return Task.CompletedTask;
+                //},
             };
             return jwtBearerEvents;
         }

@@ -19,7 +19,7 @@ export default class activityHubStore {
         this.hubConnection = new HubConnectionBuilder()
             .withUrl(`${constants.BASE_SERVICE_URL}/activitychat`, {
                 //Send token as part as QueryString.
-                accessTokenFactory: () => this.rootStore.commonStore.getToken()!
+                accessTokenFactory: () => this.rootStore.commonStore.getOrRefreshToken()
             })
             .configureLogging(LogLevel.Information)
             .build();
