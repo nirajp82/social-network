@@ -69,14 +69,14 @@ const ProfilePhoto = () => {
                                                         name={photo.id}
                                                         onClick={(e) => onSetMainPhotoHandler(e, photo.id)}
                                                         loading={isSettingMainPhoto && target === photo.id}
-                                                        disabled={userProfile.mainPhoto?.id === photo.id}
+                                                        disabled={!isViewingOwnProfile || userProfile.mainPhoto?.id === photo.id}
                                                         basic positive content='Main' />
 
                                                     <Button
                                                         name={photo.id}
                                                         onClick={(e) => onDeletePhotoHandler(e, photo.id)}
                                                         loading={isDeletingPhoto && target === photo.id}
-                                                        disabled={userProfile.mainPhoto?.id === photo.id}
+                                                        disabled={!isViewingOwnProfile || userProfile.mainPhoto?.id === photo.id}
                                                         basic negative icon='trash' />
                                                 </Button.Group>
                                             </Card.Content>
