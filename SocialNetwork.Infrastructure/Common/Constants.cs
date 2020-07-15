@@ -10,6 +10,6 @@
 
         public const string CLAIM_UID = "uid";
         public const string CLAIM_UNAME = "uname";
-        public const double TOKEN_EXPIRES_IN = 15;
+        public const double TOKEN_EXPIRES_IN_SEC = 1200;        
     }
 }

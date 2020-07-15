@@ -33,6 +33,9 @@ namespace SocialNetwork.Nucleus.User
         public class Handler : IRequestHandler<Query, UserDto>
         {
             #region Members
+            private const double _REFRESH_TOKEN_EXPIRS_IN_DAYS = 30;
+            private const double _PREVIOUS_REFRESH_TOKEN_EXPIRES_IN_SEC = 120;
+
             private readonly IJwtGenerator _jwtGenerator;
             private readonly IUnitOfWork _unitOfWork;
             private readonly IMapperHelper _mapperHelper;
@@ -56,8 +59,8 @@ namespace SocialNetwork.Nucleus.User
                 if (identityUser == null)
                     throw new CustomException(HttpStatusCode.BadRequest);
 
-                //If recently expired token is matching with toke n in request please return recently generated token
-                //This will be the case when two concurrent request comes from client and one request updates refresh token
+                //If recently expired token is matching with token in request please return recently generated token
+                //This will be the case when two concurrent http request comes from same client and one request updates refresh token
                 else if (request.RefreshToken == identityUser.PreviousRefreshToken && identityUser.PreviousRefreshTokenExpiry > HelperFunc.GetCurrentDateTime())
                     return _mapperHelper.Map<IdentityUser, UserDto>(identityUser);
 
@@ -69,10 +72,10 @@ namespace SocialNetwork.Nucleus.User
                     if (request.RefreshToken == identityUser.RefreshToken)
                     {
                         identityUser.PreviousRefreshToken = identityUser.RefreshToken;
-                        identityUser.PreviousRefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddMinutes(2);
+                        identityUser.PreviousRefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddMinutes(_PREVIOUS_REFRESH_TOKEN_EXPIRES_IN_SEC);
 
                         identityUser.RefreshToken = _jwtGenerator.CreateRefreshToken();
-                        identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(30);
+                        identityUser.RefreshTokenExpiry = HelperFunc.GetCurrentDateTime().AddDays(_REFRESH_TOKEN_EXPIRS_IN_DAYS);
                         _unitOfWork.IdentityUserRepo.Update(identityUser);
                         await _unitOfWork.SaveAsync(cancellationToken);
                     }

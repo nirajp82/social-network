@@ -40,6 +40,7 @@ export default class activityHubStore {
         });
 
         this.hubConnection.on("GroupNotification", message => {
+            toast.dismiss();
             toast.info(message);
         });
     };

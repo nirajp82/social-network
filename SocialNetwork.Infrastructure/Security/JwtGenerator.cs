@@ -45,7 +45,7 @@ namespace SocialNetwork.Infrastructure
             {
                 Subject = new ClaimsIdentity(claims),
                 NotBefore = DateTime.Now,
-                Expires = DateTime.Now.AddSeconds(Constants.TOKEN_EXPIRES_IN),
+                Expires = DateTime.Now.AddSeconds(Constants.TOKEN_EXPIRES_IN_SEC),
                 SigningCredentials = credentials,
             };
 
