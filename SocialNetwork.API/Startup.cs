@@ -18,6 +18,7 @@ using System.IO;
 using Microsoft.Extensions.FileProviders;
 using System;
 using Serilog;
+using Microsoft.Extensions.Hosting;
 
 namespace SocialNetwork.API
 {
@@ -59,8 +60,10 @@ namespace SocialNetwork.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ErrorHandlingMiddleware>();
-            app.UseHsts();
 
+            app.UseHsts();
+            if (!env.IsDevelopment())
+                app.UseHttpsRedirection();
 
             ConfigureSecuriyHeaderMiddleware(app);
 
@@ -81,8 +84,6 @@ namespace SocialNetwork.API
             app.UseCors(_CORS_POLICY_NAME);
 
             app.ConfigureSwaggerMiddleware();
-
-            app.UseHttpsRedirection();
 
             app.UseAuthentication();
 
