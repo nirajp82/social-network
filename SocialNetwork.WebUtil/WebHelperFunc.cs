@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SocialNetwork.WebUtil
@@ -20,6 +21,20 @@ namespace SocialNetwork.WebUtil
                 return bodyAsText;
             }
             return default;
-        }       
+        }
+        
+        public static async Task<IEnumerable<string>> ReadFormFileAsArray(IFormFile file)
+            {
+                if (file == null || file.Length == 0)
+                    return null;
+
+                ICollection<string> result = new List<string>();
+                using (var reader = new StreamReader(file.OpenReadStream()))
+                {
+                    while (reader.Peek() >= 0)
+                        result.Add(await reader.ReadLineAsync());
+                }
+                return result;
+            }
     }
 }
