@@ -29,6 +29,7 @@ namespace SocialNetwork.Infrastructure
         #region Method        
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+        //            var param = context.ActionArguments.SingleOrDefault(p => p.Value is IEntity);
             if (context.ActionArguments["activityId"] is Guid activityId)
             {
                 var response = await _mediator.Send(new UnAttendanceRequirement.Command { ActivityId = activityId });
