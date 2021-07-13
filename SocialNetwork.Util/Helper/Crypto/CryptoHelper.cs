@@ -6,9 +6,17 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace SocialNetwork.Util
 {
+
     public class CryptoHelper : ICryptoHelper
     {
         #region Methods
+         /// <summary>
+    /// Decrypt given Encrypted Content (Cipher Text)
+    /// </summary>
+    /// <param name="keyString">32 character long key that will be used to decrypt the content</param>
+    /// <param name="iv">Initialization vector - That will be used to create Encryptor - 16 character long </param>
+    /// <param name="cipherText">data that needs to be decrypted</param>
+    /// <returns>Plain string</returns>
         public T Decrypt<T>(string keyString, string cipherText)
         {
             if (string.IsNullOrWhiteSpace(keyString))
@@ -46,6 +54,13 @@ namespace SocialNetwork.Util
             return HelperFunc.ChangeType<T>(plainText);
         }
 
+ /// <summary>
+    /// Encrypt data using AES algorithm
+    /// </summary>
+    /// <param name="keyString">key that will be used to encrypt the content - 32 character long</param>
+    /// <param name="iv">Initialization vector - That will be used to create Encryptor - 16 character long </param>
+    /// <param name="value">data that needs to be encrypted</param>
+    /// <returns>Encrypted Content (Cipher Text) string</returns>
         public string Encrypt<T>(string keyString, T value)
         {
             if (string.IsNullOrWhiteSpace(keyString))
@@ -96,6 +111,16 @@ namespace SocialNetwork.Util
             numBytesRequested: 256 / 8));
 
             return hashed;
+        }
+        
+        public void GenerateAESKeyIv()
+        {
+         using (var aesAlg = Aes.Create())
+      {
+        string key = Convert.ToBase64String(aesAlg.Key);
+        string iv = Convert.ToBase64String(aesAlg.IV);
+
+      }
         }
         #endregion
     }
